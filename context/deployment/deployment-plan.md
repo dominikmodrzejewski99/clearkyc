@@ -244,7 +244,7 @@ End-to-end po wykonaniu kroków 1–8:
   - `7846025c49d548` (fra) — drugi node dodany przez Fly auto-HA mimo `min_machines_running = 1` (default behaviour dla `min_machines_running >= 1` + `auto_start_machines = true`; "high availability and zero downtime")
 - **Image**: `registry.fly.io/clearkyc:deployment-01KS20FK3ZQB7SBKZDF6BHSACE`, rozmiar 668 MB
 - **Czas startu Spring Boota**: 6.278 s na Java 21.0.11 (Paketo bp-jvm wybrał `21.0.11_amzn-corretto`)
-- **Hash commita**: _do uzupełnienia po `git commit`_
+- **Hash commita**: `07d760f` (`deploy: bootstrap Fly.io smoke deploy`) na bazie `696d18b` (`init: bootstrap Spring Boot 4 + ClearKYC context`)
 
 ### Walidacja end-to-end
 
