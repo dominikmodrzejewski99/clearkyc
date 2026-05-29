@@ -466,27 +466,27 @@ Brak migracji danych. Jedyna migracja: Paketo buildpack teraz uruchamia `./mvnw 
 
 #### Automated
 
-- [x] 2.1 `./mvnw package -DskipTests` exits 0
-- [x] 2.2 `test -f src/main/resources/static/index.html` po budowaniu
-- [x] 2.3 `ls src/main/resources/static/*.js` zwraca przynajmniej jeden plik
-- [x] 2.4 Brak `src/main/resources/static/browser/` subdirectory
+- [x] 2.1 `./mvnw package -DskipTests` exits 0 — d82886f
+- [x] 2.2 `test -f src/main/resources/static/index.html` po budowaniu — d82886f
+- [x] 2.3 `ls src/main/resources/static/*.js` zwraca przynajmniej jeden plik — d82886f
+- [x] 2.4 Brak `src/main/resources/static/browser/` subdirectory — d82886f
 
 #### Manual
 
-- [x] 2.5 `java -jar target/clearkyc-*.jar` — GET `http://localhost:8080/` zwraca `index.html`
+- [x] 2.5 `java -jar target/clearkyc-*.jar` — GET `http://localhost:8080/` zwraca `index.html` — d82886f
 
 ### Phase 3: Dev proxy i Spring SPA routing
 
 #### Automated
 
-- [ ] 3.1 `./mvnw test` exits 0 — istniejące testy nie pękają
-- [ ] 3.2 `test -f web/proxy.conf.json`
+- [x] 3.1 `./mvnw test` exits 0 — istniejące testy nie pękają
+- [x] 3.2 `test -f web/proxy.conf.json`
 
 #### Manual
 
-- [ ] 3.3 GET `http://localhost:4200/actuator/health` przez proxy zwraca JSON `{"status":"UP",...}`
-- [ ] 3.4 GET `http://localhost:8080/cases/new` przez Spring zwraca `index.html` (nie 404)
-- [ ] 3.5 GET `http://localhost:8080/main-*.js` zwraca plik JS (static resource handler działa)
+- [x] 3.3 GET `http://localhost:4200/actuator/health` przez proxy zwraca JSON `{"status":"UP",...}`
+- [x] 3.4 GET `http://localhost:8080/cases/new` przez Spring zwraca `index.html` (nie 404)
+- [x] 3.5 GET `http://localhost:8080/main-*.js` zwraca plik JS (static resource handler działa)
 
 ### Phase 4: Routing, AppLayout i AuthGuard stub
 
