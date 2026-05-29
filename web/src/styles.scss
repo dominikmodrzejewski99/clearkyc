@@ -1,0 +1,16 @@
+@use 'styles/design-system/reset';
+@use 'styles/design-system/variables';
+@use 'styles/design-system/mixins';
+
+// IBM Plex Sans + Mono — institutional, screen-built, WCAG-verified
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--surface-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

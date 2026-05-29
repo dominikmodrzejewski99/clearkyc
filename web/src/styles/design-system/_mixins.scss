@@ -1,0 +1,48 @@
+// ClearKYC Design System — SCSS Mixins
+
+// Full-height flex panel container
+@mixin flex-panel {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+// Visual placeholder for panels not yet implemented (S-01, S-02)
+@mixin panel-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  background-color: var(--color-surface-panel);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+}
+
+// Single-line text truncation with ellipsis
+@mixin truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Focus-visible ring using design tokens
+@mixin focus-ring {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+// Visually hidden but accessible to screen readers
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

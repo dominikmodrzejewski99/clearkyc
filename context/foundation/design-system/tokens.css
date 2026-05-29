@@ -1,0 +1,235 @@
+/* ============================================================================
+   ClearKYC — Design Tokens
+   KYB compliance analyst workstation. Light theme, v1 (no dark mode).
+   Paste this :root block straight into SCSS or use as a plain CSS stylesheet.
+
+   Principles
+   ----------
+   • High information density. Tokens favour compact rhythm over generous air.
+   • Clinical neutral palette — cool, slightly blue-tinted grays.
+   • Exactly three semantic decision colours: approve / reject / escalate.
+   • Every text-on-surface pairing documented below meets WCAG 2.1 AA (≥4.5:1
+     for body, ≥3:1 for large/UI). Contrast ratios noted inline.
+   ============================================================================ */
+
+:root {
+
+  /* ------------------------------------------------------------------------
+     1. PALETTE — raw scales (use the SEMANTIC tokens in section 2 when building)
+     ------------------------------------------------------------------------ */
+
+  /* Cool gray ramp — hue ~215°, low chroma. The spine of the whole UI. */
+  --gray-25:   #FBFCFD;
+  --gray-50:   #F5F7F9;
+  --gray-100:  #EDF0F4;
+  --gray-200:  #E0E5EB;
+  --gray-300:  #CDD4DD;
+  --gray-400:  #A9B2BE;
+  --gray-500:  #79828F;
+  --gray-600:  #58616E;
+  --gray-700:  #3E4651;
+  --gray-800:  #2A313B;
+  --gray-900:  #1A1F26;
+  --gray-950:  #0E1216;
+
+  /* Accent — steel blue. Interactive affordances, links, focus, analyst edits. */
+  --blue-50:   #EAF2FA;
+  --blue-100:  #D6E6F4;
+  --blue-200:  #B4D0EA;
+  --blue-300:  #7FB0DC;
+  --blue-400:  #4E8FCB;
+  --blue-500:  #2A6FB0;   /* base accent — 5.25:1 on white ✓ */
+  --blue-600:  #225C92;
+  --blue-700:  #1F5688;
+  --blue-800:  #173F64;
+
+  /* Approve — green family. */
+  --green-50:  #E9F6EE;
+  --green-100: #CFEBDB;
+  --green-200: #A6D8BD;
+  --green-300: #6FC196;
+  --green-500: #25A35E;
+  --green-600: #1F8A4F;
+  --green-700: #1A7A45;   /* text / solid fill — 5.38:1 on white ✓ */
+  --green-800: #135C33;
+
+  /* Reject — red family. */
+  --red-50:    #FCECEA;
+  --red-100:   #F8D6D2;
+  --red-200:   #F2B3AD;
+  --red-300:   #E8847C;
+  --red-500:   #E04437;
+  --red-600:   #D03A30;
+  --red-700:   #BC2A22;   /* text / solid fill — 6.0:1 on white ✓ */
+  --red-800:   #8F1E18;
+
+  /* Escalate — amber / ochre family. (Dark enough for AA text; fills take dark text.) */
+  --amber-50:  #FBF2E1;
+  --amber-100: #F6E4C2;
+  --amber-200: #EBCB85;
+  --amber-300: #DDAE4A;
+  --amber-500: #D2901A;
+  --amber-600: #B5780F;
+  --amber-700: #9A6207;   /* text / solid fill — 5.12:1 on white ✓ */
+  --amber-800: #6E4604;
+
+  /* ------------------------------------------------------------------------
+     2. SEMANTIC TOKENS
+     ------------------------------------------------------------------------ */
+
+  /* — Surface hierarchy (low → high elevation) — */
+  --surface-canvas:   var(--gray-50);    /* app background behind panels */
+  --surface-sunken:   var(--gray-100);   /* input wells, inset tracks */
+  --surface-raised:   #FFFFFF;           /* panels, cards, rows */
+  --surface-header:   var(--gray-25);    /* panel + section headers */
+  --surface-overlay:  #FFFFFF;           /* menus, popovers, modals */
+  --surface-hover:    var(--gray-50);    /* row / control hover */
+  --surface-active:   var(--gray-100);   /* row / control pressed-selected */
+  --surface-stripe:   #FAFBFC;           /* zebra striping for dense tables */
+
+  /* — Text — (ratios quoted on --surface-raised #FFF) */
+  --text-primary:     var(--gray-900);   /* 15.0:1  body, values */
+  --text-secondary:   #4A5360;           /*  8.1:1  supporting copy */
+  --text-tertiary:    #6B7480;           /*  4.8:1  labels, meta ✓AA */
+  --text-placeholder: #8B95A1;           /*  3.1:1  placeholder only (non-essential) */
+  --text-disabled:    var(--gray-400);   /* disabled control text */
+  --text-inverse:     #FFFFFF;           /* on solid accent / status fills */
+  --text-link:        var(--blue-600);   /* 7.0:1  inline links */
+
+  /* — Borders — */
+  --border-subtle:    var(--gray-100);   /* hairlines between dense rows */
+  --border-default:   var(--gray-200);   /* control + card outlines */
+  --border-strong:    var(--gray-300);   /* dividers, resizer handles */
+  --border-focus:     var(--blue-500);   /* focus outline colour */
+
+  /* — Accent (interactive) — */
+  --accent:           var(--blue-500);
+  --accent-hover:     var(--blue-600);
+  --accent-active:    var(--blue-700);
+  --accent-subtle:    var(--blue-50);    /* tinted selected backgrounds */
+  --accent-muted:     var(--blue-100);
+  --accent-text:      var(--blue-600);
+
+  /* — Status: APPROVE — */
+  --approve-text:     var(--green-700);
+  --approve-solid:    var(--green-700);  /* button fill, white text 5.38:1 ✓ */
+  --approve-solid-hover: var(--green-800);
+  --approve-border:   var(--green-200);
+  --approve-bg:       var(--green-50);
+  --approve-bg-strong:var(--green-100);
+
+  /* — Status: REJECT — */
+  --reject-text:      var(--red-700);
+  --reject-solid:     var(--red-700);    /* button fill, white text 6.0:1 ✓ */
+  --reject-solid-hover: var(--red-800);
+  --reject-border:    var(--red-200);
+  --reject-bg:        var(--red-50);
+  --reject-bg-strong: var(--red-100);
+
+  /* — Status: ESCALATE — */
+  --escalate-text:    var(--amber-700);
+  --escalate-solid:   var(--amber-700);  /* button fill, white text 5.12:1 ✓ */
+  --escalate-solid-hover: var(--amber-800);
+  --escalate-border:  var(--amber-200);
+  --escalate-bg:      var(--amber-50);
+  --escalate-bg-strong:var(--amber-100);
+
+  /* — Field lifecycle states — */
+  --state-streaming:  var(--blue-500);   /* active LLM write indicator */
+  --state-streaming-bg: var(--blue-50);
+  --state-empty-border: var(--gray-200); /* not-yet-extracted slot */
+  --state-override:   var(--blue-600);   /* analyst-overridden marker (accent, not a 4th hue) */
+  --state-override-bg: var(--blue-50);
+  --state-missing:    var(--text-tertiary); /* "not disclosed / inferred missing" */
+
+  /* — Citation — */
+  --citation-marker:  var(--blue-600);   /* superscript footnote ref */
+  --citation-bg:      var(--gray-50);    /* mono snippet well */
+  --citation-border:  var(--blue-200);   /* snippet left rule */
+  --citation-text:    var(--gray-700);   /* quoted source text */
+
+  /* ------------------------------------------------------------------------
+     3. SPACING — 4px base unit
+     ------------------------------------------------------------------------ */
+  --space-0:   0;
+  --space-px:  1px;
+  --space-0-5: 2px;   /* hairline gaps in ultra-dense clusters */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+
+  /* ------------------------------------------------------------------------
+     4. TYPOGRAPHY
+     ------------------------------------------------------------------------ */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Size scale — base 13px, optimised for dense reading on 1080p back-office monitors */
+  --text-2xs:  10px;  /* sup markers, micro tags */
+  --text-xs:   11px;  /* citation meta, table micro-labels */
+  --text-sm:   12px;  /* dense labels, secondary */
+  --text-base: 13px;  /* body, field values */
+  --text-md:   14px;  /* emphasised body, primary inputs */
+  --text-lg:   16px;  /* section titles */
+  --text-xl:   18px;  /* panel headers */
+  --text-2xl:  22px;  /* page / document title */
+  --text-3xl:  28px;  /* large figures (rare) */
+
+  /* Weights */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Line height */
+  --leading-none:    1;
+  --leading-tight:   1.2;    /* headings, single-line values */
+  --leading-snug:    1.35;   /* compact multi-line labels */
+  --leading-normal:  1.5;    /* reading dense compliance prose */
+  --leading-relaxed: 1.6;
+
+  /* Tracking */
+  --tracking-label:  0.04em;  /* uppercase micro-labels */
+  --tracking-tight:  -0.01em; /* large display headings */
+
+  /* ------------------------------------------------------------------------
+     5. RADIUS
+     ------------------------------------------------------------------------ */
+  --radius-0:    0;
+  --radius-xs:   2px;     /* tags, inline chips */
+  --radius-sm:   3px;     /* inputs, buttons, badges */
+  --radius-md:   5px;     /* cards, field rows, menus */
+  --radius-lg:   8px;     /* panels, modals */
+  --radius-full: 9999px;  /* pills, status dots */
+
+  /* ------------------------------------------------------------------------
+     6. ELEVATION — kept shallow for a flat, clinical feel
+     ------------------------------------------------------------------------ */
+  --shadow-xs: 0 1px 1px rgba(14,18,22,0.04);
+  --shadow-sm: 0 1px 2px rgba(14,18,22,0.06), 0 1px 3px rgba(14,18,22,0.05);
+  --shadow-md: 0 2px 6px rgba(14,18,22,0.08), 0 4px 12px rgba(14,18,22,0.06);
+  --shadow-lg: 0 8px 24px rgba(14,18,22,0.14), 0 2px 6px rgba(14,18,22,0.08);
+  --focus-ring: 0 0 0 3px rgba(42,111,176,0.30);  /* accent @ 30% */
+
+  /* ------------------------------------------------------------------------
+     7. LAYOUT
+     ------------------------------------------------------------------------ */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-overlay: 1000;
+  --z-modal: 2000;
+
+  --split-min-pane: 360px;     /* min width of either split pane */
+  --split-resizer:  5px;       /* draggable gutter width */
+  --row-height:     30px;      /* dense field-row target height */
+  --control-height: 28px;      /* inputs, small buttons */
+  --control-height-lg: 34px;   /* decision-bar buttons */
+}

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearKYC — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background: var(--surface-canvas);
+  }
+
+  /* ---- doc shell ---- */
+  .doc { max-width: 1180px; margin: 0 auto; padding: 0 var(--space-8) var(--space-20); }
+
+  header.masthead {
+    border-bottom: 1px solid var(--border-default);
+    background: var(--surface-raised);
+    position: sticky; top: 0; z-index: var(--z-sticky);
+  }
+  .masthead-inner {
+    max-width: 1180px; margin: 0 auto; padding: var(--space-4) var(--space-8);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: var(--space-3); }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: var(--radius-sm);
+    background: var(--gray-900); color: #fff;
+    display: grid; place-items: center;
+    font-weight: var(--weight-bold); font-size: var(--text-md); letter-spacing: -0.02em;
+  }
+  .brand-name { font-weight: var(--weight-semibold); font-size: var(--text-lg); letter-spacing: -0.01em; }
+  .brand-name .light { color: var(--text-tertiary); font-weight: var(--weight-regular); }
+  .masthead-meta { display: flex; gap: var(--space-6); font-size: var(--text-xs); color: var(--text-tertiary); }
+  .masthead-meta b { color: var(--text-secondary); font-weight: var(--weight-semibold); }
+
+  /* ---- section scaffolding ---- */
+  section.block { padding-top: var(--space-16); }
+  .eyebrow {
+    font-size: var(--text-2xs); font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-label); text-transform: uppercase;
+    color: var(--accent-text);
+  }
+  h2.sec-title {
+    margin: var(--space-1) 0 var(--space-2); font-size: var(--text-2xl);
+    font-weight: var(--weight-semibold); letter-spacing: var(--tracking-tight);
+  }
+  .sec-lede { margin: 0 0 var(--space-6); max-width: 64ch; color: var(--text-secondary); }
+  h3.sub { margin: var(--space-8) 0 var(--space-3); font-size: var(--text-md); font-weight: var(--weight-semibold); }
+  .divider { height: 1px; background: var(--border-subtle); margin-top: var(--space-16); }
+
+  /* ---- color swatches ---- */
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-2); }
+  .swatch {
+    border: 1px solid var(--border-default); border-radius: var(--radius-md);
+    overflow: hidden; background: var(--surface-raised);
+  }
+  .swatch .chip { height: 56px; }
+  .swatch .meta { padding: var(--space-2) var(--space-3); }
+  .swatch .name { font-size: var(--text-sm); font-weight: var(--weight-medium); }
+  .swatch .val { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); }
+  .swatch .ratio { float: right; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-tertiary); }
+
+  /* surface stack */
+  .surface-stack { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .surface-card {
+    flex: 1 1 150px; border: 1px solid var(--border-default); border-radius: var(--radius-md);
+    padding: var(--space-3); min-height: 86px;
+  }
+  .surface-card .lab { font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-secondary); }
+  .surface-card .tok { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-tertiary); }
+
+  /* status row */
+  .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+  .status-card { border: 1px solid var(--border-default); border-radius: var(--radius-md); overflow: hidden; }
+  .status-card .head { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); font-weight: var(--weight-semibold); display: flex; align-items: center; gap: var(--space-2); }
+  .status-card .body { padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2); background: var(--surface-raised); }
+  .status-dot { width: 8px; height: 8px; border-radius: var(--radius-full); }
+  .ramp { display: flex; height: 28px; border-radius: var(--radius-xs); overflow: hidden; }
+  .ramp span { flex: 1; }
+  .status-sample { font-size: var(--text-sm); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+
+  /* ---- type specimens ---- */
+  .type-row { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-4); align-items: baseline; padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); }
+  .type-row .tk { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); }
+  .type-row .tk b { display: block; color: var(--text-secondary); font-weight: var(--weight-semibold); }
+
+  /* ---- spacing ---- */
+  .space-row { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-1) 0; }
+  .space-row .tk { width: 96px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-secondary); }
+  .space-bar { height: 14px; background: var(--accent-muted); border-left: 2px solid var(--accent); }
+  .space-row .px { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); }
+
+  /* ---- radius + shadow ---- */
+  .tile-grid { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+  .radius-tile { width: 88px; text-align: center; }
+  .radius-tile .box { height: 64px; background: var(--surface-raised); border: 1px solid var(--border-strong); }
+  .radius-tile .lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-1); }
+  .shadow-tile { width: 150px; }
+  .shadow-tile .box { height: 72px; background: var(--surface-raised); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); }
+  .shadow-tile .lab { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-2); }
+
+  /* ---- component canvas ---- */
+  .canvas { background: var(--surface-canvas); border: 1px solid var(--border-default); border-radius: var(--radius-lg); padding: var(--space-6); }
+  .canvas.tight { padding: var(--space-4); }
+
+  /* split-panel mini diagram */
+  .split-demo { display: grid; grid-template-columns: 1fr 5px 1fr; height: 220px; border: 1px solid var(--border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-raised); box-shadow: var(--shadow-sm); }
+  .split-pane { display: flex; flex-direction: column; }
+  .split-head { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2) var(--space-3); background: var(--surface-header); border-bottom: 1px solid var(--border-default); font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-secondary); }
+  .split-head .pill { font-family: var(--font-mono); font-weight: var(--weight-regular); color: var(--text-tertiary); }
+  .split-body { flex: 1; padding: var(--space-3); font-size: var(--text-xs); color: var(--text-tertiary); }
+  .pdf-fill { height: 100%; border-radius: var(--radius-sm); background: repeating-linear-gradient(var(--gray-100) 0 8px, transparent 8px 14px); border: 1px dashed var(--border-strong); display: grid; place-items: center; color: var(--text-tertiary); }
+  .split-resizer { background: var(--border-default); position: relative; cursor: col-resize; }
+  .split-resizer::after { content: ""; position: absolute; inset: 0 1px; }
+  .split-resizer:hover { background: var(--accent); }
+
+  /* field rows */
+  .field-list { border: 1px solid var(--border-default); border-radius: var(--radius-md); overflow: hidden; background: var(--surface-raised); }
+  .field-row {
+    display: grid; grid-template-columns: 180px 1fr; gap: var(--space-4);
+    padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--border-subtle);
+    align-items: start; min-height: var(--row-height);
+  }
+  .field-row:last-child { border-bottom: 0; }
+  .field-row:nth-child(even) { background: var(--surface-stripe); }
+  .field-label { font-size: var(--text-sm); color: var(--text-tertiary); font-weight: var(--weight-medium); padding-top: 2px; }
+  .field-label .req { color: var(--reject-text); }
+  .field-value { font-size: var(--text-base); color: var(--text-primary); }
+  .field-value .sup { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--citation-marker); vertical-align: super; cursor: pointer; font-weight: var(--weight-medium); margin-left: 2px; }
+  .state-tag { display: inline-flex; align-items: center; gap: 4px; font-size: var(--text-2xs); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-label); text-transform: uppercase; padding: 1px 6px; border-radius: var(--radius-xs); }
+
+  /* empty */
+  .val-empty { color: var(--text-disabled); font-style: italic; font-size: var(--text-sm); }
+  /* streaming */
+  .val-streaming { color: var(--text-secondary); display: inline-flex; align-items: center; gap: var(--space-2); }
+  .cursor { display: inline-block; width: 6px; height: 14px; background: var(--state-streaming); animation: blink 1s steps(2) infinite; vertical-align: text-bottom; }
+  @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+  .stream-tag { background: var(--state-streaming-bg); color: var(--accent-text); }
+  /* citation snippet */
+  .citation {
+    margin-top: var(--space-1); font-family: var(--font-mono); font-size: var(--text-xs);
+    line-height: var(--leading-snug); color: var(--citation-text);
+    background: var(--citation-bg); border-left: 2px solid var(--citation-border);
+    padding: var(--space-1) var(--space-2); border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+  }
+  .citation .src { display: block; margin-top: 2px; color: var(--text-tertiary); font-size: var(--text-2xs); }
+  /* override */
+  .field-row.overridden { background: var(--state-override-bg); box-shadow: inset 2px 0 0 var(--state-override); }
+  .override-tag { background: var(--accent-muted); color: var(--accent-text); }
+  .override-note { margin-top: var(--space-1); font-size: var(--text-sm); color: var(--text-secondary); background: var(--surface-raised); border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: var(--space-2); }
+  .override-note .who { font-size: var(--text-2xs); color: var(--text-tertiary); margin-top: 4px; font-family: var(--font-mono); }
+  /* strike of replaced value */
+  .replaced { text-decoration: line-through; color: var(--text-disabled); margin-right: var(--space-2); }
+  /* missing */
+  .val-missing { display: inline-flex; align-items: center; gap: 6px; color: var(--state-missing); font-size: var(--text-sm); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); padding: 1px 8px; }
+  .val-missing .mark { font-family: var(--font-mono); }
+
+  /* decision bar */
+  .decision-bar {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-3) var(--space-4); background: var(--surface-raised);
+    border: 1px solid var(--border-default); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+  }
+  .decision-meta { margin-right: auto; }
+  .decision-meta .t { font-size: var(--text-sm); font-weight: var(--weight-semibold); }
+  .decision-meta .s { font-size: var(--text-xs); color: var(--text-tertiary); }
+  .btn { font-family: var(--font-sans); font-size: var(--text-md); font-weight: var(--weight-semibold); height: var(--control-height-lg); padding: 0 var(--space-4); border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-2); transition: background .12s, border-color .12s; }
+  .btn .gly { font-family: var(--font-mono); font-size: var(--text-md); }
+  .btn-approve { background: var(--surface-raised); color: var(--approve-text); border-color: var(--approve-border); }
+  .btn-approve:hover { background: var(--approve-bg); }
+  .btn-approve.active { background: var(--approve-solid); color: var(--text-inverse); border-color: var(--approve-solid); }
+  .btn-reject { background: var(--surface-raised); color: var(--reject-text); border-color: var(--reject-border); }
+  .btn-reject:hover { background: var(--reject-bg); }
+  .btn-reject.active { background: var(--reject-solid); color: var(--text-inverse); border-color: var(--reject-solid); }
+  .btn-escalate { background: var(--surface-raised); color: var(--escalate-text); border-color: var(--escalate-border); }
+  .btn-escalate:hover { background: var(--escalate-bg); }
+  .btn-escalate.active { background: var(--escalate-solid); color: var(--text-inverse); border-color: var(--escalate-solid); }
+
+  /* override form */
+  .override-form { max-width: 520px; border: 1px solid var(--border-default); border-left: 2px solid var(--accent); border-radius: var(--radius-md); background: var(--surface-raised); box-shadow: var(--shadow-sm); padding: var(--space-3); }
+  .override-form .ofhead { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); font-weight: var(--weight-semibold); margin-bottom: var(--space-3); }
+  .of-field { margin-bottom: var(--space-3); }
+  .of-field label { display: block; font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--text-tertiary); text-transform: uppercase; letter-spacing: var(--tracking-label); margin-bottom: 4px; }
+  .input { width: 100%; font-family: var(--font-sans); font-size: var(--text-base); color: var(--text-primary); height: var(--control-height); padding: 0 var(--space-2); border: 1px solid var(--border-default); border-radius: var(--radius-sm); background: var(--surface-raised); }
+  .input:focus { outline: none; border-color: var(--border-focus); box-shadow: var(--focus-ring); }
+  textarea.input { height: auto; min-height: 56px; padding: var(--space-2); line-height: var(--leading-normal); resize: vertical; }
+  .of-help { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px; }
+  .of-actions { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-1); }
+  .btn-sm { height: var(--control-height); padding: 0 var(--space-3); font-size: var(--text-sm); border-radius: var(--radius-sm); font-weight: var(--weight-semibold); border: 1px solid var(--border-default); background: var(--surface-raised); color: var(--text-secondary); cursor: pointer; }
+  .btn-sm.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-sm.primary:hover { background: var(--accent-hover); }
+
+  .note { font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-3); }
+  code.tok { font-family: var(--font-mono); font-size: var(--text-xs); background: var(--surface-sunken); padding: 1px 5px; border-radius: var(--radius-xs); color: var(--text-secondary); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: start; }
+  @media (max-width: 820px){ .two-col, .status-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <div class="brand-mark">CK</div>
+      <div class="brand-name">ClearKYC <span class="light">Design System</span></div>
+    </div>
+    <div class="masthead-meta">
+      <span><b>v1.0</b> · Light only</span>
+      <span><b>WCAG</b> AA verified</span>
+      <span><b>IBM Plex</b> Sans / Mono</span>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+
+  <!-- ================= FOUNDATIONS / COLOR ================= -->
+  <section class="block" id="color">
+    <div class="eyebrow">Foundations</div>
+    <h2 class="sec-title">Color</h2>
+    <p class="sec-lede">A clinical, cool-gray foundation. The interface should read as authoritative back-office instrumentation — closer to a medical record or trading terminal than a consumer app. Color is reserved almost entirely for the three terminal decisions; everything else lives on the neutral ramp.</p>
+
+    <h3 class="sub">Surface hierarchy</h3>
+    <div class="surface-stack">
+      <div class="surface-card" style="background:var(--surface-canvas)"><div class="lab">Canvas</div><div class="tok">--surface-canvas</div></div>
+      <div class="surface-card" style="background:var(--surface-sunken)"><div class="lab">Sunken</div><div class="tok">--surface-sunken</div></div>
+      <div class="surface-card" style="background:var(--surface-raised); box-shadow:var(--shadow-sm)"><div class="lab">Raised</div><div class="tok">--surface-raised</div></div>
+      <div class="surface-card" style="background:var(--surface-header)"><div class="lab">Header</div><div class="tok">--surface-header</div></div>
+      <div class="surface-card" style="background:var(--surface-overlay); box-shadow:var(--shadow-md)"><div class="lab">Overlay</div><div class="tok">--surface-overlay</div></div>
+    </div>
+
+    <h3 class="sub">Neutral ramp</h3>
+    <div class="swatch-grid" id="grayRamp"></div>
+
+    <div class="two-col" style="margin-top:var(--space-8)">
+      <div>
+        <h3 class="sub" style="margin-top:0">Text</h3>
+        <div class="swatch-grid" id="textSwatches"></div>
+      </div>
+      <div>
+        <h3 class="sub" style="margin-top:0">Border &amp; accent</h3>
+        <div class="swatch-grid" id="accentSwatches"></div>
+      </div>
+    </div>
+
+    <h3 class="sub">Status — terminal decisions</h3>
+    <p class="sec-lede" style="margin-bottom:var(--space-3)">Three families, each legible as text on white <em>and</em> on light-gray, and each usable as a solid fill with white text (AA verified).</p>
+    <div class="status-grid">
+      <div class="status-card">
+        <div class="head" style="color:var(--approve-text); background:var(--approve-bg)"><span class="status-dot" style="background:var(--approve-solid)"></span>Approve</div>
+        <div class="body">
+          <div class="ramp"><span style="background:var(--green-50)"></span><span style="background:var(--green-100)"></span><span style="background:var(--green-200)"></span><span style="background:var(--green-500)"></span><span style="background:var(--green-700)"></span></div>
+          <div class="status-sample" style="background:var(--approve-bg); color:var(--approve-text)">Text on tint · 5.1:1</div>
+          <div class="status-sample" style="background:var(--approve-solid); color:#fff">Fill + white · 5.4:1</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="head" style="color:var(--reject-text); background:var(--reject-bg)"><span class="status-dot" style="background:var(--reject-solid)"></span>Reject</div>
+        <div class="body">
+          <div class="ramp"><span style="background:var(--red-50)"></span><span style="background:var(--red-100)"></span><span style="background:var(--red-200)"></span><span style="background:var(--red-500)"></span><span style="background:var(--red-700)"></span></div>
+          <div class="status-sample" style="background:var(--reject-bg); color:var(--reject-text)">Text on tint · 5.9:1</div>
+          <div class="status-sample" style="background:var(--reject-solid); color:#fff">Fill + white · 6.0:1</div>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="head" style="color:var(--escalate-text); background:var(--escalate-bg)"><span class="status-dot" style="background:var(--escalate-solid)"></span>Escalate</div>
+        <div class="body">
+          <div class="ramp"><span style="background:var(--amber-50)"></span><span style="background:var(--amber-100)"></span><span style="background:var(--amber-200)"></span><span style="background:var(--amber-500)"></span><span style="background:var(--amber-700)"></span></div>
+          <div class="status-sample" style="background:var(--escalate-bg); color:var(--escalate-text)">Text on tint · 4.7:1</div>
+          <div class="status-sample" style="background:var(--escalate-solid); color:#fff">Fill + white · 5.1:1</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= TYPOGRAPHY ================= -->
+  <section class="block" id="type">
+    <div class="eyebrow">Foundations</div>
+    <h2 class="sec-title">Typography</h2>
+    <p class="sec-lede"><b>IBM Plex Sans</b> for the entire interface — a humanist grotesque built for technical, institutional contexts that stays crisp at 11–13px. <b>IBM Plex Mono</b> is reserved for quoted source text from the document, so citation snippets are visually distinct from analyst-facing form values at a glance.</p>
+    <div id="typeScale"></div>
+    <h3 class="sub">Roles</h3>
+    <div class="two-col">
+      <div class="canvas tight">
+        <div style="font-size:var(--text-2xl); font-weight:var(--weight-semibold); letter-spacing:var(--tracking-tight)">Document title</div>
+        <div style="font-size:var(--text-xl); font-weight:var(--weight-semibold); margin-top:var(--space-2)">Panel header</div>
+        <div style="font-size:var(--text-lg); font-weight:var(--weight-semibold); margin-top:var(--space-2)">Section title</div>
+        <p style="font-size:var(--text-base); color:var(--text-secondary); margin:var(--space-2) 0 0">Body copy for dense compliance prose sits at 13px / 1.5 line height. It must stay readable across long beneficial-ownership chains and nested entity structures.</p>
+      </div>
+      <div class="canvas tight">
+        <div style="font-size:var(--text-2xs); text-transform:uppercase; letter-spacing:var(--tracking-label); color:var(--text-tertiary); font-weight:var(--weight-semibold)">Micro label</div>
+        <div style="font-size:var(--text-base); margin-top:6px">Field value · 13px regular</div>
+        <div class="citation" style="margin-top:var(--space-3)">"the registered office of the Company is situated in England and Wales"<span class="src">Articles of Association · p.2 §1.2</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= SPACING ================= -->
+  <section class="block" id="spacing">
+    <div class="eyebrow">Foundations</div>
+    <h2 class="sec-title">Spacing &amp; structure</h2>
+    <p class="sec-lede">A 4px base unit drives every gap, inset, and row height. Density is deliberate — field rows target a 30px height so an analyst can scan 20+ extracted fields without scrolling on a 1080p monitor.</p>
+    <div class="two-col">
+      <div id="spaceScale"></div>
+      <div>
+        <h3 class="sub" style="margin-top:0">Radius</h3>
+        <div class="tile-grid">
+          <div class="radius-tile"><div class="box" style="border-radius:var(--radius-xs)"></div><div class="lab">xs · 2</div></div>
+          <div class="radius-tile"><div class="box" style="border-radius:var(--radius-sm)"></div><div class="lab">sm · 3</div></div>
+          <div class="radius-tile"><div class="box" style="border-radius:var(--radius-md)"></div><div class="lab">md · 5</div></div>
+          <div class="radius-tile"><div class="box" style="border-radius:var(--radius-lg)"></div><div class="lab">lg · 8</div></div>
+        </div>
+        <h3 class="sub">Elevation</h3>
+        <div class="tile-grid">
+          <div class="shadow-tile"><div class="box" style="box-shadow:var(--shadow-xs)"></div><div class="lab">shadow-xs</div></div>
+          <div class="shadow-tile"><div class="box" style="box-shadow:var(--shadow-sm)"></div><div class="lab">shadow-sm</div></div>
+          <div class="shadow-tile"><div class="box" style="box-shadow:var(--shadow-md)"></div><div class="lab">shadow-md</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= COMPONENTS ================= -->
+  <section class="block" id="components">
+    <div class="eyebrow">Components</div>
+    <h2 class="sec-title">Component specs</h2>
+    <p class="sec-lede">The four load-bearing components of the analyst workstation.</p>
+
+    <!-- a) split panel -->
+    <h3 class="sub">a · Split-panel layout shell</h3>
+    <div class="canvas">
+      <div class="split-demo">
+        <div class="split-pane">
+          <div class="split-head">Source document <span class="pill">15 pp · p.2/15</span></div>
+          <div class="split-body"><div class="pdf-fill">Embedded PDF viewer · click-to-cite</div></div>
+        </div>
+        <div class="split-resizer" title="Drag to resize"></div>
+        <div class="split-pane">
+          <div class="split-head">Extraction <span class="pill">18 fields · 14 cited</span></div>
+          <div class="split-body">Structured form with streaming field values, source citations, and override controls.</div>
+        </div>
+      </div>
+      <p class="note">Two resizable panes split a full-height workspace. Resizer gutter <code class="tok">--split-resizer</code> (5px) turns accent-blue on hover; neither pane collapses below <code class="tok">--split-min-pane</code> (360px). Panel headers sit on <code class="tok">--surface-header</code> with a single bottom hairline.</p>
+    </div>
+
+    <!-- b) field rows -->
+    <h3 class="sub">b · Extraction field row — lifecycle states</h3>
+    <div class="canvas">
+      <div class="field-list">
+        <!-- empty -->
+        <div class="field-row">
+          <div class="field-label">Incorporation date</div>
+          <div class="field-value"><span class="val-empty">Not yet extracted</span></div>
+        </div>
+        <!-- streaming -->
+        <div class="field-row">
+          <div class="field-label">Registered office</div>
+          <div class="field-value">
+            <span class="val-streaming">82 King Street, Manchester<span class="cursor"></span></span>
+            <span class="state-tag stream-tag" style="margin-left:8px">● Streaming</span>
+          </div>
+        </div>
+        <!-- populated + citation -->
+        <div class="field-row">
+          <div class="field-label">Legal entity name</div>
+          <div class="field-value">
+            Northgate Holdings Limited<span class="sup" title="View source">[1]</span>
+            <div class="citation">"the name of the Company is Northgate Holdings Limited"<span class="src">Articles of Association · p.1 §1.1</span></div>
+          </div>
+        </div>
+        <!-- overridden -->
+        <div class="field-row overridden">
+          <div class="field-label">Company number</div>
+          <div class="field-value">
+            <span class="replaced">08842210</span>08842219<span class="sup" title="View source">[3]</span>
+            <span class="state-tag override-tag" style="margin-left:8px">✎ Overridden</span>
+            <div class="override-note">Corrected transposition — verified against Companies House register.<span class="who">A. Whitfield · Sr. KYB Analyst · 29 May 2026 14:02 UTC</span></div>
+          </div>
+        </div>
+        <!-- missing -->
+        <div class="field-row">
+          <div class="field-label">Ultimate beneficial owner <span class="req">*</span></div>
+          <div class="field-value"><span class="val-missing"><span class="mark">∅</span> Not disclosed / inferred missing</span></div>
+        </div>
+      </div>
+      <p class="note">Each row is a <code class="tok">label / value</code> grid. Citations attach as a superscript footnote marker (<code class="tok">--citation-marker</code>) that expands the quoted source snippet in <code class="tok">--font-mono</code>. Overrides shift the row to a tinted accent background with an inset left bar and a mandatory, attributed justification note.</p>
+    </div>
+
+    <!-- c) decision bar -->
+    <h3 class="sub">c · Terminal decision bar</h3>
+    <div class="canvas">
+      <div class="decision-bar" id="decisionBar">
+        <div class="decision-meta">
+          <div class="t">Compliance decision</div>
+          <div class="s">18 fields · 1 override · 1 missing required field — writes to immutable audit record</div>
+        </div>
+        <button class="btn btn-approve" data-d="approve"><span class="gly">✓</span> Approve</button>
+        <button class="btn btn-reject" data-d="reject"><span class="gly">✕</span> Reject</button>
+        <button class="btn btn-escalate active" data-d="escalate"><span class="gly">▲</span> Escalate</button>
+      </div>
+      <p class="note">Default state is outlined; the analyst's current selection becomes a solid fill (shown: Escalate). The selected decision is the only saturated element in the field, so the terminal action is unmistakable. Click to preview the active states.</p>
+    </div>
+
+    <!-- d) override form -->
+    <h3 class="sub">d · Override justification inline form</h3>
+    <div class="canvas">
+      <div class="override-form">
+        <div class="ofhead"><span style="color:var(--accent)">✎</span> Override · Company number</div>
+        <div class="of-field">
+          <label>New value</label>
+          <input class="input" type="text" value="08842219">
+        </div>
+        <div class="of-field">
+          <label>Justification <span style="color:var(--reject-text)">— required</span></label>
+          <textarea class="input" placeholder="Explain the basis for this override (source, verification step, rationale)…">Corrected transposition — verified against Companies House register.</textarea>
+          <div class="of-help">Recorded against your analyst ID and written to the immutable audit trail.</div>
+        </div>
+        <div class="of-actions">
+          <button class="btn-sm">Cancel</button>
+          <button class="btn-sm primary">Save override</button>
+        </div>
+      </div>
+      <p class="note">Inline form anchored to the field being overridden. Submission is blocked until a non-empty justification is entered; on save the field row enters the <em>Overridden</em> state and the note is timestamped and attributed.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+  <p class="note" style="margin-top:var(--space-8)">All tokens defined in <code class="tok">tokens.css</code>. See the <b>ClearKYC Workstation</b> prototype for these components composed into the live analyst flow.</p>
+
+</main>
+
+<script>
+  // ---- gray ramp ----
+  const grays = [25,50,100,200,300,400,500,600,700,800,900,950];
+  document.getElementById('grayRamp').innerHTML = grays.map(g => `
+    <div class="swatch">
+      <div class="chip" style="background:var(--gray-${g})"></div>
+      <div class="meta"><div class="name">gray-${g}</div><div class="val">--gray-${g}</div></div>
+    </div>`).join('');
+
+  // ---- text swatches ----
+  const texts = [
+    ['Primary','--text-primary','15.0:1'],['Secondary','--text-secondary','8.1:1'],
+    ['Tertiary','--text-tertiary','4.8:1'],['Placeholder','--text-placeholder','3.1:1'],
+    ['Disabled','--text-disabled','—'],['Link','--text-link','7.0:1'],
+  ];
+  document.getElementById('textSwatches').innerHTML = texts.map(([n,t,r]) => `
+    <div class="swatch">
+      <div class="chip" style="background:var(--surface-raised); display:grid; place-items:center">
+        <span style="color:var(${t}); font-weight:600; font-size:14px">Aa</span>
+      </div>
+      <div class="meta"><div class="name">${n} <span class="ratio">${r}</span></div><div class="val">${t}</div></div>
+    </div>`).join('');
+
+  // ---- accent / border swatches ----
+  const acc = [
+    ['Accent','--accent'],['Accent hover','--accent-hover'],['Accent subtle','--accent-subtle'],
+    ['Border subtle','--border-subtle'],['Border default','--border-default'],['Border strong','--border-strong'],
+  ];
+  document.getElementById('accentSwatches').innerHTML = acc.map(([n,t]) => `
+    <div class="swatch">
+      <div class="chip" style="background:var(${t})"></div>
+      <div class="meta"><div class="name">${n}</div><div class="val">${t}</div></div>
+    </div>`).join('');
+
+  // ---- type scale ----
+  const sizes = [
+    ['3xl','--text-3xl','28','Large figures'],['2xl','--text-2xl','22','Document title'],
+    ['xl','--text-xl','18','Panel header'],['lg','--text-lg','16','Section title'],
+    ['md','--text-md','14','Emphasised body'],['base','--text-base','13','Body · field value'],
+    ['sm','--text-sm','12','Dense label'],['xs','--text-xs','11','Citation meta'],
+    ['2xs','--text-2xs','10','Micro tag'],
+  ];
+  document.getElementById('typeScale').innerHTML = sizes.map(([n,t,px,d]) => `
+    <div class="type-row">
+      <div class="tk"><b>${n} · ${px}px</b>${t}</div>
+      <div style="font-size:var(${t}); color:var(--text-primary); line-height:var(--leading-tight)">${d} — Northgate Holdings Limited</div>
+    </div>`).join('');
+
+  // ---- spacing scale ----
+  const spaces = [['0-5',2],['1',4],['2',8],['3',12],['4',16],['5',20],['6',24],['8',32],['10',40],['12',48],['16',64],['20',80]];
+  document.getElementById('spaceScale').innerHTML = spaces.map(([n,px]) => `
+    <div class="space-row">
+      <div class="tk">--space-${n}</div>
+      <div class="space-bar" style="width:${px}px"></div>
+      <div class="px">${px}px</div>
+    </div>`).join('');
+
+  // ---- decision bar interaction ----
+  document.querySelectorAll('#decisionBar .btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#decisionBar .btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
