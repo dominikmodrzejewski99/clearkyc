@@ -492,12 +492,12 @@ Brak migracji danych. Jedyna migracja: Paketo buildpack teraz uruchamia `./mvnw 
 
 #### Automated
 
-- [x] 4.1 `cd web && ng build --configuration production` exits 0 z nowymi komponentami
-- [x] 4.2 `cd web && npx tsc --noEmit` exits 0
+- [x] 4.1 `cd web && ng build --configuration production` exits 0 z nowymi komponentami — ccc9c39
+- [x] 4.2 `cd web && npx tsc --noEmit` exits 0 — ccc9c39
 
 #### Manual
 
-- [x] 4.3 `http://localhost:4200/cases/new` renderuje split-panel (PDF i form placeholder)
-- [x] 4.4 `http://localhost:4200/cases/abc123` renderuje split-panel (case-detail placeholder)
-- [x] 4.5 `http://localhost:4200/` redirectuje do `/cases/new`
-- [x] 4.6 Refresh na `http://localhost:8080/cases/new` — Spring zwraca `index.html`, Angular router ładuje split-panel
+- [x] 4.3 `http://localhost:4200/cases/new` renderuje split-panel (PDF i form placeholder) — ccc9c39
+- [x] 4.4 `http://localhost:4200/cases/abc123` renderuje split-panel (case-detail placeholder) — ccc9c39
+- [x] 4.5 `http://localhost:4200/` redirectuje do `/cases/new` — ccc9c39
+- [x] 4.6 Refresh na `http://localhost:8080/cases/new` — Spring zwraca `index.html`, Angular router ładuje split-panel — ccc9c39
