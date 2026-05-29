@@ -479,25 +479,25 @@ Brak migracji danych. Jedyna migracja: Paketo buildpack teraz uruchamia `./mvnw 
 
 #### Automated
 
-- [x] 3.1 `./mvnw test` exits 0 — istniejące testy nie pękają
-- [x] 3.2 `test -f web/proxy.conf.json`
+- [x] 3.1 `./mvnw test` exits 0 — istniejące testy nie pękają — 06e9607
+- [x] 3.2 `test -f web/proxy.conf.json` — 06e9607
 
 #### Manual
 
-- [x] 3.3 GET `http://localhost:4200/actuator/health` przez proxy zwraca JSON `{"status":"UP",...}`
-- [x] 3.4 GET `http://localhost:8080/cases/new` przez Spring zwraca `index.html` (nie 404)
-- [x] 3.5 GET `http://localhost:8080/main-*.js` zwraca plik JS (static resource handler działa)
+- [x] 3.3 GET `http://localhost:4200/actuator/health` przez proxy zwraca JSON `{"status":"UP",...}` — 06e9607
+- [x] 3.4 GET `http://localhost:8080/cases/new` przez Spring zwraca `index.html` (nie 404) — 06e9607
+- [x] 3.5 GET `http://localhost:8080/main-*.js` zwraca plik JS (static resource handler działa) — 06e9607
 
 ### Phase 4: Routing, AppLayout i AuthGuard stub
 
 #### Automated
 
-- [ ] 4.1 `cd web && ng build --configuration production` exits 0 z nowymi komponentami
-- [ ] 4.2 `cd web && npx tsc --noEmit` exits 0
+- [x] 4.1 `cd web && ng build --configuration production` exits 0 z nowymi komponentami
+- [x] 4.2 `cd web && npx tsc --noEmit` exits 0
 
 #### Manual
 
-- [ ] 4.3 `http://localhost:4200/cases/new` renderuje split-panel (PDF i form placeholder)
-- [ ] 4.4 `http://localhost:4200/cases/abc123` renderuje split-panel (case-detail placeholder)
-- [ ] 4.5 `http://localhost:4200/` redirectuje do `/cases/new`
-- [ ] 4.6 Refresh na `http://localhost:8080/cases/new` — Spring zwraca `index.html`, Angular router ładuje split-panel
+- [x] 4.3 `http://localhost:4200/cases/new` renderuje split-panel (PDF i form placeholder)
+- [x] 4.4 `http://localhost:4200/cases/abc123` renderuje split-panel (case-detail placeholder)
+- [x] 4.5 `http://localhost:4200/` redirectuje do `/cases/new`
+- [x] 4.6 Refresh na `http://localhost:8080/cases/new` — Spring zwraca `index.html`, Angular router ładuje split-panel
