@@ -452,28 +452,28 @@ Brak migracji danych. Jedyna migracja: Paketo buildpack teraz uruchamia `./mvnw 
 
 #### Automated
 
-- [x] 1.1 `cd web && ng build` exits 0
-- [x] 1.2 `cd web && ng build --configuration production` exits 0
-- [x] 1.3 `test -f web/src/styles/design-system/_variables.scss` — plik tokenów istnieje
+- [x] 1.1 `cd web && ng build` exits 0 — 5d57a3b
+- [x] 1.2 `cd web && ng build --configuration production` exits 0 — 5d57a3b
+- [x] 1.3 `test -f web/src/styles/design-system/_variables.scss` — plik tokenów istnieje — 5d57a3b
 
 #### Manual
 
-- [x] 1.4 Przejrzeć `_variables.scss` — tokeny kolorów sensowne dla banking dashboard
-- [x] 1.5 Brak `provideAnimationsAsync` w `app.config.ts`
-- [x] 1.6 `angular.json` nie zawiera `"zone.js"` w polyfills
+- [x] 1.4 Przejrzeć `_variables.scss` — tokeny kolorów sensowne dla banking dashboard — 5d57a3b
+- [x] 1.5 Brak `provideAnimationsAsync` w `app.config.ts` — 5d57a3b
+- [x] 1.6 `angular.json` nie zawiera `"zone.js"` w polyfills — 5d57a3b
 
 ### Phase 2: Maven Frontend Plugin — integracja buildu
 
 #### Automated
 
-- [ ] 2.1 `./mvnw package -DskipTests` exits 0
-- [ ] 2.2 `test -f src/main/resources/static/index.html` po budowaniu
-- [ ] 2.3 `ls src/main/resources/static/*.js` zwraca przynajmniej jeden plik
-- [ ] 2.4 Brak `src/main/resources/static/browser/` subdirectory
+- [x] 2.1 `./mvnw package -DskipTests` exits 0
+- [x] 2.2 `test -f src/main/resources/static/index.html` po budowaniu
+- [x] 2.3 `ls src/main/resources/static/*.js` zwraca przynajmniej jeden plik
+- [x] 2.4 Brak `src/main/resources/static/browser/` subdirectory
 
 #### Manual
 
-- [ ] 2.5 `java -jar target/clearkyc-*.jar` — GET `http://localhost:8080/` zwraca `index.html`
+- [x] 2.5 `java -jar target/clearkyc-*.jar` — GET `http://localhost:8080/` zwraca `index.html`
 
 ### Phase 3: Dev proxy i Spring SPA routing
 
