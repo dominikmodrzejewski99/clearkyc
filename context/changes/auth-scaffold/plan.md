@@ -298,9 +298,9 @@ Testy integracyjne warstwy Spring Security bez zewnętrznego połączenia do Aut
 
 #### Automated
 
-- [x] 3.1 `SecurityConfigTest` - trzy testy przechodzą (health 200, api 401, api+auth nie-401)
-- [x] 3.2 `./mvnw verify` - compile + test + package pełny sukces
+- [x] 3.1 `SecurityConfigTest` - trzy testy przechodzą (health 200, api 401, api+auth nie-401) — 5740584
+- [x] 3.2 `./mvnw verify` - compile + test + package pełny sukces — 5740584
 
 #### Manual
 
-- [x] 3.3 Pełny smoke test e2e: obie warstwy uruchomione jednocześnie, login flow end-to-end
+- [x] 3.3 Pełny smoke test e2e: obie warstwy uruchomione jednocześnie, login flow end-to-end — 5740584
