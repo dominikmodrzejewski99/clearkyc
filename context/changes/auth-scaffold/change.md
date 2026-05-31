@@ -4,6 +4,7 @@ roadmap_id: F-01
 status: implementing
 created: 2026-05-31
 updated: 2026-05-31
+
 ---
 
 # F-01: Managed-IdP Auth Scaffold

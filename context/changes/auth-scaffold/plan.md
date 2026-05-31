@@ -269,30 +269,30 @@ Testy integracyjne warstwy Spring Security bez zewnętrznego połączenia do Aut
 
 #### Automated
 
-- [x] 1.1 `./mvnw compile` - kompilacja z nowymi zależnościami Security i Resource Server
-- [x] 1.2 `./mvnw test` - ClearkycApplicationTests.contextLoads() przechodzi z test JWK URI
+- [x] 1.1 `./mvnw compile` - kompilacja z nowymi zależnościami Security i Resource Server — 4c15850
+- [x] 1.2 `./mvnw test` - ClearkycApplicationTests.contextLoads() przechodzi z test JWK URI — 4c15850
 
 #### Manual
 
-- [x] 1.3 Auth0 account + SPA Application skonfigurowana (Callback URL, Logout URL, Web Origins)
-- [x] 1.4 `application-dev.properties` wypełniony prawdziwym `issuer-uri` z Auth0 dashboard
-- [x] 1.5 `curl http://localhost:8081/actuator/health` -> HTTP 200
-- [x] 1.6 `curl http://localhost:8081/api/test` -> HTTP 401
+- [x] 1.3 Auth0 account + SPA Application skonfigurowana (Callback URL, Logout URL, Web Origins) — 4c15850
+- [x] 1.4 `application-dev.properties` wypełniony prawdziwym `issuer-uri` z Auth0 dashboard — 4c15850
+- [x] 1.5 `curl http://localhost:8081/actuator/health` -> HTTP 200 — 4c15850
+- [x] 1.6 `curl http://localhost:8081/api/test` -> HTTP 401 — 4c15850
 
 ### Phase 2: Angular Auth Client - @auth0/auth0-angular
 
 #### Automated
 
 - [x] 2.1 `ng build --configuration=development` - zero błędów TypeScript
-- [ ] 2.2 `ng build --configuration=production` - clean production build
+- [x] 2.2 `ng build --configuration=production` - clean production build
 
 #### Manual
 
-- [ ] 2.3 Nieuwierzytelniona nawigacja do `/cases/new` -> redirect do Auth0 Universal Login
-- [ ] 2.4 Login w Auth0 -> powrót na `/cases/new` bez błędu
-- [ ] 2.5 Po zalogowaniu Angular renderuje stronę; auth.isAuthenticated$ emituje true
-- [ ] 2.6 `curl /api/test -H "Authorization: Bearer <token>"` -> 404 (nie 401)
-- [ ] 2.7 Odświeżenie strony -> SDK wykonuje checkSession(), sesja aktywna przy żywym cookie Auth0
+- [x] 2.3 Nieuwierzytelniona nawigacja do `/cases/new` -> redirect do Auth0 Universal Login
+- [x] 2.4 Login w Auth0 -> powrót na `/cases/new` bez błędu
+- [x] 2.5 Po zalogowaniu Angular renderuje stronę; auth.isAuthenticated$ emituje true
+- [x] 2.6 `curl /api/test -H "Authorization: Bearer <token>"` -> 404 (nie 401)
+- [x] 2.7 Odświeżenie strony -> SDK wykonuje checkSession(), sesja aktywna przy żywym cookie Auth0
 
 ### Phase 3: Spring Security Integration Tests
 
