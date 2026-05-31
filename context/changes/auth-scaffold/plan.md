@@ -283,24 +283,24 @@ Testy integracyjne warstwy Spring Security bez zewnętrznego połączenia do Aut
 
 #### Automated
 
-- [x] 2.1 `ng build --configuration=development` - zero błędów TypeScript
-- [x] 2.2 `ng build --configuration=production` - clean production build
+- [x] 2.1 `ng build --configuration=development` - zero błędów TypeScript — 051be9c
+- [x] 2.2 `ng build --configuration=production` - clean production build — 051be9c
 
 #### Manual
 
-- [x] 2.3 Nieuwierzytelniona nawigacja do `/cases/new` -> redirect do Auth0 Universal Login
-- [x] 2.4 Login w Auth0 -> powrót na `/cases/new` bez błędu
-- [x] 2.5 Po zalogowaniu Angular renderuje stronę; auth.isAuthenticated$ emituje true
-- [x] 2.6 `curl /api/test -H "Authorization: Bearer <token>"` -> 404 (nie 401)
-- [x] 2.7 Odświeżenie strony -> SDK wykonuje checkSession(), sesja aktywna przy żywym cookie Auth0
+- [x] 2.3 Nieuwierzytelniona nawigacja do `/cases/new` -> redirect do Auth0 Universal Login — 051be9c
+- [x] 2.4 Login w Auth0 -> powrót na `/cases/new` bez błędu — 051be9c
+- [x] 2.5 Po zalogowaniu Angular renderuje stronę; auth.isAuthenticated$ emituje true — 051be9c
+- [x] 2.6 `curl /api/test -H "Authorization: Bearer <token>"` -> 404 (nie 401) — 051be9c
+- [x] 2.7 Odświeżenie strony -> SDK wykonuje checkSession(), sesja aktywna przy żywym cookie Auth0 — 051be9c
 
 ### Phase 3: Spring Security Integration Tests
 
 #### Automated
 
-- [ ] 3.1 `SecurityConfigTest` - trzy testy przechodzą (health 200, api 401, api+auth nie-401)
-- [ ] 3.2 `./mvnw verify` - compile + test + package pełny sukces
+- [x] 3.1 `SecurityConfigTest` - trzy testy przechodzą (health 200, api 401, api+auth nie-401)
+- [x] 3.2 `./mvnw verify` - compile + test + package pełny sukces
 
 #### Manual
 
-- [ ] 3.3 Pełny smoke test e2e: obie warstwy uruchomione jednocześnie, login flow end-to-end
+- [x] 3.3 Pełny smoke test e2e: obie warstwy uruchomione jednocześnie, login flow end-to-end
