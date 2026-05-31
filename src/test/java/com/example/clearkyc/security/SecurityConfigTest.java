@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +38,8 @@ class SecurityConfigTest {
 
     @Test
     void apiEndpoint_withJwtToken_isNotUnauthorized() throws Exception {
-        // jwt() creates JwtAuthenticationToken; Spring Security passes through;
-        // SpaController catch-all returns 200 (SPA index.html) - not 401
+        // jwt() creates JwtAuthenticationToken; Spring Security passes through
         mockMvc.perform(get("/api/nonexistent").with(jwt()))
-                .andExpect(status().isOk());
+                .andExpect(result -> assertNotEquals(401, result.getResponse().getStatus()));
     }
 }

@@ -1,0 +1,11 @@
+# Copy this file to application-dev.properties and fill in real values.
+# This file is committed as a template; application-dev.properties is gitignored.
+#
+# Auth0 dashboard: Applications -> Your SPA App -> Settings
+# Domain format: https://<your-tenant>.auth0.com/ (include trailing slash)
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://<your-tenant>.auth0.com/
+
+# PostgreSQL (matches docker-compose.yml defaults — no changes needed for local dev)
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/clearkyc
+SPRING_DATASOURCE_USERNAME=clearkyc
+SPRING_DATASOURCE_PASSWORD=clearkyc

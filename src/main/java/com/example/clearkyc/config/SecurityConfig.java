@@ -13,6 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +38,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         String allowedOriginsEnv = System.getenv("ALLOWED_ORIGINS");
         List<String> allowedOrigins = (allowedOriginsEnv != null && !allowedOriginsEnv.isBlank())
-                ? Arrays.asList(allowedOriginsEnv.split(","))
+                ? Arrays.stream(allowedOriginsEnv.split(",")).map(String::trim).collect(Collectors.toList())
                 : List.of("http://localhost:1999");
 
         CorsConfiguration config = new CorsConfiguration();
