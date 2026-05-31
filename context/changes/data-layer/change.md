@@ -1,7 +1,7 @@
 ---
 change_id: data-layer
 roadmap_id: F-02
-status: implementing
+status: impl_reviewed
 created: 2026-05-31
 updated: 2026-05-31
 ---
