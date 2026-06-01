@@ -1,0 +1,43 @@
+.case-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--surface-base, #f9fafb);
+
+  &__card {
+    width: 100%;
+    max-width: 560px;
+    padding: 40px;
+    background: var(--surface-raised, #fff);
+    border-radius: var(--radius-lg, 12px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &__title {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  &__subtitle {
+    margin: 0 0 24px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  &__status {
+    margin: 12px 0 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__error {
+    margin: 12px 0 0;
+    text-align: center;
+    color: var(--state-error, #ef4444);
+    font-size: 0.9rem;
+  }
+}

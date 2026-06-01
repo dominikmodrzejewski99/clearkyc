@@ -1,0 +1,17 @@
+<div class="case-new">
+  <div class="case-new__card">
+    <h1 class="case-new__title">Nowa sprawa KYB</h1>
+    <p class="case-new__subtitle">Wgraj plik PDF z dokumentacją podmiotu</p>
+
+    <app-file-dropzone
+      (fileSelected)="onFileSelected($event)"
+    />
+
+    @if (isUploading()) {
+      <p class="case-new__status">Tworzenie sprawy...</p>
+    }
+    @if (uploadError()) {
+      <p class="case-new__error">{{ uploadError() }}</p>
+    }
+  </div>
+</div>

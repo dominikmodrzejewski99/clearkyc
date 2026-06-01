@@ -418,24 +418,24 @@ Resizable + collapsible split-panel (pure JS). `PdfViewerComponent` (pdfjs-dist 
 
 #### Automated
 
-- [x] 2.1 `cd web && ng build` — zero błędów TypeScript (strict mode)
+- [x] 2.1 `cd web && ng build` — zero błędów TypeScript (strict mode) — 740341d
 
 #### Manual
 
-- [x] 2.2 Brak błędów w DevTools Console po otwarciu localhost:1999
-- [x] 2.3 CaseStore i serwisy widoczne w Angular DevTools
+- [x] 2.2 Brak błędów w DevTools Console po otwarciu localhost:1999 — 740341d
+- [x] 2.3 CaseStore i serwisy widoczne w Angular DevTools — 740341d
 
 ### Phase 3: CaseNew — upload flow
 
 #### Automated
 
-- [ ] 3.1 `cd web && ng build` — zero błędów
+- [x] 3.1 `cd web && ng build` — zero błędów
 
 #### Manual
 
-- [ ] 3.2 Upload PDF → redirect do /cases/{id}
-- [ ] 3.3 Upload .txt → błąd inline
-- [ ] 3.4 Upload > 20 MB → błąd inline
+- [x] 3.2 Upload PDF → redirect do /cases/{id}
+- [x] 3.3 Upload .txt → błąd inline
+- [x] 3.4 Upload > 20 MB → błąd inline
 
 ### Phase 4: AppLayout + PDF viewer
 
