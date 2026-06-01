@@ -1,0 +1,27 @@
+@if (caseStore.pdfBlob() === null && caseStore.caseStatus() !== 'LOCKED') {
+  <div class="re-upload-banner">
+    <p class="re-upload-banner__text">
+      Plik PDF nie jest dostępny po odświeżeniu strony. Wgraj go ponownie, aby kontynuować.
+    </p>
+    <label class="re-upload-banner__label">
+      Wybierz plik PDF
+      <input
+        type="file"
+        accept=".pdf"
+        class="re-upload-banner__input"
+        (change)="onReUpload($event)"
+      />
+    </label>
+  </div>
+}
+
+<app-layout>
+  <app-pdf-viewer
+    slot="pdf"
+    [pdfBlob]="caseStore.pdfBlob()"
+    [targetPage]="caseStore.activePage()"
+  />
+  <div slot="form" class="form-placeholder">
+    <!-- Phase 5: ExtractionForm + DecisionBar -->
+  </div>
+</app-layout>

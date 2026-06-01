@@ -1,0 +1,9 @@
+<div class="pdf-viewer">
+  @if (pdfBlob()) {
+    <canvas #canvas class="pdf-viewer__canvas"></canvas>
+  } @else {
+    <div class="pdf-viewer__empty">
+      <p>Brak pliku PDF</p>
+    </div>
+  }
+</div>

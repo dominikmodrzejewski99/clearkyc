@@ -1,8 +1,18 @@
-<div class="app-layout">
-  <div class="app-layout__pane app-layout__pane--pdf">
-    <p class="app-layout__placeholder">PDF viewer — dostępny w S-01</p>
+<div class="app-layout" [style]="layoutStyle()">
+  <div
+    class="app-layout__pane app-layout__pane--pdf"
+    [class.app-layout__pane--collapsed]="isCollapsed()"
+  >
+    <ng-content select="[slot='pdf']" />
   </div>
+
+  <div class="app-layout__resizer" (mousedown)="onResizerMouseDown($event)">
+    <button class="app-layout__collapse-btn" (click)="toggleCollapse()" type="button">
+      {{ isCollapsed() ? '›' : '‹' }}
+    </button>
+  </div>
+
   <div class="app-layout__pane app-layout__pane--form">
-    <p class="app-layout__placeholder">Formularz ekstrakcji — dostępny w S-01</p>
+    <ng-content select="[slot='form']" />
   </div>
 </div>

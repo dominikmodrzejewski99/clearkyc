@@ -429,27 +429,27 @@ Resizable + collapsible split-panel (pure JS). `PdfViewerComponent` (pdfjs-dist 
 
 #### Automated
 
-- [x] 3.1 `cd web && ng build` — zero błędów
+- [x] 3.1 `cd web && ng build` — zero błędów — 230e8a0
 
 #### Manual
 
-- [x] 3.2 Upload PDF → redirect do /cases/{id}
-- [x] 3.3 Upload .txt → błąd inline
-- [x] 3.4 Upload > 20 MB → błąd inline
+- [x] 3.2 Upload PDF → redirect do /cases/{id} — 230e8a0
+- [x] 3.3 Upload .txt → błąd inline — 230e8a0
+- [x] 3.4 Upload > 20 MB → błąd inline — 230e8a0
 
 ### Phase 4: AppLayout + PDF viewer
 
 #### Automated
 
-- [ ] 4.1 `cd web && npm install` — pdfjs-dist zainstalowane
-- [ ] 4.2 `cd web && ng build` — zero błędów
+- [x] 4.1 `cd web && npm install` — pdfjs-dist zainstalowane
+- [x] 4.2 `cd web && ng build` — zero błędów
 
 #### Manual
 
-- [ ] 4.3 Lewy pane renderuje PDF po redirect z CaseNew
-- [ ] 4.4 Drag resizera: szerokość zmienia się, respektuje min-width
-- [ ] 4.5 Przycisk collapse: pane zwija/rozwija się
-- [ ] 4.6 Reload strony: baner re-upload widoczny; po wyborze pliku PDF renderuje
+- [x] 4.3 Lewy pane renderuje PDF po redirect z CaseNew
+- [x] 4.4 Drag resizera: szerokość zmienia się, respektuje min-width
+- [x] 4.5 Przycisk collapse: pane zwija/rozwija się
+- [x] 4.6 Reload strony: baner re-upload widoczny; po wyborze pliku PDF renderuje
 
 ### Phase 5: ExtractionForm + streaming + decision
 
