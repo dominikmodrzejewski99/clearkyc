@@ -177,22 +177,22 @@ Confirm exact file names against the installed package before editing. Typical @
 
 #### Automated
 
-- [x] 1.1 Angular build succeeds: `cd web && ng build`
+- [x] 1.1 Angular build succeeds: `cd web && ng build` — 6bd4e62
 
 #### Manual
 
-- [x] 1.2 Split-pane placeholders render with gray-100 background and visible dashed border
-- [x] 1.3 No CSS variable resolution warnings in DevTools Console
+- [x] 1.2 Split-pane placeholders render with gray-100 background and visible dashed border — 6bd4e62
+- [x] 1.3 No CSS variable resolution warnings in DevTools Console — 6bd4e62
 
 ### Phase 2: @fontsource font loading migration
 
 #### Automated
 
-- [ ] 2.1 `npm install` succeeds with @fontsource packages added
-- [ ] 2.2 `ng build` succeeds without font asset errors
+- [x] 2.1 `npm install` succeeds with @fontsource packages added
+- [x] 2.2 `ng build` succeeds without font asset errors
 
 #### Manual
 
-- [ ] 2.3 No requests to `fonts.googleapis.com` in DevTools Network tab
-- [ ] 2.4 Body `font-family` resolves to IBM Plex Sans in DevTools Computed
-- [ ] 2.5 IBM Plex Sans renders correctly with network throttled to Offline
+- [x] 2.3 No requests to `fonts.googleapis.com` in DevTools Network tab
+- [x] 2.4 Body `font-family` resolves to IBM Plex Sans in DevTools Computed
+- [x] 2.5 IBM Plex Sans renders correctly with network throttled to Offline
