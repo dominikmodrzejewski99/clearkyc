@@ -4,7 +4,6 @@ title: Minimal core case flow — upload PDF, stream extraction, finalize decisi
 status: implementing
 created: 2026-06-01
 updated: 2026-06-01
-
 archived_at: null
 ---
 

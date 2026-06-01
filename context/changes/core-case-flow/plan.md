@@ -406,24 +406,24 @@ Resizable + collapsible split-panel (pure JS). `PdfViewerComponent` (pdfjs-dist 
 
 #### Automated
 
-- [x] 1.1 `./mvnw compile` — zero błędów
-- [x] 1.2 `./mvnw test` — wszystkie testy zielone (istniejące + @WebMvcTest)
-- [x] 1.3 `./mvnw verify` — clean build
+- [x] 1.1 `./mvnw compile` — zero błędów — c99c789
+- [x] 1.2 `./mvnw test` — wszystkie testy zielone (istniejące + @WebMvcTest) — c99c789
+- [x] 1.3 `./mvnw verify` — clean build — c99c789
 
 #### Manual
 
-- [x] 1.4 POST /api/cases z JWT + PDF → 201 z id; GET → 200; finalize → 200; ponowne finalize → 409
+- [x] 1.4 POST /api/cases z JWT + PDF → 201 z id; GET → 200; finalize → 200; ponowne finalize → 409 — c99c789
 
 ### Phase 2: Angular — typy, serwisy, store
 
 #### Automated
 
-- [ ] 2.1 `cd web && ng build` — zero błędów TypeScript (strict mode)
+- [x] 2.1 `cd web && ng build` — zero błędów TypeScript (strict mode)
 
 #### Manual
 
-- [ ] 2.2 Brak błędów w DevTools Console po otwarciu localhost:1999
-- [ ] 2.3 CaseStore i serwisy widoczne w Angular DevTools
+- [x] 2.2 Brak błędów w DevTools Console po otwarciu localhost:1999
+- [x] 2.3 CaseStore i serwisy widoczne w Angular DevTools
 
 ### Phase 3: CaseNew — upload flow
 
