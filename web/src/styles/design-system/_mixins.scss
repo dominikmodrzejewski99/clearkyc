@@ -13,11 +13,11 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
   font-style: italic;
-  background-color: var(--color-surface-panel);
-  border: 1px dashed var(--color-border-strong);
+  background-color: var(--surface-sunken);
+  border: 1px dashed var(--border-strong);
   border-radius: var(--radius-md);
 }
 
@@ -30,7 +30,7 @@
 
 // Focus-visible ring using design tokens
 @mixin focus-ring {
-  outline: 2px solid var(--color-border-focus);
+  outline: 2px solid var(--border-focus);
   outline-offset: 2px;
 }
 

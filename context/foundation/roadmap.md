@@ -33,7 +33,8 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | F-02 | data-layer             | (foundation) tabele `case` i `audit_record` istnieja ze schematem migracji; encje JPA + repozytoria podlaczone                                  | -                                | FR-013, FR-011                                                  | done     |
 | F-03 | frontend-scaffold      | (foundation) Angular SPA w `web/` kompiluje sie i proxy'uje do backendu Spring; szkielet routingu i layoutu gotowy                               | -                                | FR-009, FR-006, FR-004                                          | done     |
 | F-04 | llm-streaming-backend  | (foundation) endpoint SSE strumieniuje zdarzenia ekstrakcji; klient dostawcy LLM podlaczony i wywolujacy model                                   | F-02                             | FR-005, FR-006, FR-008                                          | proposed |
-| S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | proposed |
+| F-05 | design-system-wire     | (foundation) tokeny `_variables.scss` zastosowane w istniejacych komponentach Angular; niespojnosc nazewnictwa `_mixins.scss` naprawiona; IBM Plex Sans/Mono zaladowane; typografia i spacing bazowy gotowe | F-03 | FR-009 | proposed |
+| S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | proposed |
 | S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | proposed |
 | S-03 | red-flag-taxonomy      | zobaczyc red flagi po zakonczeniu analizy, kazdy powiazany z zamknieta taksonomia kategorii ryzyka                                               | S-01, zamknieta taksonomia red flag (Open Question 1) | FR-007, US-01                              | blocked  |
 
@@ -45,7 +46,7 @@ Navigation aid - groups items that share a Prerequisites chain. Canonical orderi
 |--------|-----------------------|--------------------------------------------|-----------------------------------------------------------------------------------------------------|
 | A      | Auth                  | `F-01` - dolacza do Stream B przy `S-01`   | Rownolegle startuje z B i C; sekwencjonowany wczesnie bo kazda trasa wymaga ochrony                 |
 | B      | Dane + LLM streaming  | `F-02` -> `F-04` -> `S-01` -> `S-02`      | Sciezka krytyczna roadmapy; market-feedback sekwencjonuje tedy od danych do kompletnego przypadku  |
-| C      | Frontend SPA          | `F-03` - dolacza do Stream B przy `S-01`   | Rownolegle startuje z A i B; Angular SPA musi istniec zanim powstana wycinki UI                     |
+| C      | Frontend SPA          | `F-03` -> `F-05` - dolacza do Stream B przy `S-01` | Rownolegle startuje z A i B; F-05 aplikuje design system zanim powstana wycinki UI z prawdziwymi komponentami |
 | D      | Red flag + taksonomia | `S-03`                                     | Samodzielny zablokowany wycinek; zalezy od decyzji zewnetrznej (Open Question 1)                   |
 
 ## Baseline
@@ -118,6 +119,19 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Risk:** najwyzsze ryzyko techniczne w projekcie; strumieniowanie czesciowego JSON z LLM do reaktywnego formularza Angular wymaga nowej integracji SSE + back-pressure; sekwencjonowany zaraz po F-02 by wyciagnac ryzyko integracji przed budowa UI.
 - **Status:** proposed
 
+### F-05: Design system wire
+
+- **Outcome:** (foundation) tokeny CSS z `web/src/styles/design-system/_variables.scss` zastosowane w istniejacych komponentach Angular (`AppLayout`, header, trasy stub); niespojnosc nazewnictwa w `_mixins.scss` naprawiona (odwolania `--color-*` uzgodnione z rzeczywistymi nazwami zmiennych); IBM Plex Sans i IBM Plex Mono zaladowane przez `angular.json` lub `@fontsource`; bazowa typografia i spacing z tokenow wdrozoone w `styles.scss`; wszystkie komponenty renderuja sie bez broken-variable fallbackow.
+- **Change ID:** design-system-wire
+- **PRD refs:** FR-009 (gesty interfejs analityczny)
+- **Unlocks:** S-01, S-02 (wycinki UI buduja na sprawdzonym fundamencie wizualnym zamiast naprawiac styl przy kazdym komponencie)
+- **Prerequisites:** F-03
+- **Parallel with:** F-04 (czysto frontendowy zakres, brak zaleznosci backendowej)
+- **Blockers:** -
+- **Unknowns:** -
+- **Risk:** bez tego kroku S-01 bedzie budowalo komponenty na nienaprawionych zmiennych CSS, co prowadzi do rozproszonego dlugu stylistycznego trudnego do wysterolowania pozniej; naprawienie wczesnie jest tanie.
+- **Status:** proposed
+
 ## Slices
 
 ### S-01: Minimalny rdzen przypadku
@@ -125,7 +139,7 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Outcome:** analityk moze zaladowac PDF przez drag-and-drop lub file picker, wyzwolic analize, zobaczyc wyekstrahowane encje (nazwa firmy, dyrektorzy, UBO) strumieniowane ze cytowaniami w podzielonym panelu obok osadzonego PDF, i finalnie wybrac decyzje terminalna (Approve / Reject / Escalate) z zapisem do rekordu audytu przed potwierdzeniem w UI.
 - **Change ID:** core-case-flow
 - **PRD refs:** FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01
-- **Prerequisites:** F-01, F-02, F-03, F-04
+- **Prerequisites:** F-01, F-02, F-03, F-04, F-05
 - **Parallel with:** -
 - **Blockers:** -
 - **Unknowns:**
@@ -167,6 +181,7 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-02       | data-layer             | Wdrozyc warstwe danych: JPA + PostgreSQL + migracje          | yes                   | Uruchom `/10x-plan data-layer`                 |
 | F-03       | frontend-scaffold      | Wdrozyc scaffold Angular SPA w `web/`                        | done                  | Zaimplementowane 2026-05-29; commity 5d57a3b-e11a6ad           |
 | F-04       | llm-streaming-backend  | Wdrozyc backend LLM streaming: endpoint SSE + klient         | no                    | Wymaga F-02; zdecyduj SDK LLM wczesniej        |
+| F-05       | design-system-wire     | Naprawic niespojnosc _mixins.scss i zastosowac tokeny design systemu w komponentach Angular | yes | Wymaga F-03; uruchom `/10x-plan design-system-wire` |
 | S-01       | core-case-flow         | Dostarczyc minimalny rdzen przypadku (upload -> ekstrakcja -> decyzja) | no           | Wymaga F-01 + F-02 + F-03 + F-04              |
 | S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | no                    | Wymaga S-01                                    |
 | S-03       | red-flag-taxonomy      | Dostarczyc red flag z zamknieta taksonomia ryzyka            | no                    | Zablokowane: Open Question 1 (taksonomia)      |
