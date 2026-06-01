@@ -20,6 +20,7 @@ export class CaseDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
+    this.caseStore.reset();
     this.caseStore.caseId.set(id);
     this.caseService.getCase(id).subscribe({
       next: response => this.caseStore.caseStatus.set(response.status),

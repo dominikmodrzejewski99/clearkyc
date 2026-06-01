@@ -94,12 +94,14 @@ public class FinalizeService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to serialize payload");
         }
 
+        // Single transaction: AuditRecord saved first, then KybCase mutated.
+        // Do NOT move AuditRecord to a nested REQUIRES_NEW transaction — that would break atomicity.
         AuditRecord auditRecord = new AuditRecord(kybCase, analystIdentity, request.decision(), payloadJson);
         auditRecordRepository.save(auditRecord);
 
         kybCase.setStatus(CaseStatus.LOCKED);
         kybCase.setLockedAt(now);
-        kybCaseRepository.save(kybCase);
+        // JPA dirty-checking flushes KybCase mutation at commit — no explicit save needed.
 
         return new FinalizeResponse(auditRecord.getId(), request.decision().name(), now);
     }

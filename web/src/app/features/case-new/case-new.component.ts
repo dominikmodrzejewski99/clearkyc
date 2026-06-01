@@ -19,6 +19,7 @@ export class CaseNewComponent {
   protected uploadError = signal<string | null>(null);
 
   protected onFileSelected(file: File): void {
+    this.caseStore.reset();
     this.isUploading.set(true);
     this.uploadError.set(null);
 

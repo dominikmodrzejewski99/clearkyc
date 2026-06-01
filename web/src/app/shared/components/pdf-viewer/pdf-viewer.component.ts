@@ -1,11 +1,12 @@
-import { Component, ElementRef, ViewChild, effect, input, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, effect, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-pdf-viewer',
+  standalone: true,
   templateUrl: './pdf-viewer.component.html',
   styleUrl: './pdf-viewer.component.scss',
 })
-export class PdfViewerComponent {
+export class PdfViewerComponent implements OnDestroy {
   readonly pdfBlob = input<Blob | null>(null);
   readonly targetPage = input<number>(1);
 
@@ -28,6 +29,11 @@ export class PdfViewerComponent {
       const doc = this.pdfDocument();
       if (doc) this.renderPage(doc, page);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.currentRenderTask?.cancel();
+    this.pdfDocument()?.destroy();
   }
 
   private async loadPdf(blob: Blob): Promise<void> {

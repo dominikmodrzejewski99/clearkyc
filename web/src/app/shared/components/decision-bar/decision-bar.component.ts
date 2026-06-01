@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Output, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaseStore } from '../../../core/store/case.store';
 import { DecisionService } from '../../../core/services/decision.service';
 
@@ -14,6 +15,7 @@ export class DecisionBarComponent {
 
   protected readonly caseStore = inject(CaseStore);
   private readonly decisionService = inject(DecisionService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected isSubmitting = signal(false);
   protected submitError = signal<string | null>(null);
@@ -34,7 +36,7 @@ export class DecisionBarComponent {
       decision,
       extractedData,
       overrideJustifications: {},
-    }).subscribe({
+    }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: response => {
         this.lockedDecision.set(response.decision);
         this.caseStore.markLocked();

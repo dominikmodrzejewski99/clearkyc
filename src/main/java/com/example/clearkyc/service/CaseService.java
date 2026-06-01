@@ -9,6 +9,7 @@ import com.example.clearkyc.web.dto.CaseDetailResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
@@ -29,6 +30,7 @@ public class CaseService {
         return new CreateCaseResponse(kybCase.getId(), kybCase.getStatus().name(), kybCase.getCreatedAt());
     }
 
+    @Transactional(readOnly = true)
     public CaseDetailResponse getCase(UUID caseId) {
         KybCase kybCase = kybCaseRepository.findById(caseId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));

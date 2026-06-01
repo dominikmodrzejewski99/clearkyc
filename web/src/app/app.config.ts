@@ -8,6 +8,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authHttpInterceptorFn, provideAuth0 } from '@auth0/auth0-angular';
 
 import { routes } from './app.routes';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,11 +17,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authHttpInterceptorFn])),
     provideAuth0({
-      domain: 'dev-3kjr48h52rpcpqhv.us.auth0.com',
-      clientId: 'waNYiWlXzAxogZEudesES33AQWTPDyl4',
+      domain: environment.auth0.domain,
+      clientId: environment.auth0.clientId,
       authorizationParams: {
         redirect_uri: window.location.origin,
-        audience: 'http://localhost:1999',
+        audience: environment.auth0.audience,
       },
       httpInterceptor: {
         allowedList: [{ uriMatcher: (uri: string) => uri.startsWith('/api/') }],

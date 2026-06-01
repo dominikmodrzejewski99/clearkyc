@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -27,6 +28,9 @@ public class CaseController {
     public CreateCaseResponse createCase(
             @RequestPart("file") MultipartFile file,
             @AuthenticationPrincipal Jwt jwt) {
+        if (!"application/pdf".equals(file.getContentType())) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Only PDF files are accepted");
+        }
         return caseService.createCase();
     }
 

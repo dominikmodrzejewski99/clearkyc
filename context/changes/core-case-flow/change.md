@@ -1,7 +1,7 @@
 ---
 change_id: core-case-flow
 title: Minimal core case flow — upload PDF, stream extraction, finalize decision
-status: implemented
+status: impl_reviewed
 created: 2026-06-01
 updated: 2026-06-01
 archived_at: null
