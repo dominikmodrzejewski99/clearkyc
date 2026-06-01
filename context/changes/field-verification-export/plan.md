@@ -385,25 +385,25 @@ SCSS: `.highlight-layer { position: absolute; top: 0; left: 0; pointer-events: n
 
 #### Automated
 
-- [x] 2.1 `cd web && ng build` — zero błędów TypeScript strict
+- [x] 2.1 `cd web && ng build` — zero błędów TypeScript strict — f24f324
 
 #### Manual
 
-- [x] 2.2 DevTools Console — brak błędów po zalogowaniu
-- [x] 2.3 Angular DevTools — fieldOverrides i activeQuote widoczne w CaseStore
+- [x] 2.2 DevTools Console — brak błędów po zalogowaniu — f24f324
+- [x] 2.3 Angular DevTools — fieldOverrides i activeQuote widoczne w CaseStore — f24f324
 
 ### Phase 3: Angular — Inline field edit UI
 
 #### Automated
 
-- [ ] 3.1 `cd web && ng build` — zero błędów
+- [x] 3.1 `cd web && ng build` — zero błędów
 
 #### Manual
 
-- [ ] 3.2 Edycja pola ANALYZED: inline form, walidacja uzasadnienia, override badge
-- [ ] 3.3 Widok LOCKED: override expandable z oryginałem LLM + uzasadnieniem
-- [ ] 3.4 Re-analyze warning gdy są aktywne overrides
-- [ ] 3.5 Pole "Not Disclosed / Inferred Missing" edytowalne z uzasadnieniem
+- [x] 3.2 Edycja pola ANALYZED: inline form, walidacja uzasadnienia, override badge
+- [x] 3.3 Widok LOCKED: override expandable z oryginałem LLM + uzasadnieniem
+- [x] 3.4 Re-analyze warning gdy są aktywne overrides
+- [x] 3.5 Pole "Not Disclosed / Inferred Missing" edytowalne z uzasadnieniem
 
 ### Phase 4: Angular — Snippet panel + text highlight
 

@@ -4,7 +4,7 @@
       <button
         class="extraction-form__analyze-btn"
         [disabled]="caseStore.isAnalyzing() || !caseStore.pdfBlob()"
-        (click)="startAnalysis()"
+        (click)="tryStartAnalysis()"
         type="button"
       >
         {{ caseStore.isAnalyzing() ? 'Analizowanie...' : 'Analizuj' }}
@@ -15,7 +15,7 @@
   @if (caseStore.analysisError()) {
     <div class="extraction-form__error-banner">
       <p>{{ caseStore.analysisError() }}</p>
-      <button type="button" (click)="startAnalysis()">Analizuj ponownie</button>
+      <button type="button" (click)="tryStartAnalysis()">Analizuj ponownie</button>
     </div>
   }
 
@@ -32,14 +32,81 @@
         @for (field of caseStore.extractionFields(); track field.fieldName) {
           <tr class="extraction-form__row" [class.extraction-form__row--streaming]="caseStore.isAnalyzing()">
             <td class="extraction-form__field-name">{{ field.fieldName }}</td>
-            <td class="extraction-form__field-value" [class.extraction-form__field-value--missing]="field.value === 'Not Disclosed / Inferred Missing'">
-              {{ field.value }}
-            </td>
-            <td class="extraction-form__citations">
-              @for (citation of field.citations; track $index) {
-                <app-citation-badge [citation]="citation" [index]="$index + 1" />
-              }
-            </td>
+
+            @if (editingField() === field.fieldName) {
+              <td colspan="2" class="extraction-form__edit-cell">
+                <div class="extraction-form__edit-form">
+                  <input
+                    class="extraction-form__edit-input"
+                    type="text"
+                    [value]="editDraft()"
+                    (input)="updateEditDraft($event)"
+                    placeholder="Nowa wartość"
+                  />
+                  <textarea
+                    class="extraction-form__edit-justification"
+                    [value]="editJustification()"
+                    (input)="updateEditJustification($event)"
+                    placeholder="Uzasadnienie (wymagane)"
+                    rows="2"
+                  ></textarea>
+                  <div class="extraction-form__edit-actions">
+                    <button
+                      type="button"
+                      class="extraction-form__save-btn"
+                      [disabled]="!editJustification().trim()"
+                      (click)="saveEdit(field)"
+                    >Zapisz</button>
+                    <button
+                      type="button"
+                      class="extraction-form__cancel-btn"
+                      (click)="cancelEdit()"
+                    >Anuluj</button>
+                  </div>
+                </div>
+              </td>
+            } @else {
+              <td
+                class="extraction-form__field-value"
+                [class.extraction-form__field-value--missing]="!caseStore.fieldOverrides()[field.fieldName] && field.value === 'Not Disclosed / Inferred Missing'"
+              >
+                <div class="extraction-form__value-row">
+                  <span class="extraction-form__value-text">
+                    {{ caseStore.fieldOverrides()[field.fieldName]?.newValue ?? field.value }}
+                  </span>
+                  @if (caseStore.fieldOverrides()[field.fieldName]) {
+                    <button
+                      type="button"
+                      class="extraction-form__override-badge"
+                      (click)="toggleOverrideDetail(field.fieldName)"
+                      title="Nadpisane przez analityka — kliknij aby zobaczyć szczegóły"
+                    >✏</button>
+                  }
+                  @if (caseStore.caseStatus() === 'ANALYZED' && !caseStore.isAnalyzing() && !editingField()) {
+                    <button
+                      type="button"
+                      class="extraction-form__field-edit-btn"
+                      (click)="startEdit(field)"
+                      title="Edytuj pole"
+                    >✏</button>
+                  }
+                </div>
+                @if (caseStore.fieldOverrides()[field.fieldName] && expandedOverrideField() === field.fieldName) {
+                  <div class="extraction-form__override-detail">
+                    <span class="extraction-form__override-detail-label">Oryginał LLM:</span>
+                    {{ caseStore.fieldOverrides()[field.fieldName]!.originalValue }}
+                    <br>
+                    <span class="extraction-form__override-detail-label">Uzasadnienie:</span>
+                    {{ caseStore.fieldOverrides()[field.fieldName]!.justification }}
+                  </div>
+                }
+              </td>
+              <td class="extraction-form__citations">
+                @for (citation of field.citations; track $index) {
+                  <app-citation-badge [citation]="citation" [index]="$index + 1" />
+                }
+              </td>
+            }
           </tr>
         }
       </tbody>
@@ -49,6 +116,27 @@
   @if (caseStore.caseStatus() === 'LOCKED') {
     <div class="extraction-form__locked">
       Sprawa zakończona — decyzja zablokowana.
+    </div>
+  }
+
+  @if (showReanalyzeWarning()) {
+    <div class="extraction-form__reanalyze-overlay">
+      <div class="extraction-form__reanalyze-dialog">
+        <h3>Ponowna analiza usunie nadpisania</h3>
+        <p>Masz aktywne nadpisania pól. Uruchomienie ponownej analizy usunie wszystkie overrides i zacznie od nowa.</p>
+        <div class="extraction-form__reanalyze-actions">
+          <button
+            type="button"
+            class="extraction-form__reanalyze-confirm"
+            (click)="confirmReanalyze()"
+          >Tak, analizuj ponownie</button>
+          <button
+            type="button"
+            class="extraction-form__reanalyze-cancel"
+            (click)="showReanalyzeWarning.set(false)"
+          >Anuluj</button>
+        </div>
+      </div>
     </div>
   }
 </div>
