@@ -35,7 +35,7 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | F-04 | llm-streaming-backend  | (foundation) endpoint SSE strumieniuje zdarzenia ekstrakcji; klient dostawcy LLM podlaczony i wywolujacy model                                   | F-02                             | FR-005, FR-006, FR-008                                          | done     |
 | F-05 | design-system-wire     | (foundation) tokeny `_variables.scss` zastosowane w istniejacych komponentach Angular; niespojnosc nazewnictwa `_mixins.scss` naprawiona; IBM Plex Sans/Mono zaladowane; typografia i spacing bazowy gotowe | F-03 | FR-009 | done     |
 | S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | done     |
-| S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | proposed |
+| S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | done |
 | S-03 | red-flag-taxonomy      | zobaczyc red flagi po zakonczeniu analizy, kazdy powiazany z zamknieta taksonomia kategorii ryzyka                                               | S-01, zamknieta taksonomia red flag (Open Question 1) | FR-007, US-01                              | blocked  |
 
 ## Streams
@@ -162,7 +162,8 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Unknowns:**
   - Podswietlenie tekstu zrodlowego w PDF-ie jest mechanizmem best-effort; sposob implementacji (koordynaty tekstu, biblioteka PDF) zalezy od wyboru w F-03/S-01. Owner: implementer. Block: no.
 - **Risk:** click-to-cite z nawigacja do strony + podswietlanie tekstu jest najtrudniejsza interakcja UI w produkcie; NFR 500ms jest ciasne na skanowanych dokumentach PDF; graceful degradation (snippet w bocznym panelu) musi byc wodoszczelna.
-- **Status:** proposed
+- **Status:** done
+- **Commits:** b9dfd57 (p1: backend JSON Schema v0.2 + payload evolution), f24f324 (p2: Angular models + CaseStore + DecisionBar fields), 333f0b7 (p3: inline field edit UI + override badge + re-analyze warning), 75c4540 (p4: snippet panel + multi-page PDF viewer + scroll fix), 096151b (epilogue), f75ce04 (impl-review fixes), 274825c (impl-review report)
 
 ### S-03: Red flag i taksonomia ryzyka
 
@@ -187,7 +188,7 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-04       | llm-streaming-backend  | Wdrozyc backend LLM streaming: endpoint SSE + klient         | no                    | Wymaga F-02; zdecyduj SDK LLM wczesniej        |
 | F-05       | design-system-wire     | Naprawic niespojnosc _mixins.scss i zastosowac tokeny design systemu w komponentach Angular | yes | Wymaga F-03; uruchom `/10x-plan design-system-wire` |
 | S-01       | core-case-flow         | Dostarczyc minimalny rdzen przypadku (upload -> ekstrakcja -> decyzja) | done         | Zaimplementowane 2026-06-01; commity c99c789-a39e130           |
-| S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | no                    | Wymaga S-01                                    |
+| S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | impl_reviewed         | Zaimplementowane 2026-06-01; commity b9dfd57-274825c           |
 | S-03       | red-flag-taxonomy      | Dostarczyc red flag z zamknieta taksonomia ryzyka            | no                    | Zablokowane: Open Question 1 (taksonomia)      |
 
 ## Open Roadmap Questions
@@ -217,3 +218,4 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-04 | llm-streaming-backend | 2026-06-01 | a706315, 62e36a7, 54bfb80, 3df1c33                                   | Spring AI 2.0.0-M8 + Google GenAI; ExtractionEvent sealed hierarchy; ExtractionService NDJSON streaming; ExtractionController SSE; JWT auth + SSE zweryfikowane lokalnie; E2E LLM test pending waznego GOOGLE_GENAI_API_KEY |
 | F-05 | design-system-wire | 2026-06-01   | 6bd4e62, 6ce1f8c, ad70324, c93beee                                   | Naprawa 5 broken CSS variable references (_mixins.scss, app-layout.scss); migracja fontow z Google Fonts CDN do @fontsource (latin-ext dla Sans, latin dla Mono); styles.css: 21.8 kB → 6.6 kB, WOFF2: 45 → 7 plikow |
 | S-01 | core-case-flow     | 2026-06-01   | c99c789, 740341d, 230e8a0, 410ca9a, a93c211, b2819c7, a39e130        | 5 faz: backend (CaseController + DecisionController + FinalizeService + JSON Schema v0.1), Angular (modele + CaseStore + serwisy), upload flow (FileDropzone), AppLayout resizer + PdfViewer (pdfjs-dist lazy), ExtractionForm + CitationBadge + DecisionBar; E2E flow zweryfikowany z Google GenAI; impl-review fixes (MIME validation, @Transactional readOnly, OnDestroy cleanup, store reset, environment files) |
+| S-02 | field-verification-export | 2026-06-01 | b9dfd57, f24f324, 333f0b7, 75c4540, 096151b, f75ce04, 274825c | 4 fazy: JSON Schema v0.2 + payload evolution (backend), Angular models + CaseStore + DecisionBar fields, inline field edit UI + override badge + re-analyze warning, snippet panel + multi-page PDF viewer; impl-review fixes (PDF resource leak, unhandled rejection guard, takeUntilDestroyed cleanup) |
