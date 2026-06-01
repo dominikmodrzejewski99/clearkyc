@@ -2,10 +2,9 @@ package com.example.clearkyc.web.dto;
 
 import com.example.clearkyc.domain.DecisionType;
 
-import java.util.Map;
+import java.util.List;
 
 public record FinalizeRequest(
         DecisionType decision,
-        Map<String, Object> extractedData,
-        Map<String, String> overrideJustifications) {
+        List<FieldRecord> fields) {
 }

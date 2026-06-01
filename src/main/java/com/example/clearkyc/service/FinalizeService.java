@@ -2,7 +2,6 @@ package com.example.clearkyc.service;
 
 import com.example.clearkyc.domain.AuditRecord;
 import com.example.clearkyc.domain.CaseStatus;
-import com.example.clearkyc.domain.DecisionType;
 import com.example.clearkyc.domain.KybCase;
 import com.example.clearkyc.repository.AuditRecordRepository;
 import com.example.clearkyc.repository.KybCaseRepository;
@@ -50,7 +49,7 @@ public class FinalizeService {
 
     @PostConstruct
     void loadSchema() throws IOException {
-        ClassPathResource resource = new ClassPathResource("schema/finalization-v0.1.json");
+        ClassPathResource resource = new ClassPathResource("schema/finalization-v0.2.json");
         try (InputStream is = resource.getInputStream()) {
             JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
             jsonSchema = factory.getSchema(is);
@@ -73,10 +72,7 @@ public class FinalizeService {
         payloadMap.put("analystIdentity", analystIdentity);
         payloadMap.put("decision", request.decision().name());
         payloadMap.put("finalizedAt", now.toString());
-        payloadMap.put("extractedData", request.extractedData() != null ? request.extractedData() : Map.of());
-        if (request.overrideJustifications() != null && !request.overrideJustifications().isEmpty()) {
-            payloadMap.put("overrideJustifications", request.overrideJustifications());
-        }
+        payloadMap.put("fields", request.fields());
 
         JsonNode payloadNode = objectMapper.valueToTree(payloadMap);
         Set<ValidationMessage> errors = jsonSchema.validate(payloadNode);

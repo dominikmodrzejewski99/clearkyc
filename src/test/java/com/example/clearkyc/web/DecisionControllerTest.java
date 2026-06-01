@@ -40,7 +40,7 @@ class DecisionControllerTest {
 
     private static final String VALID_JSON =
             """
-            {"decision":"APPROVE","extractedData":{"company":"Acme"},"overrideJustifications":{}}
+            {"decision":"APPROVE","fields":[{"fieldName":"companyName","value":"Acme Corp","citations":[]}]}
             """;
 
     @Test
