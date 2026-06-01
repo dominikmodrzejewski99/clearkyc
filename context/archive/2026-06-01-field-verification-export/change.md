@@ -1,11 +1,11 @@
 ---
 change_id: field-verification-export
 title: Field verification, click-to-cite PDF navigation, and JSON export
-status: impl_reviewed
+status: archived
 created: 2026-06-01
 updated: 2026-06-01
 
-archived_at: null
+archived_at: 2026-06-01T17:03:53Z
 ---
 
 ## Notes
