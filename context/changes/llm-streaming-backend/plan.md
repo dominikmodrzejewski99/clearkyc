@@ -369,24 +369,24 @@ Pięć testów (wzorzec z `SecurityConfigTest.java`):
 
 #### Automated
 
-- [x] 1.1 `./mvnw dependency:resolve -Dincludes=org.springframework.ai:spring-ai-bom` — wersja 2.0.0 dostępna (lub fallback na RC1 z milestone repo)
-- [x] 1.2 `./mvnw compile` — zero błędów po dodaniu spring-ai-starter-model-anthropic
-- [x] 1.3 `./mvnw test` — 9 testów zielonych (Spring AI wyłączone w testach przez autoconfigure.exclude + @MockitoBean ChatModel)
+- [x] 1.1 `./mvnw dependency:resolve -Dincludes=org.springframework.ai:spring-ai-bom` — wersja 2.0.0 dostępna (lub fallback na RC1 z milestone repo) — a706315
+- [x] 1.2 `./mvnw compile` — zero błędów po dodaniu spring-ai-starter-model-anthropic — a706315
+- [x] 1.3 `./mvnw test` — 9 testów zielonych (Spring AI wyłączone w testach przez autoconfigure.exclude + @MockitoBean ChatModel) — a706315
 
 #### Manual
 
-- [x] 1.4 `./mvnw spring-boot:run -Dspring.profiles.active=dev` startuje bez błędu Spring AI autoconfiguration
+- [x] 1.4 `./mvnw spring-boot:run -Dspring.profiles.active=dev` startuje bez błędu Spring AI autoconfiguration — a706315
 
 ### Phase 2: ExtractionEvent + Citation + ExtractionService
 
 #### Automated
 
-- [ ] 2.1 `./mvnw compile` — zero błędów dla nowych klas Analysis
-- [ ] 2.2 `./mvnw test` — 9 testów zielonych (contextLoads z ExtractionService w kontekście)
+- [x] 2.1 `./mvnw compile` — zero błędów dla nowych klas Analysis
+- [x] 2.2 `./mvnw test` — 9 testów zielonych (contextLoads z ExtractionService w kontekście)
 
 #### Manual
 
-- [ ] 2.3 IDE: brak błędów importu w `ExtractionEvent.java`, `Citation.java`, `ExtractionService.java`
+- [x] 2.3 IDE: brak błędów importu w `ExtractionEvent.java`, `Citation.java`, `ExtractionService.java`
 
 ### Phase 3: ExtractionController + Tests
 
