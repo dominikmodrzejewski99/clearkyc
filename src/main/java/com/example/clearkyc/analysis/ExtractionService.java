@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -52,6 +53,15 @@ public class ExtractionService {
             - Do not emit markdown, code blocks, or any text outside of JSON lines.
             - "quote" must be verbatim text from the document (copy-paste, not paraphrase).
             - "pageNumber" is best-effort (0 if unknown).
+
+            After ALL field lines, emit red flags (one JSON line each):
+            {"category":"<CATEGORY>","description":"<sentence>","citations":[{"quote":"<text>","pageNumber":<n>}]}
+
+            Available categories: SANCTIONS_EXPOSURE, SHELL_COMPANY_INDICATORS, JURISDICTION_RISK,
+            OPAQUE_OWNERSHIP, PEP_LINKAGE, SECTOR_SPECIFIC_RISK
+
+            Emit red flag lines ONLY after all field lines. If no red flags: emit nothing (no red flag lines).
+            A "Not Disclosed / Inferred Missing" field value MAY chain into a red flag — use your judgment.
             """;
 
     private final ChatModel chatModel;
@@ -97,6 +107,7 @@ public class ExtractionService {
 
             AtomicReference<StringBuilder> buf = new AtomicReference<>(new StringBuilder());
             AtomicBoolean hadError = new AtomicBoolean(false);
+            AtomicReference<List<RedFlagItem>> accumulatedFlags = new AtomicReference<>(new ArrayList<>());
 
             Flux<ExtractionEvent> eventFlux = chatModel.stream(prompt)
                     .mapNotNull(r -> r.getResult() != null ? r.getResult().getOutput().getText() : null)
@@ -115,13 +126,23 @@ public class ExtractionService {
                     })
                     .mapNotNull(line -> {
                         try {
+                            if (line.contains("\"category\":")) {
+                                RedFlagItem flag = jsonMapper.readValue(line, RedFlagItem.class);
+                                accumulatedFlags.get().add(flag);
+                                return null;
+                            }
                             return (ExtractionEvent) jsonMapper.readValue(line, ExtractionEvent.FieldExtracted.class);
                         } catch (Exception e) {
                             log.warn("Skipping unparseable NDJSON line: {}", line);
                             return null;
                         }
                     })
-                    .concatWith(Flux.just(new ExtractionEvent.AnalysisComplete(caseId.toString())))
+                    .concatWith(Flux.defer(() -> {
+                        List<RedFlagItem> flags = accumulatedFlags.get();
+                        ExtractionEvent complete = new ExtractionEvent.AnalysisComplete(caseId.toString());
+                        if (flags.isEmpty()) return Flux.just(complete);
+                        return Flux.just(new ExtractionEvent.RedFlagsFound(flags), complete);
+                    }))
                     .onErrorResume(e -> {
                         hadError.set(true);
                         return Flux.just(new ExtractionEvent.AnalysisError("EXTRACTION_ERROR", e.getMessage()));
