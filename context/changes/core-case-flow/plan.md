@@ -455,11 +455,11 @@ Resizable + collapsible split-panel (pure JS). `PdfViewerComponent` (pdfjs-dist 
 
 #### Automated
 
-- [x] 5.1 `cd web && ng build` — zero błędów + zero Angular warnings
+- [x] 5.1 `cd web && ng build` — zero błędów + zero Angular warnings — a93c211
 
 #### Manual
 
-- [x] 5.2 Pełny flow: upload → analizuj → streaming pól → Approve → locked view
-- [x] 5.3 AnalysisError: baner błędu z przyciskiem retry
-- [x] 5.4 Status LOCKED: formularz zablokowany, decyzja widoczna
-- [x] 5.5 Reload na ANALYZED case: baner re-upload → pola widoczne po wgraniu PDF
+- [x] 5.2 Pełny flow: upload → analizuj → streaming pól → Approve → locked view — a93c211
+- [x] 5.3 AnalysisError: baner błędu z przyciskiem retry — a93c211
+- [x] 5.4 Status LOCKED: formularz zablokowany, decyzja widoczna — a93c211
+- [x] 5.5 Reload na ANALYZED case: baner re-upload → pola widoczne po wgraniu PDF — a93c211
