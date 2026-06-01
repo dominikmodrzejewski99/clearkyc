@@ -77,6 +77,7 @@ function parseSSEMessage(raw: string): ExtractionEvent | null {
     if (eventType === 'FieldExtracted') return { type: 'FieldExtracted', field: payload };
     if (eventType === 'AnalysisComplete') return { type: 'AnalysisComplete', caseId: payload.caseId ?? payload };
     if (eventType === 'AnalysisError') return { type: 'AnalysisError', message: payload.message ?? String(payload) };
+    if (eventType === 'RedFlagsFound') return { type: 'RedFlagsFound', flags: payload.flags ?? [] };
   } catch {
     // ignore malformed JSON
   }

@@ -37,7 +37,7 @@ export class DecisionBarComponent {
       override: overrides[f.fieldName] ?? null,
     }));
 
-    this.decisionService.finalize(caseId, { decision, fields })
+    this.decisionService.finalize(caseId, { decision, fields, red_flags: this.caseStore.redFlags() })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: response => {

@@ -6,5 +6,6 @@ import java.util.List;
 
 public record FinalizeRequest(
         DecisionType decision,
-        List<FieldRecord> fields) {
+        List<FieldRecord> fields,
+        List<Object> red_flags) {
 }

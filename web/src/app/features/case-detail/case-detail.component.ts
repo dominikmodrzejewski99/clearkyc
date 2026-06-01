@@ -5,12 +5,13 @@ import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewe
 import { ExtractionFormComponent } from './components/extraction-form/extraction-form.component';
 import { DecisionBarComponent } from '../../shared/components/decision-bar/decision-bar.component';
 import { SnippetPanelComponent } from '../../shared/components/snippet-panel/snippet-panel.component';
+import { RedFlagListComponent } from './components/red-flag-list/red-flag-list.component';
 import { CaseStore } from '../../core/store/case.store';
 import { CaseService } from '../../core/services/case.service';
 
 @Component({
   selector: 'app-case-detail',
-  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, SnippetPanelComponent],
+  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, SnippetPanelComponent, RedFlagListComponent],
   templateUrl: './case-detail.component.html',
   styleUrl: './case-detail.component.scss',
 })

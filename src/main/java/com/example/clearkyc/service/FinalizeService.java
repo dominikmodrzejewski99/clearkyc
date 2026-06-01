@@ -73,6 +73,9 @@ public class FinalizeService {
         payloadMap.put("decision", request.decision().name());
         payloadMap.put("finalizedAt", now.toString());
         payloadMap.put("fields", request.fields());
+        if (request.red_flags() != null) {
+            payloadMap.put("red_flags", request.red_flags());
+        }
 
         JsonNode payloadNode = objectMapper.valueToTree(payloadMap);
         Set<ValidationMessage> errors = jsonSchema.validate(payloadNode);

@@ -22,10 +22,17 @@ export type ActiveCitation = {
   quote: string;
 };
 
+export type RedFlagItem = {
+  category: string;
+  description: string;
+  citations: Citation[];
+};
+
 export type ExtractionEvent =
   | { type: 'FieldExtracted'; field: ExtractionField }
   | { type: 'AnalysisComplete'; caseId: string }
-  | { type: 'AnalysisError'; message: string };
+  | { type: 'AnalysisError'; message: string }
+  | { type: 'RedFlagsFound'; flags: RedFlagItem[] };
 
 export type CaseDetail = {
   id: string;
@@ -58,6 +65,7 @@ export type FieldRecord = {
 export type FinalizePayload = {
   decision: 'APPROVE' | 'REJECT' | 'ESCALATE';
   fields: FieldRecord[];
+  red_flags?: RedFlagItem[];
 };
 
 export type FinalizeResponse = {

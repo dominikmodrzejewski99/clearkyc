@@ -385,19 +385,19 @@ else if (event.type === 'RedFlagsFound') this.caseStore.setRedFlags(event.flags)
 
 #### Automated
 
-- [x] 3.1 Backend kompiluje: `./mvnw compile`
-- [x] 3.2 Wszystkie testy przechodzą: `./mvnw test`
+- [x] 3.1 Backend kompiluje: `./mvnw compile` — 0e77f5c
+- [x] 3.2 Wszystkie testy przechodzą: `./mvnw test` — 0e77f5c
 
 ### Phase 4: Frontend — modele + CaseStore + RedFlagListComponent + wiring
 
 #### Automated
 
-- [ ] 4.1 Angular build przechodzi: `cd web && npm run build`
+- [x] 4.1 Angular build przechodzi: `cd web && npm run build`
 
 #### Manual
 
-- [ ] 4.2 Sekcja Red Flags niewidoczna podczas streamingu pól
-- [ ] 4.3 Sekcja pojawia się po AnalysisComplete z flagami lub komunikatem "Brak flag"
-- [ ] 4.4 Klik cytowania w red fladze nawiguje PDF do właściwej strony
-- [ ] 4.5 Finalizacja zawiera red_flags w payloadzie (DevTools Network)
-- [ ] 4.6 Re-analyze resetuje red flags
+- [x] 4.2 Sekcja Red Flags niewidoczna podczas streamingu pól
+- [x] 4.3 Sekcja pojawia się po AnalysisComplete z flagami lub komunikatem "Brak flag"
+- [x] 4.4 Klik cytowania w red fladze nawiguje PDF do właściwej strony
+- [x] 4.5 Finalizacja zawiera red_flags w payloadzie (DevTools Network)
+- [x] 4.6 Re-analyze resetuje red flags

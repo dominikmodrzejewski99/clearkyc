@@ -84,6 +84,7 @@ export class ExtractionFormComponent {
 
     this.cancelStream$.next(); // cancel any in-flight stream
     this.caseStore.extractionFields.set([]);
+    this.caseStore.setRedFlags([]);
     this.caseStore.analysisError.set(null);
     this.caseStore.isAnalyzing.set(true);
 
@@ -92,6 +93,7 @@ export class ExtractionFormComponent {
       .subscribe({
         next: event => {
           if (event.type === 'FieldExtracted') this.caseStore.appendField(event.field);
+          else if (event.type === 'RedFlagsFound') this.caseStore.setRedFlags(event.flags);
           else if (event.type === 'AnalysisComplete') this.caseStore.markAnalyzed();
           else if (event.type === 'AnalysisError') this.caseStore.markAnalysisError(event.message);
         },
