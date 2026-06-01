@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 @Service
 public class FinalizeService {
 
-    // Jackson 2.x ObjectMapper used directly — Spring Boot 4 exposes Jackson 3.x bean (tools.jackson)
-    // which is incompatible with networknt json-schema-validator that requires Jackson 2.x API.
+    // TODO(json-schema-validator-jackson3): remove bare ObjectMapper once networknt adds Jackson 3.x support.
+    // Spring Boot 4 exposes a tools.jackson (3.x) bean incompatible with networknt's 2.x API.
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final KybCaseRepository kybCaseRepository;

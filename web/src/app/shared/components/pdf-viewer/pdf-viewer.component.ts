@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnDestroy, ViewChild, effect, input, signal } from '@angular/core';
 import { ActiveCitation } from '../../../core/models/extraction.models';
 
+let pdfjsWorkerInitialized = false;
+
 interface PdfjsTextItem {
   str: string;
   transform: number[];
@@ -58,6 +60,8 @@ export class PdfViewerComponent implements OnDestroy {
     });
   }
 
+  // ngOnDestroy intentional: pdfjs PDFDocumentProxy requires explicit destroy()
+  // calls that are not covered by takeUntilDestroyed (non-observable resources).
   ngOnDestroy(): void {
     this.renderGeneration++;
     this.pdfDocument()?.destroy();
@@ -69,16 +73,20 @@ export class PdfViewerComponent implements OnDestroy {
     const generation = this.renderGeneration;
 
     const pdfjsLib = await import('pdfjs-dist');
-    pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-      'pdfjs-dist/build/pdf.worker.min.mjs',
-      import.meta.url,
-    ).toString();
+    if (!pdfjsWorkerInitialized) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+        'pdfjs-dist/build/pdf.worker.min.mjs',
+        import.meta.url,
+      ).toString();
+      pdfjsWorkerInitialized = true;
+    }
 
     const arrayBuffer = await blob.arrayBuffer();
     const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
     const doc = await loadingTask.promise;
 
-    if (generation !== this.renderGeneration) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (generation !== this.renderGeneration) { (doc as any).destroy(); return; }
 
     this.pdfDocument()?.destroy();
     this.pdfDocument.set(doc);
@@ -108,7 +116,12 @@ export class PdfViewerComponent implements OnDestroy {
       wrapper.appendChild(highlightLayer);
       container.appendChild(wrapper);
 
-      const page = await doc.getPage(i);
+      let page: any;
+      try {
+        page = await doc.getPage(i);
+      } catch {
+        return; // doc destroyed mid-render
+      }
       if (generation !== this.renderGeneration) return;
 
       const viewport = page.getViewport({ scale: this.RENDER_SCALE });

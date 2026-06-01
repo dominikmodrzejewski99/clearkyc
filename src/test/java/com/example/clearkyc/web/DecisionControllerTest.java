@@ -80,6 +80,38 @@ class DecisionControllerTest {
     }
 
     @Test
+    void finalizeCase_withJwt_fieldWithNullOverride_returns200() throws Exception {
+        UUID caseId = UUID.randomUUID();
+        UUID auditId = UUID.randomUUID();
+        when(finalizeService.finalize(any(), any(), any()))
+                .thenReturn(new FinalizeResponse(auditId, "APPROVE", Instant.now()));
+
+        mockMvc.perform(post("/api/cases/{id}/finalize", caseId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"decision":"APPROVE","fields":[{"fieldName":"companyName","value":"Acme Corp","citations":[],"override":null}]}
+                                """)
+                        .with(jwt()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void finalizeCase_withJwt_fieldWithPopulatedOverride_returns200() throws Exception {
+        UUID caseId = UUID.randomUUID();
+        UUID auditId = UUID.randomUUID();
+        when(finalizeService.finalize(any(), any(), any()))
+                .thenReturn(new FinalizeResponse(auditId, "APPROVE", Instant.now()));
+
+        mockMvc.perform(post("/api/cases/{id}/finalize", caseId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"decision":"APPROVE","fields":[{"fieldName":"companyName","value":"Corrected Corp","citations":[],"override":{"originalValue":"Acme Corp","newValue":"Corrected Corp","justification":"Registry shows updated name"}}]}
+                                """)
+                        .with(jwt()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void finalizeCase_withJwt_invalidSchemaPayload_returns422() throws Exception {
         when(finalizeService.finalize(any(), any(), any()))
                 .thenThrow(new ResponseStatusException(UNPROCESSABLE_ENTITY, "Schema validation failed"));

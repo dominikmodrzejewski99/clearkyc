@@ -1,5 +1,7 @@
-import { Component, OnDestroy, inject, signal } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CitationBadgeComponent } from '../../../../shared/components/citation-badge/citation-badge.component';
 import { CaseStore } from '../../../../core/store/case.store';
 import { ExtractionStreamService } from '../../../../core/services/extraction-stream.service';
@@ -11,11 +13,11 @@ import { ExtractionField } from '../../../../core/models/extraction.models';
   templateUrl: './extraction-form.component.html',
   styleUrl: './extraction-form.component.scss',
 })
-export class ExtractionFormComponent implements OnDestroy {
+export class ExtractionFormComponent {
   protected readonly caseStore = inject(CaseStore);
   private readonly streamService = inject(ExtractionStreamService);
-
-  private streamSub: Subscription | null = null;
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly cancelStream$ = new Subject<void>();
 
   protected readonly editingField = signal<string | null>(null);
   protected readonly editDraft = signal<string>('');
@@ -80,22 +82,20 @@ export class ExtractionFormComponent implements OnDestroy {
     const pdfBlob = this.caseStore.pdfBlob();
     if (!caseId || !pdfBlob) return;
 
-    this.streamSub?.unsubscribe();
+    this.cancelStream$.next(); // cancel any in-flight stream
     this.caseStore.extractionFields.set([]);
     this.caseStore.analysisError.set(null);
     this.caseStore.isAnalyzing.set(true);
 
-    this.streamSub = this.streamService.streamAnalysis(caseId, pdfBlob as File).subscribe({
-      next: event => {
-        if (event.type === 'FieldExtracted') this.caseStore.appendField(event.field);
-        else if (event.type === 'AnalysisComplete') this.caseStore.markAnalyzed();
-        else if (event.type === 'AnalysisError') this.caseStore.markAnalysisError(event.message);
-      },
-      error: () => this.caseStore.markAnalysisError('Błąd połączenia ze strumieniem analizy.'),
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.streamSub?.unsubscribe();
+    this.streamService.streamAnalysis(caseId, pdfBlob as File)
+      .pipe(takeUntil(this.cancelStream$), takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: event => {
+          if (event.type === 'FieldExtracted') this.caseStore.appendField(event.field);
+          else if (event.type === 'AnalysisComplete') this.caseStore.markAnalyzed();
+          else if (event.type === 'AnalysisError') this.caseStore.markAnalysisError(event.message);
+        },
+        error: () => this.caseStore.markAnalysisError('Błąd połączenia ze strumieniem analizy.'),
+      });
   }
 }

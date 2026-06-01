@@ -80,6 +80,7 @@
                       class="extraction-form__override-badge"
                       (click)="toggleOverrideDetail(field.fieldName)"
                       title="Nadpisane przez analityka — kliknij aby zobaczyć szczegóły"
+                      aria-label="Pokaż szczegóły nadpisania"
                     >✏</button>
                   }
                   @if (caseStore.caseStatus() === 'ANALYZED' && !caseStore.isAnalyzing() && !editingField()) {
@@ -88,6 +89,7 @@
                       class="extraction-form__field-edit-btn"
                       (click)="startEdit(field)"
                       title="Edytuj pole"
+                      aria-label="Edytuj wartość pola"
                     >✏</button>
                   }
                 </div>

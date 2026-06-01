@@ -24,6 +24,8 @@ export class CaseDetailComponent implements OnInit {
     if (this.caseStore.caseId() !== id) {
       this.caseStore.reset();
       this.caseStore.caseId.set(id);
+    } else {
+      this.caseStore.isAnalyzing.set(false);
     }
     this.caseService.getCase(id).subscribe({
       next: response => this.caseStore.caseStatus.set(response.status),
