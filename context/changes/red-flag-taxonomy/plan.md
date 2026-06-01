@@ -392,12 +392,12 @@ else if (event.type === 'RedFlagsFound') this.caseStore.setRedFlags(event.flags)
 
 #### Automated
 
-- [x] 4.1 Angular build przechodzi: `cd web && npm run build`
+- [x] 4.1 Angular build przechodzi: `cd web && npm run build` — a23e41a
 
 #### Manual
 
-- [x] 4.2 Sekcja Red Flags niewidoczna podczas streamingu pól
-- [x] 4.3 Sekcja pojawia się po AnalysisComplete z flagami lub komunikatem "Brak flag"
-- [x] 4.4 Klik cytowania w red fladze nawiguje PDF do właściwej strony
-- [x] 4.5 Finalizacja zawiera red_flags w payloadzie (DevTools Network)
-- [x] 4.6 Re-analyze resetuje red flags
+- [x] 4.2 Sekcja Red Flags niewidoczna podczas streamingu pól — a23e41a
+- [x] 4.3 Sekcja pojawia się po AnalysisComplete z flagami lub komunikatem "Brak flag" — a23e41a
+- [x] 4.4 Klik cytowania w red fladze nawiguje PDF do właściwej strony — a23e41a
+- [x] 4.5 Finalizacja zawiera red_flags w payloadzie (DevTools Network) — a23e41a
+- [x] 4.6 Re-analyze resetuje red flags — a23e41a

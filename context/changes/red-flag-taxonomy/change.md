@@ -1,7 +1,7 @@
 ---
 change_id: red-flag-taxonomy
 title: Red flag detection with placeholder taxonomy (S-03)
-status: implementing
+status: implemented
 created: 2026-06-01
 updated: 2026-06-01
 archived_at: null
