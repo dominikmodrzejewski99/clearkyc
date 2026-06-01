@@ -15,5 +15,6 @@ export class CitationBadgeComponent {
 
   protected navigate(): void {
     this.caseStore.activePage.set(this.citation().page);
+    this.caseStore.activeQuote.set({ page: this.citation().page, quote: this.citation().quote });
   }
 }

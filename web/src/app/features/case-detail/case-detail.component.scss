@@ -41,3 +41,10 @@
   height: 100%;
   overflow: hidden;
 }
+
+.pdf-pane-inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

@@ -16,11 +16,14 @@
 }
 
 <app-layout>
-  <app-pdf-viewer
-    slot="pdf"
-    [pdfBlob]="caseStore.pdfBlob()"
-    [targetPage]="caseStore.activePage()"
-  />
+  <div slot="pdf" class="pdf-pane-inner">
+    <app-pdf-viewer
+      [pdfBlob]="caseStore.pdfBlob()"
+      [targetPage]="caseStore.activePage()"
+      [activeQuote]="caseStore.activeQuote()"
+    />
+    <app-snippet-panel />
+  </div>
   <div slot="form" class="form-pane">
     <app-extraction-form />
     <app-decision-bar />

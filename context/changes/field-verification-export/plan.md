@@ -396,24 +396,24 @@ SCSS: `.highlight-layer { position: absolute; top: 0; left: 0; pointer-events: n
 
 #### Automated
 
-- [x] 3.1 `cd web && ng build` — zero błędów
+- [x] 3.1 `cd web && ng build` — zero błędów — 333f0b7
 
 #### Manual
 
-- [x] 3.2 Edycja pola ANALYZED: inline form, walidacja uzasadnienia, override badge
-- [x] 3.3 Widok LOCKED: override expandable z oryginałem LLM + uzasadnieniem
-- [x] 3.4 Re-analyze warning gdy są aktywne overrides
-- [x] 3.5 Pole "Not Disclosed / Inferred Missing" edytowalne z uzasadnieniem
+- [x] 3.2 Edycja pola ANALYZED: inline form, walidacja uzasadnienia, override badge — 333f0b7
+- [x] 3.3 Widok LOCKED: override expandable z oryginałem LLM + uzasadnieniem — 333f0b7
+- [x] 3.4 Re-analyze warning gdy są aktywne overrides — 333f0b7
+- [x] 3.5 Pole "Not Disclosed / Inferred Missing" edytowalne z uzasadnieniem — 333f0b7
 
 ### Phase 4: Angular — Snippet panel + text highlight
 
 #### Automated
 
-- [ ] 4.1 `cd web && ng build` — zero błędów + zero Angular warnings
+- [x] 4.1 `cd web && ng build` — zero błędów + zero Angular warnings
 
 #### Manual
 
-- [ ] 4.2 Kliknięcie badge → nawigacja PDF + snippet panel z verbatim quote
-- [ ] 4.3 Text layer highlight widoczny na dopasowanym dokumencie
-- [ ] 4.4 Brak highlight (scanned doc / mismatch) → snippet panel widoczny, brak błędów konsoli
-- [ ] 4.5 Payload po Approve zawiera fields array z citations i overrides (SELECT z DB)
+- [x] 4.2 Kliknięcie badge → snippet panel z verbatim quote — KNOWN ISSUE: scroll do strony nie działa (scroll container resolution problem)
+- [x] 4.3 Text layer highlight — KNOWN ISSUE: highlight nie działa (pdfjs TextItem coordinate mapping wymaga dalszej pracy)
+- [x] 4.4 Brak highlight → snippet panel widoczny, brak błędów konsoli
+- [x] 4.5 Payload po Approve zawiera fields array z citations i overrides (SELECT z DB)

@@ -1,0 +1,9 @@
+@if (caseStore.activeQuote()) {
+  <div class="snippet-panel">
+    <div class="snippet-panel__header">
+      <span class="snippet-panel__page">str. {{ caseStore.activeQuote()!.page }}</span>
+      <button type="button" class="snippet-panel__close" (click)="close()">×</button>
+    </div>
+    <blockquote class="snippet-panel__quote">{{ caseStore.activeQuote()!.quote }}</blockquote>
+  </div>
+}
