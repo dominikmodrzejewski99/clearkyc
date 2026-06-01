@@ -441,25 +441,25 @@ Resizable + collapsible split-panel (pure JS). `PdfViewerComponent` (pdfjs-dist 
 
 #### Automated
 
-- [x] 4.1 `cd web && npm install` — pdfjs-dist zainstalowane
-- [x] 4.2 `cd web && ng build` — zero błędów
+- [x] 4.1 `cd web && npm install` — pdfjs-dist zainstalowane — 410ca9a
+- [x] 4.2 `cd web && ng build` — zero błędów — 410ca9a
 
 #### Manual
 
-- [x] 4.3 Lewy pane renderuje PDF po redirect z CaseNew
-- [x] 4.4 Drag resizera: szerokość zmienia się, respektuje min-width
-- [x] 4.5 Przycisk collapse: pane zwija/rozwija się
-- [x] 4.6 Reload strony: baner re-upload widoczny; po wyborze pliku PDF renderuje
+- [x] 4.3 Lewy pane renderuje PDF po redirect z CaseNew — 410ca9a
+- [x] 4.4 Drag resizera: szerokość zmienia się, respektuje min-width — 410ca9a
+- [x] 4.5 Przycisk collapse: pane zwija/rozwija się — 410ca9a
+- [x] 4.6 Reload strony: baner re-upload widoczny; po wyborze pliku PDF renderuje — 410ca9a
 
 ### Phase 5: ExtractionForm + streaming + decision
 
 #### Automated
 
-- [ ] 5.1 `cd web && ng build` — zero błędów + zero Angular warnings
+- [x] 5.1 `cd web && ng build` — zero błędów + zero Angular warnings
 
 #### Manual
 
-- [ ] 5.2 Pełny flow: upload → analizuj → streaming pól → Approve → locked view
-- [ ] 5.3 AnalysisError: baner błędu z przyciskiem retry
-- [ ] 5.4 Status LOCKED: formularz zablokowany, decyzja widoczna
-- [ ] 5.5 Reload na ANALYZED case: baner re-upload → pola widoczne po wgraniu PDF
+- [x] 5.2 Pełny flow: upload → analizuj → streaming pól → Approve → locked view
+- [x] 5.3 AnalysisError: baner błędu z przyciskiem retry
+- [x] 5.4 Status LOCKED: formularz zablokowany, decyzja widoczna
+- [x] 5.5 Reload na ANALYZED case: baner re-upload → pola widoczne po wgraniu PDF

@@ -1,0 +1,54 @@
+<div class="extraction-form">
+  @if (caseStore.caseStatus() === 'CREATED' || (caseStore.caseStatus() === 'ANALYZED' && caseStore.analysisError())) {
+    <div class="extraction-form__actions">
+      <button
+        class="extraction-form__analyze-btn"
+        [disabled]="caseStore.isAnalyzing() || !caseStore.pdfBlob()"
+        (click)="startAnalysis()"
+        type="button"
+      >
+        {{ caseStore.isAnalyzing() ? 'Analizowanie...' : 'Analizuj' }}
+      </button>
+    </div>
+  }
+
+  @if (caseStore.analysisError()) {
+    <div class="extraction-form__error-banner">
+      <p>{{ caseStore.analysisError() }}</p>
+      <button type="button" (click)="startAnalysis()">Analizuj ponownie</button>
+    </div>
+  }
+
+  @if (caseStore.extractionFields().length > 0) {
+    <table class="extraction-form__table">
+      <thead>
+        <tr>
+          <th>Pole</th>
+          <th>Wartość</th>
+          <th>Cytowania</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (field of caseStore.extractionFields(); track field.fieldName) {
+          <tr class="extraction-form__row" [class.extraction-form__row--streaming]="caseStore.isAnalyzing()">
+            <td class="extraction-form__field-name">{{ field.fieldName }}</td>
+            <td class="extraction-form__field-value" [class.extraction-form__field-value--missing]="field.value === 'Not Disclosed / Inferred Missing'">
+              {{ field.value }}
+            </td>
+            <td class="extraction-form__citations">
+              @for (citation of field.citations; track $index) {
+                <app-citation-badge [citation]="citation" [index]="$index + 1" />
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (caseStore.caseStatus() === 'LOCKED') {
+    <div class="extraction-form__locked">
+      Sprawa zakończona — decyzja zablokowana.
+    </div>
+  }
+</div>

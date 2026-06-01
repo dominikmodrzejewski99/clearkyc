@@ -2,12 +2,14 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AppLayoutComponent } from '../../layout/app-layout/app-layout.component';
 import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewer.component';
+import { ExtractionFormComponent } from './components/extraction-form/extraction-form.component';
+import { DecisionBarComponent } from '../../shared/components/decision-bar/decision-bar.component';
 import { CaseStore } from '../../core/store/case.store';
 import { CaseService } from '../../core/services/case.service';
 
 @Component({
   selector: 'app-case-detail',
-  imports: [AppLayoutComponent, PdfViewerComponent],
+  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent],
   templateUrl: './case-detail.component.html',
   styleUrl: './case-detail.component.scss',
 })

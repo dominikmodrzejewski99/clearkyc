@@ -35,11 +35,9 @@
   }
 }
 
-.form-placeholder {
-  height: 100%;
+.form-pane {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-tertiary);
-  font-style: italic;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }

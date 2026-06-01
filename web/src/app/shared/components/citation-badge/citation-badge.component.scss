@@ -1,0 +1,20 @@
+.citation {
+  display: inline;
+  cursor: pointer;
+
+  &__marker {
+    color: var(--citation-marker, #2563eb);
+    background: var(--citation-bg, #eff6ff);
+    border: 1px solid var(--citation-border, #bfdbfe);
+    border-radius: 3px;
+    padding: 0 3px;
+    font-size: 0.65em;
+    font-weight: 600;
+    text-decoration: underline dotted;
+    vertical-align: super;
+
+    &:hover {
+      background: var(--citation-bg, #dbeafe);
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@if (caseStore.caseStatus() === 'LOCKED') {
+  <div class="decision-bar decision-bar--locked">
+    Sprawa zablokowana — decyzja: <strong>{{ lockedDecision() ?? caseStore.caseStatus() }}</strong>
+  </div>
+} @else if (caseStore.caseStatus() === 'ANALYZED') {
+  <div class="decision-bar">
+    @if (submitError()) {
+      <p class="decision-bar__error">{{ submitError() }}</p>
+    }
+    <div class="decision-bar__buttons">
+      <button
+        class="decision-bar__btn decision-bar__btn--approve"
+        [disabled]="isSubmitting()"
+        (click)="submit('APPROVE')"
+        type="button"
+      >Approve</button>
+      <button
+        class="decision-bar__btn decision-bar__btn--reject"
+        [disabled]="isSubmitting()"
+        (click)="submit('REJECT')"
+        type="button"
+      >Reject</button>
+      <button
+        class="decision-bar__btn decision-bar__btn--escalate"
+        [disabled]="isSubmitting()"
+        (click)="submit('ESCALATE')"
+        type="button"
+      >Escalate</button>
+    </div>
+  </div>
+}

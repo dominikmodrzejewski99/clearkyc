@@ -1,0 +1,53 @@
+.decision-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-default);
+  background: var(--surface-raised);
+  flex-shrink: 0;
+
+  &--locked {
+    justify-content: center;
+    background: var(--surface-sunken);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  &__error {
+    margin: 0;
+    color: var(--state-error, #ef4444);
+    font-size: 0.8rem;
+    flex: 1;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: var(--radius-sm, 4px);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #fff;
+    transition: opacity 150ms ease;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover {
+      opacity: 0.85;
+    }
+
+    &--approve { background: var(--approve-solid, #16a34a); }
+    &--reject  { background: var(--reject-solid, #dc2626); }
+    &--escalate { background: var(--escalate-solid, #d97706); }
+  }
+}

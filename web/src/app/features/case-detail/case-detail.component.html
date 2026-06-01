@@ -21,7 +21,8 @@
     [pdfBlob]="caseStore.pdfBlob()"
     [targetPage]="caseStore.activePage()"
   />
-  <div slot="form" class="form-placeholder">
-    <!-- Phase 5: ExtractionForm + DecisionBar -->
+  <div slot="form" class="form-pane">
+    <app-extraction-form />
+    <app-decision-bar />
   </div>
 </app-layout>
