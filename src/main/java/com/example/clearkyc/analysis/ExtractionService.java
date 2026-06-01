@@ -22,6 +22,7 @@ import reactor.core.publisher.Flux;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.springframework.http.codec.ServerSentEvent;
@@ -30,6 +31,7 @@ import org.springframework.http.codec.ServerSentEvent;
 public class ExtractionService {
 
     private static final Logger log = LoggerFactory.getLogger(ExtractionService.class);
+    private static final int MAX_LINE_BYTES = 512_000;
 
     private static final String SYSTEM_PROMPT = """
             You are a KYB (Know Your Business) analyst assistant.
@@ -66,12 +68,10 @@ public class ExtractionService {
         return Flux.defer(() -> {
             KybCase kybCase = caseRepository.findById(caseId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            // PRD: single analyst per case — concurrent access to same caseId is not expected
             if (kybCase.getStatus() != CaseStatus.CREATED) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Case must be in CREATED state");
             }
-            kybCase.setStatus(CaseStatus.ANALYZING);
-            caseRepository.save(kybCase);
-
             byte[] pdfBytes;
             try {
                 pdfBytes = pdfFile.getBytes();
@@ -79,10 +79,13 @@ public class ExtractionService {
                 return Flux.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to read PDF"));
             }
 
+            kybCase.setStatus(CaseStatus.ANALYZING);
+            caseRepository.save(kybCase);
+
             Media pdfMedia = Media.builder()
                     .mimeType(MimeTypeUtils.parseMimeType("application/pdf"))
                     .data(new ByteArrayResource(pdfBytes))
-                    .name(pdfFile.getOriginalFilename())
+                    .name("document.pdf")
                     .build();
 
             UserMessage userMessage = UserMessage.builder()
@@ -93,12 +96,17 @@ public class ExtractionService {
             Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
 
             AtomicReference<StringBuilder> buf = new AtomicReference<>(new StringBuilder());
+            AtomicBoolean hadError = new AtomicBoolean(false);
 
             Flux<ExtractionEvent> eventFlux = chatModel.stream(prompt)
                     .mapNotNull(r -> r.getResult() != null ? r.getResult().getOutput().getText() : null)
                     .flatMapIterable(token -> {
-                        buf.get().append(token);
-                        String s = buf.get().toString();
+                        var sb = buf.get();
+                        sb.append(token);
+                        if (sb.length() > MAX_LINE_BYTES) {
+                            throw new IllegalStateException("LLM response line exceeded buffer limit — unexpected response format");
+                        }
+                        String s = sb.toString();
                         int nl = s.lastIndexOf('\n');
                         if (nl < 0) return List.of();
                         List<String> lines = Arrays.asList(s.substring(0, nl).split("\n"));
@@ -114,9 +122,13 @@ public class ExtractionService {
                         }
                     })
                     .concatWith(Flux.just(new ExtractionEvent.AnalysisComplete(caseId.toString())))
-                    .onErrorResume(e -> Flux.just(new ExtractionEvent.AnalysisError("EXTRACTION_ERROR", e.getMessage())))
+                    .onErrorResume(e -> {
+                        hadError.set(true);
+                        return Flux.just(new ExtractionEvent.AnalysisError("EXTRACTION_ERROR", e.getMessage()));
+                    })
+                    // On error: revert to CREATED so analyst can re-submit; on success: ANALYZED
                     .doFinally(s -> {
-                        kybCase.setStatus(CaseStatus.ANALYZED);
+                        kybCase.setStatus(hadError.get() ? CaseStatus.CREATED : CaseStatus.ANALYZED);
                         caseRepository.save(kybCase);
                     });
 

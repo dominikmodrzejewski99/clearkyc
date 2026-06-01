@@ -90,7 +90,7 @@ Dodanie Spring AI 2.0 BOM i Anthropic startera do `pom.xml`, konfiguracja kluczy
 
 **Intent**: Dodać Spring AI Bill of Materials do `<dependencyManagement>` i Anthropic starter do `<dependencies>`. Spring AI BOM nie jest zarządzany przez Spring Boot BOM — wymaga osobnego importu.
 
-**Contract**: W `<dependencyManagement>`, przed lub po istniejących wpisach, dodać import `org.springframework.ai:spring-ai-bom:2.0.0` (type `pom`, scope `import`). W `<dependencies>` dodać `org.springframework.ai:spring-ai-starter-model-anthropic` bez wersji (zarządzana przez BOM). Nie dodawać `spring-boot-starter-webflux` — nie jest potrzebny.
+**Contract**: W `<dependencyManagement>`, dodać import `org.springframework.ai:spring-ai-bom:2.0.0-M8` (type `pom`, scope `import`). W `<dependencies>` dodać `org.springframework.ai:spring-ai-starter-model-google-genai` bez wersji (zarządzana przez BOM). Nie dodawać `spring-boot-starter-webflux` — nie jest potrzebny. **Adaptacja**: użyto Google GenAI (klucz AI Studio) zamiast Anthropic; BOM 2.0.0-M8 (GA 2.0.0 niedostępne w Maven Central na dzień implementacji).
 
 #### 2. Spring AI API key + multipart limits
 
@@ -98,11 +98,10 @@ Dodanie Spring AI 2.0 BOM i Anthropic startera do `pom.xml`, konfiguracja kluczy
 
 **Intent**: Dodać klucze konfiguracyjne Spring AI (model, limit tokenów, klucz API z env var) oraz zwiększyć limity multipart Spring MVC — domyślne 1MB jest za małe dla 50-stronicowych PDF.
 
-**Contract**: Dołączyć poniższe klucze (po istniejących wpisach datasource):
+**Contract**: Dołączyć poniższe klucze (po istniejących wpisach datasource). **Adaptacja**: Google GenAI zamiast Anthropic:
 ```properties
-spring.ai.anthropic.api-key=${ANTHROPIC_API_KEY}
-spring.ai.anthropic.chat.options.model=claude-sonnet-4-6
-spring.ai.anthropic.chat.options.max-tokens=8192
+spring.ai.google.genai.api-key=${GOOGLE_GENAI_API_KEY}
+spring.ai.google.genai.chat.model=gemini-2.5-pro
 spring.servlet.multipart.max-file-size=20MB
 spring.servlet.multipart.max-request-size=25MB
 ```
@@ -113,7 +112,7 @@ spring.servlet.multipart.max-request-size=25MB
 
 **Intent**: Udostępnić klucz Anthropic API w lokalnym profilu dev bez commitowania go do repo.
 
-**Contract**: Dołączyć linię `ANTHROPIC_API_KEY=<twój-klucz>` (wartość: prawdziwy klucz dewelopera).
+**Contract**: Dołączyć linię `GOOGLE_GENAI_API_KEY=<twój-klucz-ai-studio>` (wartość: klucz z Google AI Studio).
 
 #### 4. Przykładowy klucz w szablonie
 
@@ -121,7 +120,7 @@ spring.servlet.multipart.max-request-size=25MB
 
 **Intent**: Zaktualizować szablon dev properties tak, by deweloper wiedział, że potrzebuje klucza Anthropic.
 
-**Contract**: Dołączyć linię `ANTHROPIC_API_KEY=your-anthropic-api-key-here`.
+**Contract**: Dołączyć linię `GOOGLE_GENAI_API_KEY=your-google-ai-studio-api-key-here`.
 
 #### 5. Wyłączenie Spring AI autoconfiguration w testach
 
@@ -129,10 +128,10 @@ spring.servlet.multipart.max-request-size=25MB
 
 **Intent**: Zapobiec próbie inicjalizacji `AnthropicChatModel` w testach (Anthropic SDK waliduje klucz — `test-key` nie przejdzie walidacji formatu). Testy klas usług używają `@MockitoBean ChatModel`.
 
-**Contract**: Dołączyć klucze:
+**Contract**: Dołączyć klucze. **Adaptacja**: klasa wykluczenia zmieniona na Google GenAI:
 ```properties
-spring.ai.anthropic.api-key=test-key
-spring.autoconfigure.exclude=org.springframework.ai.autoconfigure.anthropic.AnthropicAutoConfiguration
+spring.ai.google.genai.api-key=test-key
+spring.autoconfigure.exclude=org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration
 ```
 
 #### 6. @MockitoBean ChatModel w teście kontekstu
