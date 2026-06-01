@@ -381,20 +381,20 @@ Pięć testów (wzorzec z `SecurityConfigTest.java`):
 
 #### Automated
 
-- [x] 2.1 `./mvnw compile` — zero błędów dla nowych klas Analysis
-- [x] 2.2 `./mvnw test` — 9 testów zielonych (contextLoads z ExtractionService w kontekście)
+- [x] 2.1 `./mvnw compile` — zero błędów dla nowych klas Analysis — 62e36a7
+- [x] 2.2 `./mvnw test` — 9 testów zielonych (contextLoads z ExtractionService w kontekście) — 62e36a7
 
 #### Manual
 
-- [x] 2.3 IDE: brak błędów importu w `ExtractionEvent.java`, `Citation.java`, `ExtractionService.java`
+- [x] 2.3 IDE: brak błędów importu w `ExtractionEvent.java`, `Citation.java`, `ExtractionService.java` — 62e36a7
 
 ### Phase 3: ExtractionController + Tests
 
 #### Automated
 
-- [ ] 3.1 `./mvnw compile`
-- [ ] 3.2 `./mvnw test` — wszystkie testy zielone (9 istniejących + 5 ExtractionControllerTest)
-- [ ] 3.3 `./mvnw verify` — compile + test + package
+- [x] 3.1 `./mvnw compile`
+- [x] 3.2 `./mvnw test` — wszystkie testy zielone (9 istniejących + 5 ExtractionControllerTest)
+- [x] 3.3 `./mvnw verify` — compile + test + package
 
 #### Manual
 

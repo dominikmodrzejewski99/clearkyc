@@ -1,5 +1,6 @@
 package com.example.clearkyc.security;
 
+import com.example.clearkyc.analysis.ExtractionService;
 import com.example.clearkyc.config.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ class SecurityConfigTest {
 
     @MockitoBean
     private JwtDecoder jwtDecoder;
+
+    @MockitoBean
+    private ExtractionService extractionService;
 
     @Test
     void actuatorHealth_isPublic() throws Exception {
