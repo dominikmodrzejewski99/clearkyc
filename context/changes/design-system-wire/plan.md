@@ -188,11 +188,11 @@ Confirm exact file names against the installed package before editing. Typical @
 
 #### Automated
 
-- [x] 2.1 `npm install` succeeds with @fontsource packages added
-- [x] 2.2 `ng build` succeeds without font asset errors
+- [x] 2.1 `npm install` succeeds with @fontsource packages added — 6ce1f8c
+- [x] 2.2 `ng build` succeeds without font asset errors — 6ce1f8c
 
 #### Manual
 
-- [x] 2.3 No requests to `fonts.googleapis.com` in DevTools Network tab
-- [x] 2.4 Body `font-family` resolves to IBM Plex Sans in DevTools Computed
-- [x] 2.5 IBM Plex Sans renders correctly with network throttled to Offline
+- [x] 2.3 No requests to `fonts.googleapis.com` in DevTools Network tab — 6ce1f8c
+- [x] 2.4 Body `font-family` resolves to IBM Plex Sans in DevTools Computed — 6ce1f8c
+- [x] 2.5 IBM Plex Sans renders correctly with network throttled to Offline — 6ce1f8c

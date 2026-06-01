@@ -1,7 +1,7 @@
 ---
 id: design-system-wire
 title: Design System Wire
-status: implementing
+status: implemented
 created: 2026-06-01
 updated: 2026-06-01
 roadmap_id: F-05
