@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { CaseStatus, ExtractionField } from '../models/extraction.models';
+import { ActiveCitation, CaseStatus, ExtractionField, FieldOverride } from '../models/extraction.models';
 
 @Injectable({ providedIn: 'root' })
 export class CaseStore {
@@ -10,6 +10,8 @@ export class CaseStore {
   readonly isAnalyzing = signal<boolean>(false);
   readonly activePage = signal<number>(1);
   readonly analysisError = signal<string | null>(null);
+  readonly fieldOverrides = signal<Record<string, FieldOverride>>({});
+  readonly activeQuote = signal<ActiveCitation | null>(null);
 
   reset(): void {
     this.caseId.set(null);
@@ -19,10 +21,24 @@ export class CaseStore {
     this.isAnalyzing.set(false);
     this.activePage.set(1);
     this.analysisError.set(null);
+    this.fieldOverrides.set({});
+    this.activeQuote.set(null);
   }
 
   appendField(field: ExtractionField): void {
     this.extractionFields.update(fields => [...fields, field]);
+  }
+
+  setOverride(fieldName: string, override: FieldOverride): void {
+    this.fieldOverrides.update(m => ({ ...m, [fieldName]: override }));
+  }
+
+  clearOverride(fieldName: string): void {
+    this.fieldOverrides.update(m => {
+      const next = { ...m };
+      delete next[fieldName];
+      return next;
+    });
   }
 
   markAnalysisError(message: string): void {

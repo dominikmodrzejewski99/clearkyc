@@ -373,24 +373,24 @@ SCSS: `.highlight-layer { position: absolute; top: 0; left: 0; pointer-events: n
 
 #### Automated
 
-- [x] 1.1 `./mvnw compile` — zero błędów
-- [x] 1.2 `./mvnw test` — wszystkie testy zielone
-- [x] 1.3 `./mvnw verify` — clean build
+- [x] 1.1 `./mvnw compile` — zero błędów — b9dfd57
+- [x] 1.2 `./mvnw test` — wszystkie testy zielone — b9dfd57
+- [x] 1.3 `./mvnw verify` — clean build — b9dfd57
 
 #### Manual
 
-- [x] 1.4 POST /finalize z fields array → 200; payload bez fields → 422; ponowne finalize → 409
+- [x] 1.4 POST /finalize z fields array → 200; payload bez fields → 422; ponowne finalize → 409 — b9dfd57
 
 ### Phase 2: Angular — Models + CaseStore + FinalizePayload
 
 #### Automated
 
-- [ ] 2.1 `cd web && ng build` — zero błędów TypeScript strict
+- [x] 2.1 `cd web && ng build` — zero błędów TypeScript strict
 
 #### Manual
 
-- [ ] 2.2 DevTools Console — brak błędów po zalogowaniu
-- [ ] 2.3 Angular DevTools — fieldOverrides i activeQuote widoczne w CaseStore
+- [x] 2.2 DevTools Console — brak błędów po zalogowaniu
+- [x] 2.3 Angular DevTools — fieldOverrides i activeQuote widoczne w CaseStore
 
 ### Phase 3: Angular — Inline field edit UI
 

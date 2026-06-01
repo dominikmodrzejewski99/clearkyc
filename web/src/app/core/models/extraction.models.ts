@@ -11,11 +11,15 @@ export type ExtractionField = {
   citations: Citation[];
 };
 
-export type Override = {
-  fieldName: string;
+export type FieldOverride = {
   originalValue: string;
-  overriddenValue: string;
+  newValue: string;
   justification: string;
+};
+
+export type ActiveCitation = {
+  page: number;
+  quote: string;
 };
 
 export type ExtractionEvent =
@@ -44,10 +48,16 @@ export type CreateCaseResponse = {
   createdAt: string;
 };
 
+export type FieldRecord = {
+  fieldName: string;
+  value: string;
+  citations: Citation[];
+  override?: FieldOverride | null;
+};
+
 export type FinalizePayload = {
   decision: 'APPROVE' | 'REJECT' | 'ESCALATE';
-  extractedData: Record<string, unknown>;
-  overrideJustifications: Record<string, string>;
+  fields: FieldRecord[];
 };
 
 export type FinalizeResponse = {

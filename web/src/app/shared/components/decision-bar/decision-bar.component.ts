@@ -2,6 +2,7 @@ import { Component, DestroyRef, EventEmitter, Output, inject, signal } from '@an
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaseStore } from '../../../core/store/case.store';
 import { DecisionService } from '../../../core/services/decision.service';
+import { FieldRecord } from '../../../core/models/extraction.models';
 
 type Decision = 'APPROVE' | 'REJECT' | 'ESCALATE';
 
@@ -28,25 +29,27 @@ export class DecisionBarComponent {
     this.isSubmitting.set(true);
     this.submitError.set(null);
 
-    const extractedData = Object.fromEntries(
-      this.caseStore.extractionFields().map(f => [f.fieldName, f.value]),
-    );
+    const overrides = this.caseStore.fieldOverrides();
+    const fields: FieldRecord[] = this.caseStore.extractionFields().map(f => ({
+      fieldName: f.fieldName,
+      value: overrides[f.fieldName]?.newValue ?? f.value,
+      citations: f.citations,
+      override: overrides[f.fieldName] ?? null,
+    }));
 
-    this.decisionService.finalize(caseId, {
-      decision,
-      extractedData,
-      overrideJustifications: {},
-    }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: response => {
-        this.lockedDecision.set(response.decision);
-        this.caseStore.markLocked();
-        this.decided.emit(decision);
-        this.isSubmitting.set(false);
-      },
-      error: () => {
-        this.submitError.set('Nie udało się zapisać decyzji. Spróbuj ponownie.');
-        this.isSubmitting.set(false);
-      },
-    });
+    this.decisionService.finalize(caseId, { decision, fields })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: response => {
+          this.lockedDecision.set(response.decision);
+          this.caseStore.markLocked();
+          this.decided.emit(decision);
+          this.isSubmitting.set(false);
+        },
+        error: () => {
+          this.submitError.set('Nie udało się zapisać decyzji. Spróbuj ponownie.');
+          this.isSubmitting.set(false);
+        },
+      });
   }
 }
