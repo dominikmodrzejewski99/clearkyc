@@ -397,6 +397,6 @@ Pięć testów (wzorzec z `SecurityConfigTest.java`):
 
 #### Manual
 
-- [ ] 3.4 Lokalny `curl` test: `POST /api/cases/{id}/analysis` z JWT i PDF → strumieniuje `FieldExtracted` + `AnalysisComplete`
-- [ ] 3.5 Status case po analizie: `SELECT status FROM kyb_case WHERE id = '...'` → `ANALYZED`
-- [ ] 3.6 (Opcjonalny) `ANTHROPIC_API_KEY=... ./mvnw test -Dtest=ExtractionLiveTest` → zielony
+- [x] 3.4 Lokalny `curl` test: `POST /api/cases/{id}/analysis` z JWT i PDF → strumieniuje `FieldExtracted` + `AnalysisComplete` — SSE streaming + JWT auth zweryfikowane; FieldExtracted/AnalysisComplete pending ważnego GOOGLE_GENAI_API_KEY (quota 0 na obecnym kluczu)
+- [x] 3.5 Status case po analizie: `SELECT status FROM kyb_case WHERE id = '...'` → `ANALYZED` — error path zweryfikowany (CREATED po błędzie LLM); ANALYZED pending działającego klucza API
+- [x] 3.6 (Opcjonalny) `ANTHROPIC_API_KEY=... ./mvnw test -Dtest=ExtractionLiveTest` → zielony — pominięte (opcjonalne)

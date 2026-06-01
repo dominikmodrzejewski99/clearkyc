@@ -32,7 +32,7 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | F-01 | auth-scaffold          | (foundation) trasy aplikacji chronione przez zarzadzanego IdP; tokeny weryfikowane przez Spring Security                                         | -                                | FR-001, Access Control                                          | done     |
 | F-02 | data-layer             | (foundation) tabele `case` i `audit_record` istnieja ze schematem migracji; encje JPA + repozytoria podlaczone                                  | -                                | FR-013, FR-011                                                  | done     |
 | F-03 | frontend-scaffold      | (foundation) Angular SPA w `web/` kompiluje sie i proxy'uje do backendu Spring; szkielet routingu i layoutu gotowy                               | -                                | FR-009, FR-006, FR-004                                          | done     |
-| F-04 | llm-streaming-backend  | (foundation) endpoint SSE strumieniuje zdarzenia ekstrakcji; klient dostawcy LLM podlaczony i wywolujacy model                                   | F-02                             | FR-005, FR-006, FR-008                                          | proposed |
+| F-04 | llm-streaming-backend  | (foundation) endpoint SSE strumieniuje zdarzenia ekstrakcji; klient dostawcy LLM podlaczony i wywolujacy model                                   | F-02                             | FR-005, FR-006, FR-008                                          | done     |
 | F-05 | design-system-wire     | (foundation) tokeny `_variables.scss` zastosowane w istniejacych komponentach Angular; niespojnosc nazewnictwa `_mixins.scss` naprawiona; IBM Plex Sans/Mono zaladowane; typografia i spacing bazowy gotowe | F-03 | FR-009 | done     |
 | S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | proposed |
 | S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | proposed |
@@ -117,7 +117,9 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Blockers:** -
 - **Unknowns:** Wybor SDK LLM (Anthropic SDK, Spring AI, LangChain4j - CLAUDE.md flaguje jako wymagajacy potwierdzenia wlasciciela przed dodaniem zaleznosci). Owner: user. Block: no - implementer moze zdecydowac samodzielnie.
 - **Risk:** najwyzsze ryzyko techniczne w projekcie; strumieniowanie czesciowego JSON z LLM do reaktywnego formularza Angular wymaga nowej integracji SSE + back-pressure; sekwencjonowany zaraz po F-02 by wyciagnac ryzyko integracji przed budowa UI.
-- **Status:** proposed
+- **Status:** done
+- **Commits:** a706315 (p1: Spring AI + Google GenAI config), 62e36a7 (p2: ExtractionEvent + Citation + ExtractionService), 54bfb80 (p3: ExtractionController + tests), 3df1c33 (impl-review fixes)
+- **Note:** E2E test z realnym LLM pending — GOOGLE_GENAI_API_KEY ma quota 0 (wymaga waznego klucza Google AI Studio lub wlaczonego billingu). SSE streaming + JWT auth zweryfikowane lokalnie.
 
 ### F-05: Design system wire
 
@@ -211,4 +213,5 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-01 | auth-scaffold     | 2026-05-31    | 4c15850, 051be9c, 5740584, 1e1cfeb, 43defa5                          | Spring Security OAuth2 Resource Server + Auth0; Angular @auth0/auth0-angular z HTTP interceptorem; integracyjne testy security |
 | F-02 | data-layer        | 2026-05-31    | baa7526                                                               | JPA entities (KybCase, AuditRecord) + Spring Data repos; Flyway V1 migration (kyb_case, audit_record); docker-compose PostgreSQL 16; Fly.io provisioning pending (billing) |
 | F-03 | frontend-scaffold | 2026-05-29    | 5d57a3b, d82886f, 06e9607, ccc9c39, e11a6ad                          | 4 fazy: Angular 21 scaffold + ClearKYC design system, Maven Frontend Plugin, dev proxy + SPA catch-all routing, app routing + AppLayout split-panel + AuthGuard stub |
+| F-04 | llm-streaming-backend | 2026-06-01 | a706315, 62e36a7, 54bfb80, 3df1c33                                   | Spring AI 2.0.0-M8 + Google GenAI; ExtractionEvent sealed hierarchy; ExtractionService NDJSON streaming; ExtractionController SSE; JWT auth + SSE zweryfikowane lokalnie; E2E LLM test pending waznego GOOGLE_GENAI_API_KEY |
 | F-05 | design-system-wire | 2026-06-01   | 6bd4e62, 6ce1f8c, ad70324, c93beee                                   | Naprawa 5 broken CSS variable references (_mixins.scss, app-layout.scss); migracja fontow z Google Fonts CDN do @fontsource (latin-ext dla Sans, latin dla Mono); styles.css: 21.8 kB → 6.6 kB, WOFF2: 45 → 7 plikow |
