@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Finalization Record v0.1",
+  "type": "object",
+  "required": ["caseId", "analystIdentity", "decision", "finalizedAt", "extractedData"],
+  "properties": {
+    "caseId": {
+      "type": "string"
+    },
+    "analystIdentity": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["APPROVE", "REJECT", "ESCALATE"]
+    },
+    "finalizedAt": {
+      "type": "string"
+    },
+    "extractedData": {
+      "type": "object"
+    },
+    "overrideJustifications": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

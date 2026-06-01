@@ -2,6 +2,8 @@ package com.example.clearkyc.security;
 
 import com.example.clearkyc.analysis.ExtractionService;
 import com.example.clearkyc.config.SecurityConfig;
+import com.example.clearkyc.service.CaseService;
+import com.example.clearkyc.service.FinalizeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -27,6 +29,12 @@ class SecurityConfigTest {
 
     @MockitoBean
     private ExtractionService extractionService;
+
+    @MockitoBean
+    private CaseService caseService;
+
+    @MockitoBean
+    private FinalizeService finalizeService;
 
     @Test
     void actuatorHealth_isPublic() throws Exception {
