@@ -374,19 +374,19 @@ else if (event.type === 'RedFlagsFound') this.caseStore.setRedFlags(event.flags)
 
 #### Automated
 
-- [x] 2.1 Backend kompiluje: `./mvnw compile`
-- [x] 2.2 Wszystkie testy przechodzą: `./mvnw test`
+- [x] 2.1 Backend kompiluje: `./mvnw compile` — 3c0c4da
+- [x] 2.2 Wszystkie testy przechodzą: `./mvnw test` — 3c0c4da
 
 #### Manual
 
-- [x] 2.3 Upload PDF przez UI, trigger analyze — w logach widać RedFlagsFound event przed AnalysisComplete
+- [x] 2.3 Upload PDF przez UI, trigger analyze — w logach widać RedFlagsFound event przed AnalysisComplete — 3c0c4da
 
 ### Phase 3: Backend — JSON Schema v0.3 + FinalizeService
 
 #### Automated
 
-- [ ] 3.1 Backend kompiluje: `./mvnw compile`
-- [ ] 3.2 Wszystkie testy przechodzą: `./mvnw test`
+- [x] 3.1 Backend kompiluje: `./mvnw compile`
+- [x] 3.2 Wszystkie testy przechodzą: `./mvnw test`
 
 ### Phase 4: Frontend — modele + CaseStore + RedFlagListComponent + wiring
 

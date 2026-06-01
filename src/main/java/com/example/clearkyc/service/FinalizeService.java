@@ -49,7 +49,7 @@ public class FinalizeService {
 
     @PostConstruct
     void loadSchema() throws IOException {
-        ClassPathResource resource = new ClassPathResource("schema/finalization-v0.2.json");
+        ClassPathResource resource = new ClassPathResource("schema/finalization-v0.3.json");
         try (InputStream is = resource.getInputStream()) {
             JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V7);
             jsonSchema = factory.getSchema(is);

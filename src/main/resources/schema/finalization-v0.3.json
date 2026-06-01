@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Finalization Record v0.3",
+  "type": "object",
+  "required": ["caseId", "analystIdentity", "decision", "finalizedAt", "fields"],
+  "properties": {
+    "caseId": { "type": "string" },
+    "analystIdentity": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["APPROVE", "REJECT", "ESCALATE"]
+    },
+    "finalizedAt": { "type": "string" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fieldName", "value"],
+        "properties": {
+          "fieldName": { "type": "string" },
+          "value": { "type": "string" },
+          "citations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["page", "quote"],
+              "properties": {
+                "page": { "type": "integer" },
+                "quote": { "type": "string" }
+              }
+            }
+          },
+          "override": {
+            "anyOf": [
+              { "type": "null" },
+              {
+                "type": "object",
+                "required": ["originalValue", "newValue", "justification"],
+                "properties": {
+                  "originalValue": { "type": "string" },
+                  "newValue": { "type": "string" },
+                  "justification": { "type": "string" }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "red_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "description"],
+        "properties": {
+          "category": { "type": "string" },
+          "description": { "type": "string" },
+          "citations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["page", "quote"],
+              "properties": {
+                "page": { "type": "integer" },
+                "quote": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}
