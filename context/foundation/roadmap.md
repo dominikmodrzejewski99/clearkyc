@@ -3,7 +3,7 @@ project: ClearKYC
 version: 1
 status: draft
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-06-01
 prd_version: 1
 main_goal: market-feedback
 top_blocker: decisions
@@ -34,7 +34,7 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | F-03 | frontend-scaffold      | (foundation) Angular SPA w `web/` kompiluje sie i proxy'uje do backendu Spring; szkielet routingu i layoutu gotowy                               | -                                | FR-009, FR-006, FR-004                                          | done     |
 | F-04 | llm-streaming-backend  | (foundation) endpoint SSE strumieniuje zdarzenia ekstrakcji; klient dostawcy LLM podlaczony i wywolujacy model                                   | F-02                             | FR-005, FR-006, FR-008                                          | done     |
 | F-05 | design-system-wire     | (foundation) tokeny `_variables.scss` zastosowane w istniejacych komponentach Angular; niespojnosc nazewnictwa `_mixins.scss` naprawiona; IBM Plex Sans/Mono zaladowane; typografia i spacing bazowy gotowe | F-03 | FR-009 | done     |
-| S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | proposed |
+| S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | done     |
 | S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | proposed |
 | S-03 | red-flag-taxonomy      | zobaczyc red flagi po zakonczeniu analizy, kazdy powiazany z zamknieta taksonomia kategorii ryzyka                                               | S-01, zamknieta taksonomia red flag (Open Question 1) | FR-007, US-01                              | blocked  |
 
@@ -148,7 +148,8 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Unknowns:**
   - Schemat JSON dla rekordu FR-012 musi byc zdefiniowany i zacommitowany jako czesc tego wycinka (wersja v0.1). Owner: implementer. Block: no.
 - **Risk:** strumieniowanie ekstrakcji + wyswietlanie cytowani + podzielony panel PDF to najgestsza czesc UI w produkcie; NFR 5s do pierwszego pola strumieniowego wymaga starannej konfiguracji back-pressure SSE.
-- **Status:** proposed
+- **Status:** done
+- **Commits:** c99c789 (p1: backend API — CaseController + DecisionController + FinalizeService + JSON Schema v0.1), 740341d (p2: Angular modele + CaseStore + serwisy HTTP/SSE), 230e8a0 (p3: FileDropzone + CaseNew upload flow), 410ca9a (p4: AppLayout resizer + PdfViewer + CaseDetail wiring), a93c211 (p5: ExtractionForm + CitationBadge + DecisionBar), b2819c7 (epilogue), a39e130 (impl-review fixes: MIME validation + @Transactional + OnDestroy + store reset + environment files)
 
 ### S-02: Weryfikacja pola i eksport JSON
 
@@ -185,7 +186,7 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-03       | frontend-scaffold      | Wdrozyc scaffold Angular SPA w `web/`                        | done                  | Zaimplementowane 2026-05-29; commity 5d57a3b-e11a6ad           |
 | F-04       | llm-streaming-backend  | Wdrozyc backend LLM streaming: endpoint SSE + klient         | no                    | Wymaga F-02; zdecyduj SDK LLM wczesniej        |
 | F-05       | design-system-wire     | Naprawic niespojnosc _mixins.scss i zastosowac tokeny design systemu w komponentach Angular | yes | Wymaga F-03; uruchom `/10x-plan design-system-wire` |
-| S-01       | core-case-flow         | Dostarczyc minimalny rdzen przypadku (upload -> ekstrakcja -> decyzja) | no           | Wymaga F-01 + F-02 + F-03 + F-04              |
+| S-01       | core-case-flow         | Dostarczyc minimalny rdzen przypadku (upload -> ekstrakcja -> decyzja) | done         | Zaimplementowane 2026-06-01; commity c99c789-a39e130           |
 | S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | no                    | Wymaga S-01                                    |
 | S-03       | red-flag-taxonomy      | Dostarczyc red flag z zamknieta taksonomia ryzyka            | no                    | Zablokowane: Open Question 1 (taksonomia)      |
 
@@ -215,3 +216,4 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-03 | frontend-scaffold | 2026-05-29    | 5d57a3b, d82886f, 06e9607, ccc9c39, e11a6ad                          | 4 fazy: Angular 21 scaffold + ClearKYC design system, Maven Frontend Plugin, dev proxy + SPA catch-all routing, app routing + AppLayout split-panel + AuthGuard stub |
 | F-04 | llm-streaming-backend | 2026-06-01 | a706315, 62e36a7, 54bfb80, 3df1c33                                   | Spring AI 2.0.0-M8 + Google GenAI; ExtractionEvent sealed hierarchy; ExtractionService NDJSON streaming; ExtractionController SSE; JWT auth + SSE zweryfikowane lokalnie; E2E LLM test pending waznego GOOGLE_GENAI_API_KEY |
 | F-05 | design-system-wire | 2026-06-01   | 6bd4e62, 6ce1f8c, ad70324, c93beee                                   | Naprawa 5 broken CSS variable references (_mixins.scss, app-layout.scss); migracja fontow z Google Fonts CDN do @fontsource (latin-ext dla Sans, latin dla Mono); styles.css: 21.8 kB → 6.6 kB, WOFF2: 45 → 7 plikow |
+| S-01 | core-case-flow     | 2026-06-01   | c99c789, 740341d, 230e8a0, 410ca9a, a93c211, b2819c7, a39e130        | 5 faz: backend (CaseController + DecisionController + FinalizeService + JSON Schema v0.1), Angular (modele + CaseStore + serwisy), upload flow (FileDropzone), AppLayout resizer + PdfViewer (pdfjs-dist lazy), ExtractionForm + CitationBadge + DecisionBar; E2E flow zweryfikowany z Google GenAI; impl-review fixes (MIME validation, @Transactional readOnly, OnDestroy cleanup, store reset, environment files) |
