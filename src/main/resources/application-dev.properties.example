@@ -9,3 +9,5 @@ spring.security.oauth2.resourceserver.jwt.issuer-uri=https://<your-tenant>.auth0
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5433/clearkyc
 SPRING_DATASOURCE_USERNAME=clearkyc
 SPRING_DATASOURCE_PASSWORD=clearkyc
+
+GOOGLE_GENAI_API_KEY=your-google-ai-studio-api-key-here
