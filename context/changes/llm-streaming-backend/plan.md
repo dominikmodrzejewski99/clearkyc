@@ -392,9 +392,9 @@ Pięć testów (wzorzec z `SecurityConfigTest.java`):
 
 #### Automated
 
-- [x] 3.1 `./mvnw compile`
-- [x] 3.2 `./mvnw test` — wszystkie testy zielone (9 istniejących + 5 ExtractionControllerTest)
-- [x] 3.3 `./mvnw verify` — compile + test + package
+- [x] 3.1 `./mvnw compile` — 54bfb80
+- [x] 3.2 `./mvnw test` — wszystkie testy zielone (9 istniejących + 5 ExtractionControllerTest) — 54bfb80
+- [x] 3.3 `./mvnw verify` — compile + test + package — 54bfb80
 
 #### Manual
 

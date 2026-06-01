@@ -1,9 +1,10 @@
 ---
 change_id: llm-streaming-backend
 roadmap_id: F-04
-status: implementing
+status: implemented
 created: 2026-06-01
 updated: 2026-06-01
+implemented: 2026-06-01
 ---
 
 # F-04: LLM Streaming Backend
