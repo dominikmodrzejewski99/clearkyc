@@ -438,25 +438,25 @@ pass their verification criteria.
 
 #### Automated
 
-- [x] 1.1 `ng test` completes without error and `app.spec.ts` passes (2 tests)
-- [x] 1.2 `ng test` output confirms Vitest runner (no Karma/Chrome launch)
+- [x] 1.1 `ng test` completes without error and `app.spec.ts` passes (2 tests) — e984bae
+- [x] 1.2 `ng test` output confirms Vitest runner (no Karma/Chrome launch) — e984bae
 
 #### Manual
 
-- [x] 1.3 No Karma or Chrome processes launched when running `ng test`
-- [x] 1.4 Terminal output shows Vitest reporter format
+- [x] 1.3 No Karma or Chrome processes launched when running `ng test` — e984bae
+- [x] 1.4 Terminal output shows Vitest reporter format — e984bae
 
 ### Phase 2: ExtractionForm Component Tests
 
 #### Automated
 
-- [ ] 2.1 `ng test` passes all specs in `extraction-form.component.spec.ts`
-- [ ] 2.2 Each of 7 contexts has at least one assertion that would fail on inverted `@if`
+- [x] 2.1 `ng test` passes all specs in `extraction-form.component.spec.ts`
+- [x] 2.2 Each of 7 contexts has at least one assertion that would fail on inverted `@if`
 
 #### Manual
 
-- [ ] 2.3 Test output names make the context clear per rendering state
-- [ ] 2.4 No snapshot assertions in the spec file
+- [x] 2.3 Test output names make the context clear per rendering state
+- [x] 2.4 No snapshot assertions in the spec file
 
 ### Phase 3: DecisionBar Component Tests
 
