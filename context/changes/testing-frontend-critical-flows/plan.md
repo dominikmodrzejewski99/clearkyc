@@ -487,16 +487,16 @@ Blocked on research — run `/10x-research testing-frontend-critical-flows R6` b
 
 #### Manual
 
-- [x] 5.1 Phase 6 R6 placeholder visible in plan.md, marked BLOCKED
+- [x] 5.1 Phase 6 R6 placeholder visible in plan.md, marked BLOCKED — e0ec35b
 
 ### Phase 6: Cookbook Update
 
 #### Automated
 
-- [ ] 6.1 `ng test` passes all specs across all three spec files
-- [ ] 6.2 `test-plan.md` §6.3 no longer reads "TBD"
+- [x] 6.1 `ng test` passes all specs across all three spec files
+- [x] 6.2 `test-plan.md` §6.3 no longer reads "TBD"
 
 #### Manual
 
-- [ ] 6.3 New contributor can write a component test from §6.3 without reading this plan
-- [ ] 6.4 `change.md` status set to `complete`
+- [x] 6.3 New contributor can write a component test from §6.3 without reading this plan
+- [x] 6.4 `change.md` status set to `complete`
