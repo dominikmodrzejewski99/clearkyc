@@ -493,10 +493,10 @@ Blocked on research — run `/10x-research testing-frontend-critical-flows R6` b
 
 #### Automated
 
-- [x] 6.1 `ng test` passes all specs across all three spec files
-- [x] 6.2 `test-plan.md` §6.3 no longer reads "TBD"
+- [x] 6.1 `ng test` passes all specs across all three spec files — a06c4b7
+- [x] 6.2 `test-plan.md` §6.3 no longer reads "TBD" — a06c4b7
 
 #### Manual
 
-- [x] 6.3 New contributor can write a component test from §6.3 without reading this plan
-- [x] 6.4 `change.md` status set to `complete`
+- [x] 6.3 New contributor can write a component test from §6.3 without reading this plan — a06c4b7
+- [x] 6.4 `change.md` status set to `complete` — a06c4b7
