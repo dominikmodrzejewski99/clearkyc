@@ -462,22 +462,22 @@ pass their verification criteria.
 
 #### Automated
 
-- [x] 3.1 `ng test` passes all specs in `decision-bar.component.spec.ts`
-- [x] 3.2 "No decision buttons for CREATED" assertion fails if ANALYZED condition removed
+- [x] 3.1 `ng test` passes all specs in `decision-bar.component.spec.ts` — 89c1dc1
+- [x] 3.2 "No decision buttons for CREATED" assertion fails if ANALYZED condition removed — 89c1dc1
 
 #### Manual
 
-- [x] 3.3 Test names distinguish no-render (CREATED) from locked view (LOCKED)
+- [x] 3.3 Test names distinguish no-render (CREATED) from locked view (LOCKED) — 89c1dc1
 
 ### Phase 4: RedFlagList Component Tests
 
 #### Automated
 
-- [ ] 4.1 `ng test` passes all specs in `red-flag-list.component.spec.ts`
+- [x] 4.1 `ng test` passes all specs in `red-flag-list.component.spec.ts`
 
 #### Manual
 
-- [ ] 4.2 ANALYZED test fails when `caseStatus` changed to `'CREATED'`
+- [x] 4.2 ANALYZED test fails when `caseStatus` changed to `'CREATED'`
 
 ### Phase 5: R6 Placeholder
 
