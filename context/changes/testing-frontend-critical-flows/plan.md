@@ -419,6 +419,10 @@ pass their verification criteria.
 
 ---
 
+## R6 — Citation Trust Contract (BLOCKED)
+
+Blocked on research — run `/10x-research testing-frontend-critical-flows R6` before implementing.
+
 ## References
 
 - Research: `context/changes/testing-frontend-critical-flows/research.md`
@@ -473,17 +477,17 @@ pass their verification criteria.
 
 #### Automated
 
-- [x] 4.1 `ng test` passes all specs in `red-flag-list.component.spec.ts`
+- [x] 4.1 `ng test` passes all specs in `red-flag-list.component.spec.ts` — cd318d4
 
 #### Manual
 
-- [x] 4.2 ANALYZED test fails when `caseStatus` changed to `'CREATED'`
+- [x] 4.2 ANALYZED test fails when `caseStatus` changed to `'CREATED'` — cd318d4
 
 ### Phase 5: R6 Placeholder
 
 #### Manual
 
-- [ ] 5.1 Phase 6 R6 placeholder visible in plan.md, marked BLOCKED
+- [x] 5.1 Phase 6 R6 placeholder visible in plan.md, marked BLOCKED
 
 ### Phase 6: Cookbook Update
 
