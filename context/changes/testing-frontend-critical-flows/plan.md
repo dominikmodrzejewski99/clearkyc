@@ -450,24 +450,24 @@ pass their verification criteria.
 
 #### Automated
 
-- [x] 2.1 `ng test` passes all specs in `extraction-form.component.spec.ts`
-- [x] 2.2 Each of 7 contexts has at least one assertion that would fail on inverted `@if`
+- [x] 2.1 `ng test` passes all specs in `extraction-form.component.spec.ts` — ce4dec9
+- [x] 2.2 Each of 7 contexts has at least one assertion that would fail on inverted `@if` — ce4dec9
 
 #### Manual
 
-- [x] 2.3 Test output names make the context clear per rendering state
-- [x] 2.4 No snapshot assertions in the spec file
+- [x] 2.3 Test output names make the context clear per rendering state — ce4dec9
+- [x] 2.4 No snapshot assertions in the spec file — ce4dec9
 
 ### Phase 3: DecisionBar Component Tests
 
 #### Automated
 
-- [ ] 3.1 `ng test` passes all specs in `decision-bar.component.spec.ts`
-- [ ] 3.2 "No decision buttons for CREATED" assertion fails if ANALYZED condition removed
+- [x] 3.1 `ng test` passes all specs in `decision-bar.component.spec.ts`
+- [x] 3.2 "No decision buttons for CREATED" assertion fails if ANALYZED condition removed
 
 #### Manual
 
-- [ ] 3.3 Test names distinguish no-render (CREATED) from locked view (LOCKED)
+- [x] 3.3 Test names distinguish no-render (CREATED) from locked view (LOCKED)
 
 ### Phase 4: RedFlagList Component Tests
 
