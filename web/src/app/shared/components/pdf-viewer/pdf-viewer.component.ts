@@ -29,6 +29,8 @@ export class PdfViewerComponent implements OnDestroy {
   private renderGeneration = 0;
   private readonly RENDER_SCALE = 1.5;
 
+  readonly pageCount = signal<number>(0);
+
   constructor() {
     effect(() => {
       const blob = this.pdfBlob();
@@ -116,6 +118,7 @@ export class PdfViewerComponent implements OnDestroy {
       wrapper.appendChild(highlightLayer);
       container.appendChild(wrapper);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let page: any;
       try {
         page = await doc.getPage(i);
@@ -130,13 +133,14 @@ export class PdfViewerComponent implements OnDestroy {
       const context = canvas.getContext('2d')!;
       try {
         await page.render({ canvasContext: context, viewport }).promise;
-      } catch (err: any) {
-        if (err?.name !== 'RenderingCancelledException') throw err;
+      } catch (err: unknown) {
+        if ((err as { name?: string })?.name !== 'RenderingCancelledException') throw err;
       }
     }
 
     if (generation !== this.renderGeneration) return;
     this.pagesRendered.set(true);
+    this.pageCount.set(doc.numPages);
   }
 
   private scrollToPage(pageNumber: number): void {
@@ -205,5 +209,6 @@ export class PdfViewerComponent implements OnDestroy {
     if (this.pagesContainerRef) {
       this.pagesContainerRef.nativeElement.innerHTML = '';
     }
+    this.pageCount.set(0);
   }
 }

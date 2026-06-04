@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, signal } from '@angular/core';
 
-const MAX_SIZE_BYTES = 20 * 1024 * 1024;
+const MAX_SIZE_BYTES = 50 * 1024 * 1024;
 
 @Component({
   selector: 'app-file-dropzone',
@@ -36,11 +36,11 @@ export class FileDropzoneComponent {
 
   private validate(file: File): void {
     if (file.type !== 'application/pdf') {
-      this.error.set('Tylko pliki PDF są obsługiwane.');
+      this.error.set('Only PDF files are supported.');
       return;
     }
     if (file.size > MAX_SIZE_BYTES) {
-      this.error.set('Plik przekracza limit 20 MB.');
+      this.error.set('File exceeds the 50 MB limit.');
       return;
     }
     this.error.set(null);

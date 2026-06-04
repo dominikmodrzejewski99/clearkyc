@@ -1,8 +1,18 @@
-<div class="pdf-viewer" #pdfViewer>
-  <div #pagesContainer class="pdf-viewer__pages"></div>
-  @if (!pdfBlob()) {
-    <div class="pdf-viewer__empty">
-      <p>Brak pliku PDF</p>
+<div class="pdf-viewer">
+  <div class="pane-head">
+    <span class="ph-title">Source document</span>
+    <div class="ph-tools">
+      @if (pageCount() > 0) {
+        <span class="ph-pages mono">{{ pageCount() }} pp</span>
+      }
     </div>
-  }
+  </div>
+  <div class="pdf-viewer__body" #pdfViewer>
+    <div #pagesContainer class="pdf-viewer__pages"></div>
+    @if (!pdfBlob()) {
+      <div class="pdf-viewer__empty">
+        <p>Brak pliku PDF</p>
+      </div>
+    }
+  </div>
 </div>
