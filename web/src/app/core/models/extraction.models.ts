@@ -1,32 +1,32 @@
 export type CaseStatus = 'CREATED' | 'ANALYZING' | 'ANALYZED' | 'LOCKED';
 
-export type Citation = {
+export interface Citation {
   page: number;
   quote: string;
-};
+}
 
-export type ExtractionField = {
+export interface ExtractionField {
   fieldName: string;
   value: string;
   citations: Citation[];
-};
+}
 
-export type FieldOverride = {
+export interface FieldOverride {
   originalValue: string;
   newValue: string;
   justification: string;
-};
+}
 
-export type ActiveCitation = {
+export interface ActiveCitation {
   page: number;
   quote: string;
-};
+}
 
-export type RedFlagItem = {
+export interface RedFlagItem {
   category: string;
   description: string;
   citations: Citation[];
-};
+}
 
 export type ExtractionEvent =
   | { type: 'FieldExtracted'; field: ExtractionField }
@@ -34,42 +34,51 @@ export type ExtractionEvent =
   | { type: 'AnalysisError'; message: string }
   | { type: 'RedFlagsFound'; flags: RedFlagItem[] };
 
-export type CaseDetail = {
+export interface CaseDetail {
   id: string;
   status: CaseStatus;
   createdAt: string;
   updatedAt: string;
   lockedAt: string | null;
   audit: AuditSummary | null;
-};
+  entityName?: string | null;
+}
 
-export type AuditSummary = {
+export interface AuditSummary {
   auditRecordId: string;
   decision: string;
   finalizedAt: string;
-};
+}
 
-export type CreateCaseResponse = {
+export interface CreateCaseResponse {
   id: string;
   status: CaseStatus;
   createdAt: string;
-};
+}
 
-export type FieldRecord = {
+export interface CaseSummary {
+  id: string;
+  status: CaseStatus;
+  createdAt: string;
+  entityName?: string | null;
+  decision?: 'APPROVE' | 'REJECT' | 'ESCALATE' | null;
+}
+
+export interface FieldRecord {
   fieldName: string;
   value: string;
   citations: Citation[];
   override?: FieldOverride | null;
-};
+}
 
-export type FinalizePayload = {
+export interface FinalizePayload {
   decision: 'APPROVE' | 'REJECT' | 'ESCALATE';
   fields: FieldRecord[];
   red_flags?: RedFlagItem[];
-};
+}
 
-export type FinalizeResponse = {
+export interface FinalizeResponse {
   auditRecordId: string;
   decision: string;
   finalizedAt: string;
-};
+}

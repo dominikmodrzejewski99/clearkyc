@@ -418,8 +418,8 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Automated
 
-- [x] 1.1 Backend kompiluje się: `./mvnw compile`
-- [x] 1.2 Testy Spring Boot zielone: `./mvnw test`
+- [x] 1.1 Backend kompiluje się: `./mvnw compile` — aa69757
+- [x] 1.2 Testy Spring Boot zielone: `./mvnw test` — aa69757
 
 #### Manual
 
@@ -430,8 +430,8 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Automated
 
-- [ ] 2.1 Build Angular bez błędów TypeScript
-- [ ] 2.2 Testy Angular zielone: `cd web && npx ng test --watch=false`
+- [x] 2.1 Build Angular bez błędów TypeScript
+- [x] 2.2 Testy Angular zielone: `cd web && npx ng test --watch=false`
 
 #### Manual
 

@@ -1,0 +1,23 @@
+<header class="topbar">
+  <div class="tb-left">
+    <div class="brand-mark">CK</div>
+    <div class="tb-doc">
+      <div class="tb-entity">{{ entityName() ?? caseId() }}</div>
+      <div class="tb-meta">
+        <span class="mono">{{ caseId() }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <span
+      class="run-state"
+      [class.running]="runState() === 'running'"
+      [class.complete]="runState() === 'complete'"
+    >
+      <span class="rs-dot"></span>
+      @if (runState() === 'idle') { Awaiting analysis }
+      @else if (runState() === 'running') { Analysing… }
+      @else { Extraction complete }
+    </span>
+  </div>
+</header>

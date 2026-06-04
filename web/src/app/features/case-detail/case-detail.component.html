@@ -15,18 +15,25 @@
   </div>
 }
 
-<app-layout>
-  <div slot="pdf" class="pdf-pane-inner">
-    <app-pdf-viewer
-      [pdfBlob]="caseStore.pdfBlob()"
-      [targetPage]="caseStore.activePage()"
-      [activeQuote]="caseStore.activeQuote()"
-    />
-    <app-snippet-panel />
-  </div>
-  <div slot="form" class="form-pane">
-    <app-extraction-form />
-    <app-red-flag-list />
-    <app-decision-bar />
-  </div>
-</app-layout>
+<div class="case-detail-wrap">
+  <app-workstation-topbar
+    [entityName]="caseStore.entityName()"
+    [caseId]="caseStore.caseId()"
+    [runState]="runState()"
+  />
+  <app-layout>
+    <div slot="pdf" class="pdf-pane-inner">
+      <app-pdf-viewer
+        [pdfBlob]="caseStore.pdfBlob()"
+        [targetPage]="caseStore.activePage()"
+        [activeQuote]="caseStore.activeQuote()"
+      />
+      <app-snippet-panel />
+    </div>
+    <div slot="form" class="form-pane">
+      <app-extraction-form />
+      <app-red-flag-list />
+      <app-decision-bar />
+    </div>
+  </app-layout>
+</div>

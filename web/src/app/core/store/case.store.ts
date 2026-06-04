@@ -5,6 +5,7 @@ import { ActiveCitation, CaseStatus, ExtractionField, FieldOverride, RedFlagItem
 export class CaseStore {
   readonly caseId = signal<string | null>(null);
   readonly caseStatus = signal<CaseStatus>('CREATED');
+  readonly entityName = signal<string | null>(null);
   readonly pdfBlob = signal<Blob | null>(null);
   readonly extractionFields = signal<ExtractionField[]>([]);
   readonly isAnalyzing = signal<boolean>(false);
@@ -17,6 +18,7 @@ export class CaseStore {
   reset(): void {
     this.caseId.set(null);
     this.caseStatus.set('CREATED');
+    this.entityName.set(null);
     this.pdfBlob.set(null);
     this.extractionFields.set([]);
     this.isAnalyzing.set(false);
