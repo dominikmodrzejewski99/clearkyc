@@ -25,8 +25,8 @@ public class CaseService {
         this.auditRecordRepository = auditRecordRepository;
     }
 
-    public CreateCaseResponse createCase() {
-        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.CREATED));
+    public CreateCaseResponse createCase(String entityName) {
+        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.CREATED, entityName));
         return new CreateCaseResponse(kybCase.getId(), kybCase.getStatus().name(), kybCase.getCreatedAt());
     }
 
@@ -48,6 +48,7 @@ public class CaseService {
                 kybCase.getCreatedAt(),
                 kybCase.getUpdatedAt(),
                 kybCase.getLockedAt(),
-                audit);
+                audit,
+                kybCase.getEntityName());
     }
 }

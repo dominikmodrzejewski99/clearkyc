@@ -52,7 +52,7 @@ class CaseControllerTest {
     @Test
     void createCase_withJwt_returns201WithId() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.createCase())
+        when(caseService.createCase(any()))
                 .thenReturn(new CreateCaseResponse(id, "CREATED", Instant.now()));
 
         mockMvc.perform(multipart("/api/cases")
@@ -67,7 +67,7 @@ class CaseControllerTest {
     void getCase_withJwt_existingCase_returns200() throws Exception {
         UUID id = UUID.randomUUID();
         when(caseService.getCase(id))
-                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null));
+                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, null));
 
         mockMvc.perform(get("/api/cases/{id}", id).with(jwt()))
                 .andExpect(status().isOk())

@@ -9,5 +9,6 @@ public record CaseDetailResponse(
         Instant createdAt,
         Instant updatedAt,
         Instant lockedAt,
-        AuditSummary audit) {
+        AuditSummary audit,
+        String entityName) {
 }

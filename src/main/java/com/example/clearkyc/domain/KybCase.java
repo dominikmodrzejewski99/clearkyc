@@ -31,11 +31,19 @@ public class KybCase {
     @Column(name = "locked_at")
     private Instant lockedAt;
 
+    @Column(name = "entity_name")
+    private String entityName;
+
     protected KybCase() {
     }
 
     public KybCase(CaseStatus status) {
         this.status = status;
+    }
+
+    public KybCase(CaseStatus status, String entityName) {
+        this.status = status;
+        this.entityName = entityName;
     }
 
     public UUID getId() { return id; }
@@ -45,4 +53,5 @@ public class KybCase {
     public Instant getUpdatedAt() { return updatedAt; }
     public Instant getLockedAt() { return lockedAt; }
     public void setLockedAt(Instant lockedAt) { this.lockedAt = lockedAt; }
+    public String getEntityName() { return entityName; }
 }

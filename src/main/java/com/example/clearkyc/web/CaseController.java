@@ -31,7 +31,11 @@ public class CaseController {
         if (!"application/pdf".equals(file.getContentType())) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Only PDF files are accepted");
         }
-        return caseService.createCase();
+        String originalName = file.getOriginalFilename();
+        String entityName = originalName != null
+                ? originalName.replaceAll("(?i)\\.pdf$", "")
+                : null;
+        return caseService.createCase(entityName);
     }
 
     @GetMapping("/{caseId}")
