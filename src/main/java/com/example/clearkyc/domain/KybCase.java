@@ -54,4 +54,5 @@ public class KybCase {
     public Instant getLockedAt() { return lockedAt; }
     public void setLockedAt(Instant lockedAt) { this.lockedAt = lockedAt; }
     public String getEntityName() { return entityName; }
+    public void setEntityName(String entityName) { this.entityName = entityName; }
 }

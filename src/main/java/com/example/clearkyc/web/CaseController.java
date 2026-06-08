@@ -3,6 +3,7 @@ package com.example.clearkyc.web;
 import com.example.clearkyc.service.CaseService;
 import com.example.clearkyc.web.dto.CaseDetailResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
+import com.example.clearkyc.web.dto.UpdateCaseRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,5 +42,18 @@ public class CaseController {
     @GetMapping("/{caseId}")
     public CaseDetailResponse getCase(@PathVariable UUID caseId) {
         return caseService.getCase(caseId);
+    }
+
+    @PatchMapping(value = "/{caseId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CaseDetailResponse updateCase(
+            @PathVariable UUID caseId,
+            @RequestBody UpdateCaseRequest request) {
+        return caseService.updateCase(caseId, request);
+    }
+
+    @DeleteMapping("/{caseId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCase(@PathVariable UUID caseId) {
+        caseService.deleteCase(caseId);
     }
 }
