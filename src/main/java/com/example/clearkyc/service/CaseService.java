@@ -6,6 +6,7 @@ import com.example.clearkyc.repository.AuditRecordRepository;
 import com.example.clearkyc.repository.KybCaseRepository;
 import com.example.clearkyc.web.dto.AuditSummary;
 import com.example.clearkyc.web.dto.CaseDetailResponse;
+import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import com.example.clearkyc.web.dto.UpdateCaseRequest;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -53,6 +55,19 @@ public class CaseService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Only cases in CREATED state can be deleted");
         }
         kybCaseRepository.delete(kybCase);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CaseSummaryResponse> listCases() {
+        return kybCaseRepository.findAll().stream()
+                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                .map(c -> new CaseSummaryResponse(
+                        c.getId(),
+                        c.getStatus().name(),
+                        c.getCreatedAt(),
+                        c.getEntityName(),
+                        null))
+                .toList();
     }
 
     public CreateCaseResponse createCase(String entityName) {

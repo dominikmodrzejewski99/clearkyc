@@ -2,6 +2,7 @@ package com.example.clearkyc.web;
 
 import com.example.clearkyc.service.CaseService;
 import com.example.clearkyc.web.dto.CaseDetailResponse;
+import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import com.example.clearkyc.web.dto.UpdateCaseRequest;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +24,11 @@ public class CaseController {
 
     public CaseController(CaseService caseService) {
         this.caseService = caseService;
+    }
+
+    @GetMapping
+    public List<CaseSummaryResponse> listCases() {
+        return caseService.listCases();
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
