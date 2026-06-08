@@ -31,6 +31,7 @@ public class ExtractionController {
             @PathVariable UUID caseId,
             @RequestPart("file") MultipartFile pdfFile,
             @AuthenticationPrincipal Jwt jwt) {
-        return extractionService.streamAnalysis(caseId, pdfFile, jwt.getSubject());
+        String analystId = jwt != null ? jwt.getSubject() : "dev-user";
+        return extractionService.streamAnalysis(caseId, pdfFile, analystId);
     }
 }

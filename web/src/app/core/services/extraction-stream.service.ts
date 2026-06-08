@@ -61,7 +61,7 @@ export class ExtractionStreamService {
   }
 }
 
-function parseSSEMessage(raw: string): ExtractionEvent | null {
+export function parseSSEMessage(raw: string): ExtractionEvent | null {
   let eventType = '';
   let dataLine = '';
 

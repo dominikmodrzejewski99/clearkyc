@@ -1,4 +1,4 @@
-import { Component, DestroyRef, EventEmitter, Output, inject, signal } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, Output, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaseStore } from '../../../core/store/case.store';
 import { DecisionService } from '../../../core/services/decision.service';
@@ -21,6 +21,24 @@ export class DecisionBarComponent {
   protected isSubmitting = signal(false);
   protected submitError = signal<string | null>(null);
   protected lockedDecision = signal<string | null>(null);
+  protected pendingDecision = signal<Decision | null>(null);
+
+  protected readonly missingFieldsCount = computed(() =>
+    this.caseStore.extractionFields().filter(f =>
+      (f.value === 'Not Disclosed / Inferred Missing' || !f.value) &&
+      !this.caseStore.fieldOverrides()[f.fieldName]
+    ).length
+  );
+
+  protected pickDecision(d: Decision): void {
+    this.pendingDecision.set(d);
+  }
+
+  protected commit(): void {
+    const d = this.pendingDecision();
+    if (!d) return;
+    this.submit(d);
+  }
 
   protected submit(decision: Decision): void {
     const caseId = this.caseStore.caseId();

@@ -3,7 +3,8 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "1e6699e0-1711-4ffe-bd98-7fc3a49da75e"
+    "analytics": "1e6699e0-1711-4ffe-bd98-7fc3a49da75e",
+    "schematicCollections": ["angular-eslint"]
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -35,13 +36,13 @@
               }
             ],
             "styles": [
-              "node_modules/@fontsource/ibm-plex-sans/latin-ext-400.css",
-              "node_modules/@fontsource/ibm-plex-sans/latin-ext-400-italic.css",
-              "node_modules/@fontsource/ibm-plex-sans/latin-ext-500.css",
-              "node_modules/@fontsource/ibm-plex-sans/latin-ext-600.css",
-              "node_modules/@fontsource/ibm-plex-sans/latin-ext-700.css",
-              "node_modules/@fontsource/ibm-plex-mono/latin-400.css",
-              "node_modules/@fontsource/ibm-plex-mono/latin-400-italic.css",
+              "@fontsource/ibm-plex-sans/latin-ext-400.css",
+              "@fontsource/ibm-plex-sans/latin-ext-400-italic.css",
+              "@fontsource/ibm-plex-sans/latin-ext-500.css",
+              "@fontsource/ibm-plex-sans/latin-ext-600.css",
+              "@fontsource/ibm-plex-sans/latin-ext-700.css",
+              "@fontsource/ibm-plex-mono/latin-400.css",
+              "@fontsource/ibm-plex-mono/latin-400-italic.css",
               "src/styles.scss"
             ]
           },
@@ -92,6 +93,12 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
       }
     }

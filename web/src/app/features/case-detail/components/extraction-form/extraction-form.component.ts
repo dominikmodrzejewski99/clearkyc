@@ -1,11 +1,11 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CitationBadgeComponent } from '../../../../shared/components/citation-badge/citation-badge.component';
 import { CaseStore } from '../../../../core/store/case.store';
 import { ExtractionStreamService } from '../../../../core/services/extraction-stream.service';
-import { ExtractionField } from '../../../../core/models/extraction.models';
+import { Citation, ExtractionField } from '../../../../core/models/extraction.models';
 
 @Component({
   selector: 'app-extraction-form',
@@ -24,6 +24,11 @@ export class ExtractionFormComponent {
   protected readonly editJustification = signal<string>('');
   protected readonly showReanalyzeWarning = signal<boolean>(false);
   protected readonly expandedOverrideField = signal<string | null>(null);
+
+  protected readonly totalFieldsCount = computed(() => this.caseStore.extractionFields().length);
+  protected readonly citedFieldsCount = computed(() =>
+    this.caseStore.extractionFields().filter(f => f.citations && f.citations.length > 0).length
+  );
 
   protected tryStartAnalysis(): void {
     if (Object.keys(this.caseStore.fieldOverrides()).length > 0) {
@@ -75,6 +80,16 @@ export class ExtractionFormComponent {
 
   protected updateEditJustification(event: Event): void {
     this.editJustification.set((event.target as HTMLTextAreaElement).value);
+  }
+
+  protected isMissing(field: ExtractionField): boolean {
+    if (this.caseStore.fieldOverrides()[field.fieldName]) return false;
+    return field.value === 'Not Disclosed / Inferred Missing' || (field.citations?.length ?? 0) === 0;
+  }
+
+  protected navigateToCitation(citation: Citation): void {
+    this.caseStore.activePage.set(citation.page);
+    this.caseStore.activeQuote.set({ page: citation.page, quote: citation.quote });
   }
 
   private startAnalysis(): void {

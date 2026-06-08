@@ -32,12 +32,12 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('shows Analyze button', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).not.toBeNull();
+    it('shows Run analysis button', () => {
+      expect(el.querySelector('.run-btn')).not.toBeNull();
     });
 
-    it('Analyze button is disabled (no PDF uploaded)', () => {
-      const btn = el.querySelector<HTMLButtonElement>('.extraction-form__analyze-btn');
+    it('Run analysis button is disabled (no PDF uploaded)', () => {
+      const btn = el.querySelector<HTMLButtonElement>('.run-btn');
       expect(btn?.disabled).toBe(true);
     });
 
@@ -62,18 +62,18 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('shows Analyze button', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).not.toBeNull();
+    it('shows Run analysis button', () => {
+      expect(el.querySelector('.run-btn')).not.toBeNull();
     });
 
-    it('Analyze button is enabled', () => {
-      const btn = el.querySelector<HTMLButtonElement>('.extraction-form__analyze-btn');
+    it('Run analysis button is enabled', () => {
+      const btn = el.querySelector<HTMLButtonElement>('.run-btn');
       expect(btn?.disabled).toBe(false);
     });
 
-    it('button label is "Analizuj"', () => {
-      const btn = el.querySelector('.extraction-form__analyze-btn');
-      expect(btn?.textContent?.trim()).toBe('Analizuj');
+    it('button label contains "Run analysis"', () => {
+      const btn = el.querySelector('.run-btn');
+      expect(btn?.textContent).toContain('Run analysis');
     });
   });
 
@@ -85,18 +85,12 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('shows Analyze button (caseStatus stays CREATED during stream)', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).not.toBeNull();
+    it('Run analysis button is absent during streaming (design: stats shown instead)', () => {
+      expect(el.querySelector('.run-btn')).toBeNull();
     });
 
-    it('Analyze button is disabled during streaming', () => {
-      const btn = el.querySelector<HTMLButtonElement>('.extraction-form__analyze-btn');
-      expect(btn?.disabled).toBe(true);
-    });
-
-    it('button label changes to "Analizowanie..."', () => {
-      const btn = el.querySelector('.extraction-form__analyze-btn');
-      expect(btn?.textContent?.trim()).toBe('Analizowanie...');
+    it('field stats are shown in pane header during streaming', () => {
+      expect(el.querySelector('.ph-stat')).not.toBeNull();
     });
 
     it('no Edit button (isAnalyzing=true blocks it even when ANALYZED)', () => {
@@ -115,9 +109,9 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('Analyze button is ABSENT in pure ANALYZED state (no error)', () => {
+    it('Run analysis button is ABSENT in pure ANALYZED state (no error)', () => {
       // Re-analysis is unreachable from ANALYZED without an analysisError — this is a contract.
-      expect(el.querySelector('.extraction-form__analyze-btn')).toBeNull();
+      expect(el.querySelector('.run-btn')).toBeNull();
     });
 
     it('Edit button is present', () => {
@@ -145,8 +139,8 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('Analyze button is present (ANALYZED + error unlocks re-analysis)', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).not.toBeNull();
+    it('Run analysis button is present (ANALYZED + error unlocks re-analysis)', () => {
+      expect(el.querySelector('.run-btn')).not.toBeNull();
     });
 
     it('error banner is visible', () => {
@@ -173,8 +167,8 @@ describe('ExtractionFormComponent', () => {
       expect(locked?.textContent).toContain('Sprawa zakończona');
     });
 
-    it('Analyze button is absent', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).toBeNull();
+    it('Run analysis button is absent', () => {
+      expect(el.querySelector('.run-btn')).toBeNull();
     });
 
     it('Edit button is absent', () => {
@@ -196,8 +190,8 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
     });
 
-    it('Analyze button is absent', () => {
-      expect(el.querySelector('.extraction-form__analyze-btn')).toBeNull();
+    it('Run analysis button is absent', () => {
+      expect(el.querySelector('.run-btn')).toBeNull();
     });
 
     it('locked message is absent', () => {
@@ -210,6 +204,45 @@ describe('ExtractionFormComponent', () => {
 
     it('error banner is absent', () => {
       expect(el.querySelector('.extraction-form__error-banner')).toBeNull();
+    });
+  });
+
+  // ─── R6 — Citation trust contract ────────────────────────────────────────────
+
+  describe('R6 citation trust contract', () => {
+    it('renders NDI marker when non-NDI value has no citations', () => {
+      store.caseStatus.set('ANALYZED');
+      store.extractionFields.set([
+        { fieldName: 'Firma', value: 'ACME Corp.', citations: [] },
+      ]);
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('Not Disclosed / Inferred Missing');
+      expect(valueText?.textContent).not.toContain('ACME Corp.');
+    });
+
+    it('renders NDI marker for explicit NDI value with empty citations (normal NDI path)', () => {
+      store.caseStatus.set('ANALYZED');
+      store.extractionFields.set([
+        { fieldName: 'Firma', value: 'Not Disclosed / Inferred Missing', citations: [] },
+      ]);
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('Not Disclosed / Inferred Missing');
+    });
+
+    it('renders raw value when citations are present', () => {
+      store.caseStatus.set('ANALYZED');
+      store.extractionFields.set([
+        { fieldName: 'Firma', value: 'ACME Corp.', citations: [{ page: 1, quote: 'ACME Corp. is registered...' }] },
+      ]);
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('ACME Corp.');
+      expect(valueText?.textContent).not.toContain('Not Disclosed');
     });
   });
 

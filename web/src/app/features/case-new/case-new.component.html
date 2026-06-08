@@ -1,17 +1,91 @@
-<div class="case-new">
-  <div class="case-new__card">
-    <h1 class="case-new__title">Nowa sprawa KYB</h1>
-    <p class="case-new__subtitle">Wgraj plik PDF z dokumentacją podmiotu</p>
+<div class="upload-page">
 
-    <app-file-dropzone
-      (fileSelected)="onFileSelected($event)"
-    />
+  <!-- top bar -->
+  <header class="topbar">
+    <div class="tb-left">
+      <div class="brand-mark">CK</div>
+      <div class="tb-doc">
+        <div class="tb-entity">ClearKYC</div>
+        <div class="tb-meta">KYB Compliance Workstation</div>
+      </div>
+    </div>
+    <div class="tb-right">
+      <span class="run-state">
+        <span class="rs-dot"></span>
+        New case
+      </span>
+    </div>
+  </header>
 
-    @if (isUploading()) {
-      <p class="case-new__status">Tworzenie sprawy...</p>
-    }
-    @if (uploadError()) {
-      <p class="case-new__error">{{ uploadError() }}</p>
-    }
+  <!-- two-column upload screen -->
+  <div class="upload-screen">
+
+    <!-- left: main upload area -->
+    <div class="upload-main">
+      <div class="upload-hero">
+        <div class="uh-title">Upload source document</div>
+        <div class="uh-sub">Upload a corporate PDF for KYB entity extraction and compliance analysis.</div>
+      </div>
+
+      @if (!selectedFile()) {
+        <app-file-dropzone (fileSelected)="onFileSelected($event)" />
+      } @else {
+        <div class="file-selected">
+          <div class="file-card">
+            <div class="fc-icon">PDF</div>
+            <div class="fc-info">
+              <div class="fc-name">{{ selectedFile()!.name }}</div>
+              <div class="fc-meta">
+                <span>{{ formatSize(selectedFile()!.size) }}</span>
+                <span class="fc-sep">·</span>
+                <span>Ready for analysis</span>
+              </div>
+            </div>
+            <div class="fc-check">✓</div>
+            <button class="fc-remove" type="button" title="Remove file" (click)="removeFile()">✕</button>
+          </div>
+        </div>
+      }
+
+      <div class="upload-fields">
+        @if (uploadError()) {
+          <p class="upload-error">{{ uploadError() }}</p>
+        }
+        <div class="upload-submit">
+          @if (isUploading()) {
+            <span class="upload-status">Creating case...</span>
+          }
+          <button
+            class="submit-btn"
+            type="button"
+            [disabled]="!selectedFile() || isUploading()"
+            (click)="onSubmit()"
+          >&#9654; Begin extraction</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- right: recent cases sidebar -->
+    <div class="upload-sidebar">
+      <div class="us-head">Recent cases</div>
+      <div class="us-body">
+        @for (c of recentCases(); track c.id) {
+          <div class="case-card">
+            <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
+            <div class="cc-row">
+              <span class="cc-id">{{ c.id }}</span>
+              <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
+              <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
+            </div>
+          </div>
+        } @empty {
+          <div class="us-empty">No recent cases</div>
+        }
+      </div>
+      <div class="us-footer">
+        <b>{{ recentCases().length }}</b> cases loaded
+      </div>
+    </div>
+
   </div>
 </div>

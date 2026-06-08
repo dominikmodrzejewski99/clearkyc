@@ -7,25 +7,41 @@
     @if (submitError()) {
       <p class="decision-bar__error">{{ submitError() }}</p>
     }
+    <div class="decision-meta">
+      <div class="decision-meta__title">Compliance decision</div>
+      <div class="decision-meta__sub">
+        @if (missingFieldsCount() > 0) {
+          <span class="decision-meta__warn">▲ {{ missingFieldsCount() }} field{{ missingFieldsCount() > 1 ? 's' : '' }} with missing data — review before deciding</span>
+        } @else {
+          All required fields resolved — writes to immutable audit record
+        }
+      </div>
+    </div>
     <div class="decision-bar__buttons">
       <button
         class="decision-bar__btn decision-bar__btn--approve"
-        [disabled]="isSubmitting()"
-        (click)="submit('APPROVE')"
+        [class.decision-bar__btn--active]="pendingDecision() === 'APPROVE'"
+        (click)="pickDecision('APPROVE')"
         type="button"
       >Approve</button>
       <button
         class="decision-bar__btn decision-bar__btn--reject"
-        [disabled]="isSubmitting()"
-        (click)="submit('REJECT')"
+        [class.decision-bar__btn--active]="pendingDecision() === 'REJECT'"
+        (click)="pickDecision('REJECT')"
         type="button"
       >Reject</button>
       <button
         class="decision-bar__btn decision-bar__btn--escalate"
-        [disabled]="isSubmitting()"
-        (click)="submit('ESCALATE')"
+        [class.decision-bar__btn--active]="pendingDecision() === 'ESCALATE'"
+        (click)="pickDecision('ESCALATE')"
         type="button"
       >Escalate</button>
+      <button
+        class="commit-btn"
+        [disabled]="!pendingDecision() || isSubmitting()"
+        (click)="commit()"
+        type="button"
+      >Commit decision</button>
     </div>
   </div>
 }

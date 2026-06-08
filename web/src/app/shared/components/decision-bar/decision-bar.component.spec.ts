@@ -92,30 +92,106 @@ describe('DecisionBarComponent', () => {
     });
   });
 
-  // ─── ANALYZED + isSubmitting — all buttons disabled ──────────────────────────
+  // ─── ANALYZED + isSubmitting — commit-btn disabled, selection enabled ────────
 
   describe('ANALYZED context with isSubmitting=true', () => {
     beforeEach(() => {
       store.caseStatus.set('ANALYZED');
       fixture.detectChanges();
       // isSubmitting is a component-local signal; set it directly on the instance
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (fixture.componentInstance as any).isSubmitting.set(true);
       fixture.detectChanges();
     });
 
-    it('Approve button is disabled while submitting', () => {
+    it('Commit decision button is disabled while submitting', () => {
+      const btn = el.querySelector<HTMLButtonElement>('.commit-btn');
+      expect(btn?.disabled).toBe(true);
+    });
+
+    it('Approve button remains enabled while submitting (selection still allowed)', () => {
       const btn = el.querySelector<HTMLButtonElement>('.decision-bar__btn--approve');
-      expect(btn?.disabled).toBe(true);
+      expect(btn?.disabled).toBe(false);
     });
 
-    it('Reject button is disabled while submitting', () => {
+    it('Reject button remains enabled while submitting', () => {
       const btn = el.querySelector<HTMLButtonElement>('.decision-bar__btn--reject');
+      expect(btn?.disabled).toBe(false);
+    });
+
+    it('Escalate button remains enabled while submitting', () => {
+      const btn = el.querySelector<HTMLButtonElement>('.decision-bar__btn--escalate');
+      expect(btn?.disabled).toBe(false);
+    });
+  });
+
+  // ─── ANALYZED — commit flow ───────────────────────────────────────────────────
+
+  describe('ANALYZED context — commit flow', () => {
+    beforeEach(() => {
+      store.caseStatus.set('ANALYZED');
+      fixture.detectChanges();
+    });
+
+    it('Commit decision button is initially disabled', () => {
+      const btn = el.querySelector<HTMLButtonElement>('.commit-btn');
+      expect(btn).not.toBeNull();
       expect(btn?.disabled).toBe(true);
     });
 
-    it('Escalate button is disabled while submitting', () => {
-      const btn = el.querySelector<HTMLButtonElement>('.decision-bar__btn--escalate');
-      expect(btn?.disabled).toBe(true);
+    it('Commit decision button enabled after picking Approve', () => {
+      el.querySelector<HTMLButtonElement>('.decision-bar__btn--approve')?.click();
+      fixture.detectChanges();
+      const commitBtn = el.querySelector<HTMLButtonElement>('.commit-btn');
+      expect(commitBtn?.disabled).toBe(false);
+    });
+
+    it('Approve button gets active class after picking', () => {
+      el.querySelector<HTMLButtonElement>('.decision-bar__btn--approve')?.click();
+      fixture.detectChanges();
+      expect(el.querySelector('.decision-bar__btn--approve')?.classList).toContain('decision-bar__btn--active');
+    });
+
+    it('picking Reject removes active class from Approve', () => {
+      el.querySelector<HTMLButtonElement>('.decision-bar__btn--approve')?.click();
+      fixture.detectChanges();
+      el.querySelector<HTMLButtonElement>('.decision-bar__btn--reject')?.click();
+      fixture.detectChanges();
+      expect(el.querySelector('.decision-bar__btn--approve')?.classList).not.toContain('decision-bar__btn--active');
+      expect(el.querySelector('.decision-bar__btn--reject')?.classList).toContain('decision-bar__btn--active');
+    });
+  });
+
+  // ─── ANALYZED — missing fields warning ───────────────────────────────────────
+
+  describe('ANALYZED context — missing fields warning', () => {
+    beforeEach(() => {
+      store.caseStatus.set('ANALYZED');
+    });
+
+    it('shows warning when a field has missing value', () => {
+      store.extractionFields.set([
+        { fieldName: 'Company Name', value: 'Not Disclosed / Inferred Missing', citations: [] },
+      ]);
+      fixture.detectChanges();
+      expect(el.querySelector('.decision-meta__warn')).not.toBeNull();
+    });
+
+    it('no warning when all fields have values', () => {
+      store.extractionFields.set([
+        { fieldName: 'Company Name', value: 'ACME Corp', citations: [] },
+      ]);
+      fixture.detectChanges();
+      expect(el.querySelector('.decision-meta__warn')).toBeNull();
+    });
+
+    it('no warning when missing field has an override', () => {
+      store.extractionFields.set([
+        { fieldName: 'Company Name', value: 'Not Disclosed / Inferred Missing', citations: [] },
+      ]);
+      store.fieldOverrides.set({ 'Company Name': { originalValue: 'Not Disclosed / Inferred Missing', newValue: 'ACME Corp', justification: 'Verified' } });
+      fixture.detectChanges();
+      expect(el.querySelector('.decision-meta__warn')).toBeNull();
     });
   });
 

@@ -1,3 +1,7 @@
-<span class="citation" (click)="navigate()" [title]="citation().quote">
-  <sup class="citation__marker">[{{ index() }}]</sup>
-</span>
+<sup
+  class="cite-sup"
+  (click)="navigate()"
+  (keyup.enter)="navigate()"
+  tabindex="0"
+  [title]="citation().quote"
+>[{{ index() }}]</sup>

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
+@org.springframework.context.annotation.Profile("!dev")
 public class SecurityConfig {
 
     @Bean

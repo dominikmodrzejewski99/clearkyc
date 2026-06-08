@@ -1,65 +1,66 @@
-.dropzone {
-  position: relative;
+.drop-zone {
+  width: 100%;
+  max-width: 480px;
+  min-height: 220px;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 240px;
-  border: 2px dashed var(--border-default);
-  border-radius: var(--radius-md, 8px);
-  background: var(--surface-sunken);
+  gap: var(--space-3);
+  padding: var(--space-8);
   cursor: pointer;
-  transition: background 150ms ease, border-color 150ms ease;
+  transition: border-color 0.15s, background 0.15s;
 
-  &--dragover {
-    background: var(--state-streaming-bg);
-    border-color: var(--color-primary, #3b82f6);
+  &:hover,
+  &.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+
+    .dz-icon { color: var(--accent); }
   }
+}
 
-  &__input {
-    display: none;
-  }
+.dz-input {
+  display: none;
+}
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    pointer-events: none;
-  }
+.dz-icon {
+  font-size: 40px;
+  color: var(--gray-400);
+  line-height: 1;
+}
 
-  &__label {
-    margin: 0;
-    color: var(--text-secondary);
-    font-size: 1rem;
-  }
+.dz-label {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
 
-  &__btn {
-    pointer-events: all;
-    padding: 8px 20px;
-    background: var(--color-primary, #3b82f6);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-sm, 4px);
+.dz-hint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+
+  b {
+    color: var(--accent-text);
     cursor: pointer;
-    font-size: 0.9rem;
-
-    &:hover {
-      opacity: 0.9;
-    }
+    font-weight: var(--weight-medium);
+    &:hover { text-decoration: underline; }
   }
+}
 
-  &__hint {
-    margin: 0;
-    font-size: 0.8rem;
-    color: var(--text-tertiary, #9ca3af);
-  }
+.dz-formats {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  margin-top: var(--space-1);
+}
 
-  &__error {
-    position: absolute;
-    bottom: 12px;
-    margin: 0;
-    color: var(--state-error, #ef4444);
-    font-size: 0.85rem;
-  }
+.dz-error {
+  margin: 0;
+  color: var(--reject-text);
+  font-size: var(--text-sm);
 }

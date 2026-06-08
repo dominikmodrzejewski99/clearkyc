@@ -7,7 +7,7 @@ const MAX_SIZE_BYTES = 50 * 1024 * 1024;
   templateUrl: './file-dropzone.component.html',
   styleUrl: './file-dropzone.component.scss',
 })
-export class FileDropzoneComponent {
+ export class FileDropzoneComponent  {
   @Output() fileSelected = new EventEmitter<File>();
 
   protected isDragOver = signal(false);

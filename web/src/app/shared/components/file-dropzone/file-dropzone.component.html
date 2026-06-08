@@ -1,25 +1,23 @@
 <div
-  class="dropzone"
-  [class.dropzone--dragover]="isDragOver()"
+  class="drop-zone"
+  [class.drag-over]="isDragOver()"
   (dragover)="onDragOver($event)"
   (dragleave)="onDragLeave()"
   (drop)="onDrop($event)"
+  (click)="fileInput.click()"
 >
   <input
     #fileInput
     type="file"
     accept=".pdf"
-    class="dropzone__input"
+    class="dz-input"
     (change)="onFileChange($event)"
   />
-  <div class="dropzone__content">
-    <p class="dropzone__label">Upuść plik PDF tutaj lub</p>
-    <button type="button" class="dropzone__btn" (click)="fileInput.click()">
-      Wybierz plik
-    </button>
-    <p class="dropzone__hint">Maksymalny rozmiar: 20 MB</p>
-  </div>
+  <div class="dz-icon">⬆</div>
+  <div class="dz-label">Drag and drop your document here</div>
+  <div class="dz-hint">or <b (click)="$event.stopPropagation(); fileInput.click()">browse files</b> to select</div>
+  <div class="dz-formats">PDF · max 50 MB</div>
   @if (error()) {
-    <p class="dropzone__error">{{ error() }}</p>
+    <p class="dz-error">{{ error() }}</p>
   }
 </div>

@@ -9,6 +9,7 @@ export function createCaseStoreMock() {
   return {
     caseId:           signal<string | null>(null),
     caseStatus:       signal<CaseStatus>('CREATED'),
+    entityName:       signal<string | null>(null),
     pdfBlob:          signal<Blob | null>(null),
     extractionFields: signal<ExtractionField[]>([]),
     isAnalyzing:      signal<boolean>(false),
