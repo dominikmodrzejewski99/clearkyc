@@ -15,17 +15,23 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authHttpInterceptorFn])),
-    provideAuth0({
-      domain: environment.auth0.domain,
-      clientId: environment.auth0.clientId,
-      authorizationParams: {
-        redirect_uri: window.location.origin,
-        audience: environment.auth0.audience,
-      },
-      httpInterceptor: {
-        allowedList: [{ uriMatcher: (uri: string) => uri.startsWith('/api/') }],
-      },
-    }),
+    provideHttpClient(
+      environment.skipAuth
+        ? withInterceptors([])
+        : withInterceptors([authHttpInterceptorFn])
+    ),
+    ...(environment.skipAuth ? [] : [
+      provideAuth0({
+        domain: environment.auth0.domain,
+        clientId: environment.auth0.clientId,
+        authorizationParams: {
+          redirect_uri: window.location.origin,
+          audience: environment.auth0.audience,
+        },
+        httpInterceptor: {
+          allowedList: [{ uriMatcher: (uri: string) => uri.startsWith('/api/') }],
+        },
+      }),
+    ]),
   ],
 };
