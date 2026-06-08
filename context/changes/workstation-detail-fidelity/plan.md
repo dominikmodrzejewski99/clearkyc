@@ -444,7 +444,7 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Automated
 
-- [x] 3.1 Build Angular bez błędów TypeScript
+- [x] 3.1 Build Angular bez błędów TypeScript — 4d29215
 
 #### Manual
 
@@ -456,8 +456,8 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Automated
 
-- [ ] 4.1 Testy zielone: `cd web && npx ng test --watch=false`
-- [ ] 4.2 Build Angular bez błędów TypeScript
+- [x] 4.1 Testy zielone: `cd web && npx ng test --watch=false`
+- [x] 4.2 Build Angular bez błędów TypeScript
 
 #### Manual
 

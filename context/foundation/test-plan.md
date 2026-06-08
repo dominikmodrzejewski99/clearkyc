@@ -147,7 +147,14 @@ Shipped in Phase 2 (R5 state machine tests). Canonical patterns:
 
 ### 6.4 Adding an Angular service unit test (Vitest)
 
-TBD — see §3 Phase 2 R6 (blocked on research — run `/10x-research testing-frontend-critical-flows R6`).
+For pure module-level functions exported from a service (e.g. `parseSSEMessage`), no TestBed is needed — write a plain Vitest spec:
+
+- **Export the function** from the service file (`export function parseSSEMessage(...)`). Module-level private functions are not directly testable; exporting them has minimal API-surface cost for functions that have no side effects.
+- **Import and call directly** — construct the raw input (e.g. a multi-line SSE string) and call the function. Input is a string; output is the parsed object or `null`. No Angular injection, no fixture lifecycle.
+- **Assert on the shape of the returned object**, not on internal parsing mechanics (e.g. assert `result.field.citations` equals `[]`, not that `JSON.parse` was called).
+- **Place the spec alongside the service** — `extraction-stream.service.spec.ts` next to `extraction-stream.service.ts`. The Angular build picks it up automatically via the `include` glob in `tsconfig.spec.json`.
+
+See `web/src/app/core/services/extraction-stream.service.spec.ts` for a working example.
 
 ### 6.5 Per-rollout-phase notes
 

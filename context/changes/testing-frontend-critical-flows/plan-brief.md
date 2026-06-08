@@ -2,6 +2,7 @@
 
 > Full plan: `context/changes/testing-frontend-critical-flows/plan.md`
 > Research: `context/changes/testing-frontend-critical-flows/research.md`
+> R6 research: `context/changes/testing-frontend-critical-flows/research-r6.md`
 
 ## What & Why
 
@@ -24,8 +25,7 @@ infrastructure and spec files are missing.
 `ng test` runs all spec files under Vitest. Three component spec files (ExtractionForm,
 DecisionBar, RedFlagList) cover the 5 rendering contexts plus the dead-state contract and
 the ANALYZING blank-form pre-existing gap. A shared `case-store.mock.ts` helper eliminates
-signal-mocking boilerplate. Stryker also runs under the Vitest runner. R6 is a tracked
-placeholder, blocked until research ships.
+signal-mocking boilerplate. Stryker also runs under the Vitest runner. R6 (citation trust contract) is implemented in Phase 7.
 
 ## Key Decisions Made
 
@@ -37,15 +37,21 @@ placeholder, blocked until research ships.
 | Test organization | One spec per component | Standard Angular convention, discoverable, isolated. | Plan |
 | Dead-state | Test as contract (not a bug) | caseStatus='ANALYZING' from backend is a pre-existing UX gap; encoding it prevents future accidental coverage. | Research |
 | R6 scope | Placeholder only, requires research | R6 oracle (SSE parsing, citations rendering) was not in research scope; speculating would produce mirror tests. | Plan |
+| R6 fix layer | Template guard in extraction-form.component.html | Visible, auditable, does not silently mutate LLM output; cheaper than store normalization. | Research-R6 / Plan |
+| R6 null citations | Treat null same as empty (field.citations?.length ?? 0) | Prevents crash on malformed SSE event; analyst UX stays intact. | Plan |
+| R6 service export | Export parseSSEMessage for unit test | Separates service fidelity from rendering concern; fills §6.4 cookbook. | Plan |
+| R6 finalization schema | Out of scope | Keeps this change purely frontend; backend schema gap is a separate change. | Plan |
 | Rendering contexts | 5 + dead-state = 7 assertions | Dual-track signals (caseStatus + isAnalyzing) produce 5 distinct meaningful UI states; dead-state adds 1 more. | Research |
 
 ## Scope
 
 **In scope:** Vitest setup, Stryker migration to Vitest, ExtractionForm/DecisionBar/RedFlagList
-component specs, shared CaseStore mock helper, R6 tracking placeholder, cookbook update (§6.3).
+component specs, shared CaseStore mock helper, R6 template guard + service pass-through test,
+cookbook update (§6.3 + §6.4).
 
-**Out of scope:** R6 implementation (needs research), fixing the dead-state UX gap, E2E tests,
-HTML snapshot tests, CaseDetailComponent page-level layout tests.
+**Out of scope:** Fixing the dead-state UX gap, E2E tests, HTML snapshot tests,
+CaseDetailComponent page-level layout tests, finalization schema `minItems` constraint (separate
+backend change).
 
 ## Architecture / Approach
 
@@ -66,6 +72,7 @@ snapshots.
 | 4. RedFlagList Tests | 3 visibility states covered | Section-guard vs inner empty-state are two separate `@if` levels |
 | 5. R6 Placeholder | R6 tracked as BLOCKED in plan | None — documentation only |
 | 6. Cookbook Update | §6.3 filled in test-plan.md; change.md closed | Must reflect patterns actually used, not hypothetical ones |
+| 7. R6 — Citation Trust Contract | Template guard + service export + 3-case component test + §6.4 | Guard condition has 3-way conjunction (override, null-safe citations, NDI exclusion) — easy to get partially wrong |
 
 **Prerequisites:** `research.md` complete (done). Angular CLI available (`ng test`). No
 database or backend required for any spec.
@@ -84,7 +91,8 @@ Phases 2-4 are mechanical once Vitest is wired).
 
 ## Success Criteria (Summary)
 
-- `ng test` runs Vitest, passes all 3 new spec files plus `app.spec.ts`.
-- For each of the 7 rendering contexts in ExtractionForm, at least one assertion fails if the
-  corresponding `@if` condition is inverted.
-- `test-plan.md §6.3` contains the component test cookbook pattern.
+- `ng test` runs Vitest, passes all spec files (ExtractionForm, DecisionBar, RedFlagList, ExtractionStreamService).
+- For each of the 7 rendering contexts in ExtractionForm plus the 3 R6 trust-contract cases, at
+  least one assertion fails if the corresponding `@if` condition is inverted.
+- A field with `value='ACME Corp.'` and `citations=[]` renders the NDI marker in the extraction form.
+- `test-plan.md §6.3` and `§6.4` are both filled in (no 'TBD' remaining).

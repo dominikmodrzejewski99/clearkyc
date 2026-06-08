@@ -28,7 +28,7 @@
 - **Location**: src/main/java/com/example/clearkyc/web/CaseController.java:30
 - **Detail**: Serwer nie sprawdza content-type=application/pdf ani rozmiaru. Walidacja frontendowa (FileDropzone) jest bypassowalna przez bezpośrednie curl z JWT.
 - **Fix**: Dodać walidację MIME w CaseController lub CaseService: if (!file.getContentType().equals("application/pdf")) throw 422.
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F2 — CaseService.getCase() brak @Transactional(readOnly=true)
 
@@ -38,7 +38,7 @@
 - **Location**: src/main/java/com/example/clearkyc/service/CaseService.java:28
 - **Detail**: Dwa zapytania (findById + findByKybCase) w oddzielnych sesjach JPA. Przy równoległym finalize() możliwe okno gdzie status=LOCKED ale audit=null w odpowiedzi.
 - **Fix**: @Transactional(readOnly = true) na metodzie getCase().
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F3 — PdfViewerComponent nie implementuje OnDestroy
 
@@ -48,7 +48,7 @@
 - **Location**: web/src/app/shared/components/pdf-viewer/pdf-viewer.component.ts:8
 - **Detail**: Brak ngOnDestroy — currentRenderTask nie anulowany, pdfDocument.destroy() nigdy nie wywoływany. Wyciek pamięci (ArrayBuffer + worker reference).
 - **Fix**: Implementować OnDestroy: this.currentRenderTask?.cancel(); this.pdfDocument()?.destroy();
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F4 — CaseStore nie jest resetowany między nawigacjami
 
@@ -67,7 +67,7 @@
   - Tradeoff: Większa zmiana, ryzyko regresji w komponentach dzieci.
   - Confidence: LOW
   - Blind spot: Nie sprawdzono czy CitationBadge/ExtractionForm korzystają ze store bezpośrednio.
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F5 — FinalizeService: redundantny kybCaseRepository.save()
 
@@ -77,7 +77,7 @@
 - **Location**: src/main/java/com/example/clearkyc/service/FinalizeService.java:100
 - **Detail**: Wewnątrz @Transactional JPA dirty-checking sflusuje mutację automatycznie. Jawny save() jest nadmiarowy i może zmylić przy przyszłym refaktorze (REQUIRES_NEW = partial commit).
 - **Fix**: Usunąć kybCaseRepository.save(kybCase); dodać komentarz o intencji single-transaction.
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F6 — DecisionBarComponent: subskrypcja HTTP bez unsubscribe
 
@@ -87,7 +87,7 @@
 - **Location**: web/src/app/shared/components/decision-bar/decision-bar.component.ts:33
 - **Detail**: subscribe() nie jest przechowywany. Jeśli komponent zniszczony podczas HTTP call, callback nadal wywoła markLocked() na zniszczonym komponencie.
 - **Fix**: Dodać takeUntilDestroyed() do pipe() lub OnDestroy z unsubscribe().
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F7 — Auth0 credentials hardcoded w app.config.ts
 
@@ -97,7 +97,7 @@
 - **Location**: web/src/app/app.config.ts:20-21
 - **Detail**: domain, clientId i audience są hardcoded. Zmiana tenanta wymaga zmiany kodu, nie zmiennej środowiskowej. Blokuje multi-env deploy.
 - **Fix**: Przenieść do src/environments/environment.ts i environment.prod.ts.
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130
 
 ### F8 — PdfViewerComponent brak standalone: true
 
@@ -107,4 +107,4 @@
 - **Location**: web/src/app/shared/components/pdf-viewer/pdf-viewer.component.ts:3
 - **Detail**: Wszystkie inne nowe komponenty mają standalone: true. PdfViewer nie ma — niezgodność z wzorcem projektu (zoneless + standalone).
 - **Fix**: Dodać standalone: true do @Component.
-- **Decision**: PENDING
+- **Decision**: FIXED — a39e130

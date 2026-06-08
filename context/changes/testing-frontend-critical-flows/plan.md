@@ -419,9 +419,116 @@ pass their verification criteria.
 
 ---
 
-## R6 — Citation Trust Contract (BLOCKED)
+## Phase 7: R6 — Citation Trust Contract
 
-Blocked on research — run `/10x-research testing-frontend-critical-flows R6` before implementing.
+### Overview
+
+Implement the trust-contract guard identified in `research-r6.md`: when a `FieldExtracted`
+SSE event carries a non-NDI value and an empty citations array, the extraction form must
+render the NDI marker instead of the raw value. Includes exporting `parseSSEMessage` for a
+service unit test, the template guard, and a component test that fails against the unguarded
+template.
+
+### Changes Required
+
+#### 1. Export parseSSEMessage from ExtractionStreamService
+
+**File**: `web/src/app/core/services/extraction-stream.service.ts`
+
+**Intent**: Make the module-level SSE parsing function testable as a pure unit. Currently
+it is private to the module.
+
+**Contract**: Add the `export` keyword to the `parseSSEMessage` function declaration. No
+other change to the function body or the service class.
+
+#### 2. ExtractionStreamService pass-through unit test
+
+**File**: `web/src/app/core/services/extraction-stream.service.spec.ts` (new file)
+
+**Intent**: Confirm that `parseSSEMessage` is a correct pass-through — it does not
+validate, reject, or transform fields that carry `citations: []` with a non-NDI value.
+This test documents the service contract: citation enforcement is a UI rendering concern,
+not a service concern.
+
+**Contract**: Import `parseSSEMessage` from the service file. Write two assertions:
+- A `FieldExtracted` SSE line with `value: 'ACME Corp.'` and `citations: []` parses
+  successfully and the returned field carries `citations: []` (untouched).
+- A `FieldExtracted` SSE line with `value: 'Not Disclosed / Inferred Missing'` and
+  `citations: []` also passes through (NDI with empty citations is the expected pattern).
+
+No TestBed, no Angular imports — this is a pure function test.
+
+#### 3. Template guard in ExtractionFormComponent
+
+**File**: `web/src/app/features/case-detail/components/extraction-form/extraction-form.component.html`
+
+**Intent**: Enforce the PRD trust contract at the rendering layer: when a field has no
+citations and is not itself an NDI value, display the NDI marker instead of the raw value.
+An analyst override takes precedence — a manually overridden field is always shown as
+provided by the analyst, regardless of original citations.
+
+**Contract**: Update the `[class.extraction-form__field-value--missing]` binding (line 71)
+and the value text span (lines 74-76). The condition for "treat this field as unverified" is:
+
+```
+!caseStore.fieldOverrides()[field.fieldName] &&
+(field.citations?.length ?? 0) === 0 &&
+field.value !== 'Not Disclosed / Inferred Missing'
+```
+
+When this condition is true, the `--missing` CSS class applies and the value text span
+renders `'Not Disclosed / Inferred Missing'` (not the raw value). The edit button,
+override badge, and citations `@for` loop remain structurally unchanged.
+
+The snippet is included because the three-way conjunction is non-obvious: override takes
+precedence, citations access is null-safe, and explicit NDI values are excluded so the
+guard does not double-fire.
+
+#### 4. Component test for the citation guard
+
+**File**: `web/src/app/features/case-detail/components/extraction-form/extraction-form.component.spec.ts`
+
+**Intent**: Add an R6-specific describe block to the existing spec asserting the template
+guard fires correctly for the three cases that form the trust-contract boundary.
+
+**Contract**: Add a `describe('R6 citation trust contract', ...)` block with three `it`
+blocks. Set `caseStatus` to `'ANALYZED'` for all three so the fields table renders. Use
+`createCaseStoreMock()` with `extractionFields` and `caseStatus` overrides.
+
+| Test case | extractionFields value | Expected |
+|---|---|---|
+| Non-NDI, no citations | `[{ value: 'ACME Corp.', citations: [] }]` | NDI marker rendered; 'ACME Corp.' absent |
+| NDI, empty citations | `[{ value: 'Not Disclosed / Inferred Missing', citations: [] }]` | NDI marker rendered (normal NDI path) |
+| Non-NDI, citations present | `[{ value: 'ACME Corp.', citations: [{ quote: 'q', pageNumber: 1 }] }]` | 'ACME Corp.' rendered; NDI marker absent |
+
+#### 5. Fill in test-plan.md §6.4
+
+**File**: `context/foundation/test-plan.md`
+
+**Intent**: Replace the `TBD — see §3 Phase 2 R6 (blocked on research)` placeholder with
+the Angular service unit test pattern, completing the cookbook started in Phase 6.
+
+**Contract**: §6.4 should document 3-4 bullet points: (1) export the function under test
+from the module (no TestBed needed for pure functions); (2) import and call directly —
+input is a raw SSE string, output is the parsed object or null; (3) assert the shape of the
+returned object, not implementation internals; (4) the service spec file lives alongside
+the service in the same directory.
+
+### Success Criteria
+
+#### Automated Verification
+
+- `ng test` passes all existing specs plus the new R6 tests in both spec files.
+- The component test for case 1 (non-NDI, no citations) fails if the template guard `@if`
+  condition is removed.
+
+#### Manual Verification
+
+- A field with `value='ACME Corp.'` and `citations=[]` renders the NDI marker, not 'ACME Corp.'.
+- A field with `value='ACME Corp.'` and `citations=[{...}]` still renders 'ACME Corp.' correctly.
+- `test-plan.md §6.4` is filled in (no longer reads 'TBD').
+
+---
 
 ## References
 
@@ -500,3 +607,16 @@ Blocked on research — run `/10x-research testing-frontend-critical-flows R6` b
 
 - [x] 6.3 New contributor can write a component test from §6.3 without reading this plan — a06c4b7
 - [x] 6.4 `change.md` status set to `complete` — a06c4b7
+
+### Phase 7: R6 — Citation Trust Contract
+
+#### Automated
+
+- [x] 7.1 `ng test` passes all existing specs plus new R6 tests in both spec files
+- [x] 7.2 Component test for case 1 (non-NDI, no citations) fails if the template guard condition is removed
+
+#### Manual
+
+- [ ] 7.3 A field with `value='ACME Corp.'` and `citations=[]` renders the NDI marker, not 'ACME Corp.'
+- [ ] 7.4 A field with `value='ACME Corp.'` and `citations=[{...}]` still renders 'ACME Corp.' correctly
+- [ ] 7.5 `test-plan.md §6.4` is filled in (no longer reads 'TBD')

@@ -46,3 +46,6 @@ src/main/resources/static/
 
 ### Dev profile config (contains real Auth0 tenant values - never commit) ###
 src/main/resources/application-dev.properties
+
+# stryker temp files
+.stryker-tmp

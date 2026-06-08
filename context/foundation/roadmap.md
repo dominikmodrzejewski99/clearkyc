@@ -3,7 +3,7 @@ project: ClearKYC
 version: 1
 status: draft
 created: 2026-05-29
-updated: 2026-06-01
+updated: 2026-06-04
 prd_version: 1
 main_goal: market-feedback
 top_blocker: decisions
@@ -37,6 +37,8 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | S-01 | core-case-flow         | zaladowac PDF, wyzwolic analize, zobaczyc wyekstrahowane encje strumieniowane ze cytowaniami w podzielonym panelu i finalnie zatwierdzic decyzje z rekordem audytu | F-01, F-02, F-03, F-04, F-05 | FR-001, FR-004, FR-005, FR-006, FR-008, FR-009, FR-011, FR-012, FR-013, US-01 | done     |
 | S-02 | field-verification-export | edytowac dowolne pole z obowiazkowym uzasadnieniem, kliknac w cytowanie i nawigowac do strony w PDF, a rekord finalizacji byc walidowanym schematem JSON | S-01             | FR-010, FR-014, FR-012, US-01                                   | done |
 | S-03 | red-flag-taxonomy      | zobaczyc red flagi po zakonczeniu analizy, kazdy powiazany z zamknieta taksonomia kategorii ryzyka                                               | S-01, zamknieta taksonomia red flag (Open Question 1) | FR-007, US-01                              | blocked  |
+| S-04 | workstation-ux-fidelity | zobaczyc upload screen z topbarem, drop zone w stylu Claude Design, sidebar "Recent cases" i przycisk "Run analysis" w naglowku panelu ekstrakcji | S-01                                                  | FR-004, FR-009                             | done     |
+| S-05 | workstation-detail-fidelity | widziec topbar z nazwa encji i wskaznikiem stanu analizy; wybrac decyzje dwuetapowo (klik aktywuje przycisk, "Commit decision" zatwierdza); belka decyzji z ostrzezeniem przy nierozwiazanych polach; naglowek panelu PDF z tytułem i liczba stron | S-01, S-04                                | FR-009, FR-012, FR-011                     | proposed |
 
 ## Streams
 
@@ -165,6 +167,32 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Status:** done
 - **Commits:** b9dfd57 (p1: backend JSON Schema v0.2 + payload evolution), f24f324 (p2: Angular models + CaseStore + DecisionBar fields), 333f0b7 (p3: inline field edit UI + override badge + re-analyze warning), 75c4540 (p4: snippet panel + multi-page PDF viewer + scroll fix), 096151b (epilogue), f75ce04 (impl-review fixes), 274825c (impl-review report)
 
+### S-04: Workstation UX fidelity
+
+- **Outcome:** analityk widzi upload screen z topbarem ClearKYC, drop zone w stylu Claude Design (ikona ⬆, "browse files", limity) przechodzacym w file card po wyborze pliku, sidebar "Recent cases" z odznaka statusu; przycisk "Run analysis" (z ikon ▶) przeniesiony do naglowka panelu ekstrakcji razem ze statystykami pol podczas analizy; przycisk "Begin extraction" uruchamia sprawe dopiero po wyborze pliku.
+- **Change ID:** workstation-ux-fidelity
+- **PRD refs:** FR-004 (upload drag-and-drop), FR-009 (gesty interfejs analityczny)
+- **Prerequisites:** S-01
+- **Parallel with:** -
+- **Blockers:** -
+- **Unknowns:** -
+- **Risk:** zmiany czysto frontendowe; regresje pokryte istniejacymi 60 testami jednostkowymi.
+- **Status:** done
+- **Commits:** (2026-06-04 sesja: run-btn w pane-head, upload screen redesign)
+
+### S-05: Case detail workstation fidelity
+
+- **Outcome:** analityk widzi topbar workstation z logo CK, nazwa encji, ID sprawy i wskaznikiem stanu analizy (idle / running z animowanym pulsem / complete z zielona kropka); wybiera decyzje terminalna dwuetapowo — klik Approve/Reject/Escalate aktywuje przycisk (solid fill), dopiero klik "Commit decision" wysyla zapis; belka decyzji pokazuje ostrzezenie w amber gdy wymagane pola sa nierozwiazane; panel PDF ma naglowek z tytułem "Source document" i liczba stron.
+- **Change ID:** workstation-detail-fidelity
+- **PRD refs:** FR-009 (gesty interfejs analityczny), FR-012 (terminal decision), FR-011 (blokada przypadku)
+- **Prerequisites:** S-01, S-04
+- **Parallel with:** —
+- **Blockers:** —
+- **Unknowns:**
+  - Czy dwuetapowy commit (select → confirm) zastepuje obecny jednoetapowy submit we wszystkich istniejacych testach decyzji? Owner: implementer. Block: no — testy do aktualizacji w ramach wycinka.
+- **Risk:** zmiana przepływu decyzji z jedno- na dwuetapowy moze zerwac istniejace testy DecisionBar i ContrakcDE2E; wymagana staranna migracja testu.
+- **Status:** proposed
+
 ### S-03: Red flag i taksonomia ryzyka
 
 - **Outcome:** analityk widzi zidentyfikowane red flagi po zakonczeniu analizy calego dokumentu, kazdy powiazany z wpisem w zamknietej taksonomii kategorii ryzyka; pola "Not Disclosed / Inferred Missing" moga laczyz sie w red flag z taksonomii.
@@ -189,6 +217,8 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-05       | design-system-wire     | Naprawic niespojnosc _mixins.scss i zastosowac tokeny design systemu w komponentach Angular | yes | Wymaga F-03; uruchom `/10x-plan design-system-wire` |
 | S-01       | core-case-flow         | Dostarczyc minimalny rdzen przypadku (upload -> ekstrakcja -> decyzja) | done         | Zaimplementowane 2026-06-01; commity c99c789-a39e130           |
 | S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | impl_reviewed         | Zaimplementowane 2026-06-01; commity b9dfd57-274825c           |
+| S-04       | workstation-ux-fidelity | Dostarczyc upload screen + UX fidelity do projektu Claude Design | done               | Zaimplementowane 2026-06-04                    |
+| S-05       | workstation-detail-fidelity | Dostarczyc topbar workstation + dwuetapowy commit + naglowek PDF | yes               | Uruchom `/10x-plan workstation-detail-fidelity` |
 | S-03       | red-flag-taxonomy      | Dostarczyc red flag z zamknieta taksonomia ryzyka            | no                    | Zablokowane: Open Question 1 (taksonomia)      |
 
 ## Open Roadmap Questions
@@ -219,3 +249,4 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | F-05 | design-system-wire | 2026-06-01   | 6bd4e62, 6ce1f8c, ad70324, c93beee                                   | Naprawa 5 broken CSS variable references (_mixins.scss, app-layout.scss); migracja fontow z Google Fonts CDN do @fontsource (latin-ext dla Sans, latin dla Mono); styles.css: 21.8 kB → 6.6 kB, WOFF2: 45 → 7 plikow |
 | S-01 | core-case-flow     | 2026-06-01   | c99c789, 740341d, 230e8a0, 410ca9a, a93c211, b2819c7, a39e130        | 5 faz: backend (CaseController + DecisionController + FinalizeService + JSON Schema v0.1), Angular (modele + CaseStore + serwisy), upload flow (FileDropzone), AppLayout resizer + PdfViewer (pdfjs-dist lazy), ExtractionForm + CitationBadge + DecisionBar; E2E flow zweryfikowany z Google GenAI; impl-review fixes (MIME validation, @Transactional readOnly, OnDestroy cleanup, store reset, environment files) |
 | S-02 | field-verification-export | 2026-06-01 | b9dfd57, f24f324, 333f0b7, 75c4540, 096151b, f75ce04, 274825c | 4 fazy: JSON Schema v0.2 + payload evolution (backend), Angular models + CaseStore + DecisionBar fields, inline field edit UI + override badge + re-analyze warning, snippet panel + multi-page PDF viewer; impl-review fixes (PDF resource leak, unhandled rejection guard, takeUntilDestroyed cleanup) |
+| S-04 | workstation-ux-fidelity | 2026-06-04 | (sesja 2026-06-04) | Upload screen redesign: topbar CK, drop zone Claude Design (ikona ⬆, browse, 50 MB), file card po wyborze, sidebar "Recent cases" (CaseSummary + GET /api/cases), przycisk Begin extraction; pane-head ekstrakcji: przycisk Run analysis (▶) w naglowku + statystyki pol podczas analizy; 60 testow zielonych |
