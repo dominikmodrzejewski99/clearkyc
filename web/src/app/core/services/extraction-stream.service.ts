@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { AuthService } from '@auth0/auth0-angular';
 import { firstValueFrom } from 'rxjs';
 import { ExtractionEvent } from '../models/extraction.models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ExtractionStreamService {
-  private readonly auth = inject(AuthService);
+  private readonly auth = inject(AuthService, { optional: true });
 
   streamAnalysis(caseId: string, pdfFile: File): Observable<ExtractionEvent> {
     return new Observable(subscriber => {
@@ -14,13 +15,17 @@ export class ExtractionStreamService {
 
       const run = async () => {
         try {
-          const token = await firstValueFrom(this.auth.getAccessTokenSilently());
+          const headers: Record<string, string> = {};
+          if (this.auth && !environment.skipAuth) {
+            const token = await firstValueFrom(this.auth.getAccessTokenSilently());
+            headers['Authorization'] = `Bearer ${token}`;
+          }
           const form = new FormData();
           form.append('file', pdfFile);
 
           const response = await fetch(`/api/cases/${caseId}/analysis`, {
             method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
+            headers,
             body: form,
             signal: controller.signal,
           });
