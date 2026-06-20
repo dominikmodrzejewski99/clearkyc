@@ -70,14 +70,14 @@
       <div class="us-head">Recent cases</div>
       <div class="us-body">
         @for (c of recentCases(); track c.id) {
-          <div class="case-card">
+          <a class="case-card" [routerLink]="['/cases', c.id]">
             <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
             <div class="cc-row">
               <span class="cc-id">{{ c.id }}</span>
               <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
               <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
             </div>
-          </div>
+          </a>
         } @empty {
           <div class="us-empty">No recent cases</div>
         }

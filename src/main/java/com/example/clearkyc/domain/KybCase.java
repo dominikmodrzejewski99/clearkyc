@@ -34,6 +34,9 @@ public class KybCase {
     @Column(name = "entity_name")
     private String entityName;
 
+    @Column(name = "pdf_data")
+    private byte[] pdfData;
+
     protected KybCase() {
     }
 
@@ -55,4 +58,6 @@ public class KybCase {
     public void setLockedAt(Instant lockedAt) { this.lockedAt = lockedAt; }
     public String getEntityName() { return entityName; }
     public void setEntityName(String entityName) { this.entityName = entityName; }
+    public byte[] getPdfData() { return pdfData; }
+    public void setPdfData(byte[] pdfData) { this.pdfData = pdfData; }
 }

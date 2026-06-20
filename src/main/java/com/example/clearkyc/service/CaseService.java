@@ -9,6 +9,7 @@ import com.example.clearkyc.web.dto.CaseDetailResponse;
 import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import com.example.clearkyc.web.dto.UpdateCaseRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,20 +60,36 @@ public class CaseService {
 
     @Transactional(readOnly = true)
     public List<CaseSummaryResponse> listCases() {
-        return kybCaseRepository.findAll().stream()
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
-                .map(c -> new CaseSummaryResponse(
-                        c.getId(),
-                        c.getStatus().name(),
-                        c.getCreatedAt(),
-                        c.getEntityName(),
-                        null))
+        return kybCaseRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt")).stream()
+                .map(c -> {
+                    String decision = null;
+                    if (c.getStatus() == CaseStatus.LOCKED) {
+                        decision = auditRecordRepository.findByKybCase(c)
+                                .map(r -> r.getDecision().name())
+                                .orElse(null);
+                    }
+                    return new CaseSummaryResponse(
+                            c.getId(),
+                            c.getStatus().name(),
+                            c.getCreatedAt(),
+                            c.getEntityName(),
+                            decision);
+                })
                 .toList();
     }
 
-    public CreateCaseResponse createCase(String entityName) {
-        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.CREATED, entityName));
+    public CreateCaseResponse createCase(String entityName, byte[] pdfData) {
+        KybCase kybCase = new KybCase(CaseStatus.CREATED, entityName);
+        kybCase.setPdfData(pdfData);
+        kybCaseRepository.save(kybCase);
         return new CreateCaseResponse(kybCase.getId(), kybCase.getStatus().name(), kybCase.getCreatedAt());
+    }
+
+    @Transactional(readOnly = true)
+    public byte[] getPdfData(UUID caseId) {
+        return kybCaseRepository.findById(caseId)
+                .map(KybCase::getPdfData)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
     }
 
     @Transactional(readOnly = true)

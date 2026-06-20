@@ -3,6 +3,7 @@ package com.example.clearkyc.web;
 import com.example.clearkyc.config.SecurityConfig;
 import com.example.clearkyc.service.CaseService;
 import com.example.clearkyc.web.dto.CaseDetailResponse;
+import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,6 +51,24 @@ class CaseControllerTest {
             new MockMultipartFile("file", "test.pdf", "application/pdf", "pdf-content".getBytes());
 
     @Test
+    void listCases_withJwt_returns200WithList() throws Exception {
+        UUID id = UUID.randomUUID();
+        when(caseService.listCases())
+                .thenReturn(List.of(new CaseSummaryResponse(id, "CREATED", Instant.now(), "Spółka ABC", null)));
+
+        mockMvc.perform(get("/api/cases").with(jwt()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(id.toString()))
+                .andExpect(jsonPath("$[0].entityName").value("Spółka ABC"));
+    }
+
+    @Test
+    void listCases_withoutJwt_returns401() throws Exception {
+        mockMvc.perform(get("/api/cases"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void createCase_withoutJwt_returns401() throws Exception {
         mockMvc.perform(multipart("/api/cases").file(PDF_FILE))
                 .andExpect(status().isUnauthorized());
@@ -57,7 +77,7 @@ class CaseControllerTest {
     @Test
     void createCase_withJwt_returns201WithId() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.createCase(any()))
+        when(caseService.createCase(any(), any()))
                 .thenReturn(new CreateCaseResponse(id, "CREATED", Instant.now()));
 
         mockMvc.perform(multipart("/api/cases")

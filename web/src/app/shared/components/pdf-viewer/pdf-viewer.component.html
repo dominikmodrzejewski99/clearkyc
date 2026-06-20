@@ -7,9 +7,21 @@
       }
     </div>
   </div>
-  <div class="pdf-viewer__body" #pdfViewer>
-    <div #pagesContainer class="pdf-viewer__pages"></div>
-    @if (!pdfBlob()) {
+  <div class="pdf-viewer__body">
+    @if (pdfBlob()) {
+      <ngx-extended-pdf-viewer
+        [src]="pdfBlob()!"
+        [textLayer]="true"
+        [showToolbar]="false"
+        [showBorders]="false"
+        [showSidebarButton]="false"
+        [page]="targetPage()"
+        language="en-US"
+        height="100%"
+        backgroundColor="#f3f4f6"
+        (pagesLoaded)="onPagesLoaded($event)"
+      />
+    } @else {
       <div class="pdf-viewer__empty">
         <p>Brak pliku PDF</p>
       </div>

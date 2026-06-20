@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FileDropzoneComponent } from '../../shared/components/file-dropzone/file-dropzone.component';
@@ -9,7 +9,7 @@ import { CaseSummary } from '../../core/models/extraction.models';
 
 @Component({
   selector: 'app-case-new',
-  imports: [FileDropzoneComponent],
+  imports: [FileDropzoneComponent, RouterLink],
   templateUrl: './case-new.component.html',
   styleUrl: './case-new.component.scss',
 })

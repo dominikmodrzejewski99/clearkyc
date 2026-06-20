@@ -2,16 +2,19 @@
   <div class="pane-head">
     <span class="ph-title">Extraction</span>
     <div class="ph-tools">
-      @if (caseStore.isAnalyzing() || (caseStore.caseStatus() === 'ANALYZED' && !caseStore.analysisError())) {
+      @if (caseStore.isAnalyzing() || caseStore.extractionFields().length > 0) {
         <span class="ph-stat">{{ totalFieldsCount() }} fields · {{ citedFieldsCount() }} cited</span>
       }
-      @if (!caseStore.isAnalyzing() && (caseStore.caseStatus() === 'CREATED' || caseStore.analysisError())) {
+      @if (!caseStore.isAnalyzing() && caseStore.caseStatus() !== 'LOCKED') {
         <button
           class="run-btn"
           [disabled]="!caseStore.pdfBlob()"
           (click)="tryStartAnalysis()"
           type="button"
-        >&#9654; Run analysis</button>
+        >
+          @if (caseStore.extractionFields().length > 0) { ↻ Re-run }
+          @else { ▶ Run analysis }
+        </button>
       }
     </div>
   </div>

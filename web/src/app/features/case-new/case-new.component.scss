@@ -275,11 +275,14 @@
 }
 
 .case-card {
+  display: block;
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-2);
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 
   &:hover { background: var(--surface-hover); }
 }

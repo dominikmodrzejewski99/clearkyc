@@ -5,7 +5,6 @@ import { AppLayoutComponent } from '../../layout/app-layout/app-layout.component
 import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewer.component';
 import { ExtractionFormComponent } from './components/extraction-form/extraction-form.component';
 import { DecisionBarComponent } from '../../shared/components/decision-bar/decision-bar.component';
-import { SnippetPanelComponent } from '../../shared/components/snippet-panel/snippet-panel.component';
 import { RedFlagListComponent } from './components/red-flag-list/red-flag-list.component';
 import { WorkstationTopbarComponent } from '../../shared/components/workstation-topbar/workstation-topbar.component';
 import { CaseStore } from '../../core/store/case.store';
@@ -13,7 +12,7 @@ import { CaseService } from '../../core/services/case.service';
 
 @Component({
   selector: 'app-case-detail',
-  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, SnippetPanelComponent, RedFlagListComponent, WorkstationTopbarComponent],
+  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, RedFlagListComponent, WorkstationTopbarComponent],
   templateUrl: './case-detail.component.html',
   styleUrl: './case-detail.component.scss',
 })
@@ -45,6 +44,15 @@ export class CaseDetailComponent implements OnInit {
           this.caseStore.entityName.set(response.entityName ?? null);
         },
       });
+
+    if (!this.caseStore.pdfBlob()) {
+      this.caseService.getPdfDocument(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: blob => this.caseStore.pdfBlob.set(blob),
+          error: () => { /* 404 for cases created before PDF storage — re-upload banner shown */ },
+        });
+    }
   }
 
   protected onReUpload(event: Event): void {

@@ -11,16 +11,10 @@ export class AppLayoutComponent {
   private readonly host = inject(ElementRef);
 
   protected leftWidth = signal(50);
-  protected isCollapsed = signal(false);
 
   protected layoutStyle = computed(() => ({
-    '--pdf-pane-width': this.isCollapsed() ? '0%' : this.leftWidth() + '%',
+    '--pdf-pane-width': this.leftWidth() + '%',
   }));
-
-  protected toggleCollapse(): void {
-    this.isCollapsed.update(v => !v);
-    if (!this.isCollapsed()) this.leftWidth.set(50);
-  }
 
   protected onResizerMouseDown(startEvent: MouseEvent): void {
     startEvent.preventDefault();

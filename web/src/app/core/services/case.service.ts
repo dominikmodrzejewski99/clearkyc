@@ -20,4 +20,8 @@ export class CaseService {
   listCases(): Observable<CaseSummary[]> {
     return this.http.get<CaseSummary[]>('/api/cases');
   }
+
+  getPdfDocument(caseId: string): Observable<Blob> {
+    return this.http.get(`/api/cases/${caseId}/document`, { responseType: 'blob' });
+  }
 }

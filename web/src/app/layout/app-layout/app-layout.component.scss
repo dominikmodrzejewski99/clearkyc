@@ -13,11 +13,6 @@
       background-color: var(--surface-raised);
       transition: flex 200ms ease;
       min-width: 0;
-
-      &.app-layout__pane--collapsed {
-        flex: 0 0 0;
-        overflow: hidden;
-      }
     }
 
     &--form {
@@ -43,27 +38,4 @@
     }
   }
 
-  &__collapse-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    width: 20px;
-    height: 32px;
-    background: var(--surface-raised);
-    border: 1px solid var(--border-default);
-    border-radius: var(--radius-sm, 4px);
-    cursor: pointer;
-    font-size: 12px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-
-    &:hover {
-      background: var(--surface-sunken);
-    }
-  }
 }

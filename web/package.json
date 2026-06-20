@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 1999 --strictPort --proxy-config proxy.conf.json",
+    "start": "ng serve --port 1999 --proxy-config proxy.conf.json",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -20,6 +20,7 @@
     "@auth0/auth0-angular": "^2.9.0",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/ibm-plex-sans": "^5.2.8",
+    "ngx-extended-pdf-viewer": "^27.0.0",
     "pdfjs-dist": "^6.0.227",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

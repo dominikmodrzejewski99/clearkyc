@@ -43,44 +43,16 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background: var(--surface-sunken, #f3f4f6);
 
   &__body {
     flex: 1 1 0;
     min-height: 0;
-    overflow: auto;
     position: relative;
-  }
 
-  &__pages {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 8px;
-    min-height: 100%;
-  }
-
-  &__page-wrapper {
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  &__canvas {
-    display: block;
-    max-width: 100%;
-  }
-
-  &__highlight-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-  }
-
-  &__highlight-mark {
-    position: absolute;
-    background: rgba(255, 255, 0, 0.4);
+    ngx-extended-pdf-viewer {
+      display: block;
+      height: 100%;
+    }
   }
 
   &__empty {
@@ -92,5 +64,7 @@
     color: var(--text-tertiary);
     font-size: var(--text-sm);
     font-style: italic;
+
+    p { margin: 0; }
   }
 }

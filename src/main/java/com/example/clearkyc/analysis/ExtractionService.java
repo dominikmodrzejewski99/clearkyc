@@ -39,7 +39,7 @@ public class ExtractionService {
             Extract structured entities from the PDF document provided.
 
             Emit one JSON line per extracted field, immediately when found (do not wait for full document):
-            {"fieldName":"<name>","value":"<value>","citations":[{"quote":"<verbatim text>","pageNumber":<n>}]}
+            {"fieldName":"<name>","value":"<value>","citations":[{"quote":"<verbatim text>","page":<n>}]}
 
             Fields to extract:
             - "companyName": registered name of the company
@@ -52,10 +52,10 @@ public class ExtractionService {
             - Emit exactly one JSON object per line. Use only \\n as separator.
             - Do not emit markdown, code blocks, or any text outside of JSON lines.
             - "quote" must be verbatim text from the document (copy-paste, not paraphrase).
-            - "pageNumber" is best-effort (0 if unknown).
+            - "page" is best-effort (0 if unknown).
 
             After ALL field lines, emit red flags (one JSON line each):
-            {"category":"<CATEGORY>","description":"<sentence>","citations":[{"quote":"<text>","pageNumber":<n>}]}
+            {"category":"<CATEGORY>","description":"<sentence>","citations":[{"quote":"<text>","page":<n>}]}
 
             Available categories: SANCTIONS_EXPOSURE, SHELL_COMPANY_INDICATORS, JURISDICTION_RISK,
             OPAQUE_OWNERSHIP, PEP_LINKAGE, SECTOR_SPECIFIC_RISK
@@ -78,9 +78,12 @@ public class ExtractionService {
         return Flux.defer(() -> {
             KybCase kybCase = caseRepository.findById(caseId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-            // PRD: single analyst per case — concurrent access to same caseId is not expected
-            if (kybCase.getStatus() != CaseStatus.CREATED) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Case must be in CREATED state");
+            // Block concurrent runs and locked cases; allow re-analysis from ANALYZED state.
+            if (kybCase.getStatus() == CaseStatus.ANALYZING) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Analysis already in progress");
+            }
+            if (kybCase.getStatus() == CaseStatus.LOCKED) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Case is locked — no further analysis allowed");
             }
             byte[] pdfBytes;
             try {
