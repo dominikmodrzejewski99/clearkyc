@@ -234,13 +234,13 @@ protected getCaseBadgeLabel(c: CaseSummary): string {
 
 #### Automated
 
-- [x] 1.1 Typecheck przechodzi: `cd web && npx tsc --noEmit`
-- [x] 1.2 Angular build produkcyjny przechodzi: `cd web && npx ng build`
+- [x] 1.1 Typecheck przechodzi: `cd web && npx tsc --noEmit` — a563d9d
+- [x] 1.2 Angular build produkcyjny przechodzi: `cd web && npx ng build` — a563d9d
 
 #### Manual
 
-- [x] 1.3 Ekran /cases/new: wszystkie etykiety po polsku, wyjątki (ClearKYC, KYB, PDF) angielskie
-- [x] 1.4 Walidacja pliku: komunikaty błędów po polsku
-- [x] 1.5 Sidebar: badge statusu i miesiące daty po polsku
-- [x] 1.6 Case detail: nagłówki paneli, topbar statusy, pasek decyzji po polsku
-- [x] 1.7 Tagi stanu (Strumieniowanie, Nadpisano) i etykieta "Nie ujawniono / Brak danych" po polsku
+- [x] 1.3 Ekran /cases/new: wszystkie etykiety po polsku, wyjątki (ClearKYC, KYB, PDF) angielskie — a563d9d
+- [x] 1.4 Walidacja pliku: komunikaty błędów po polsku — a563d9d
+- [x] 1.5 Sidebar: badge statusu i miesiące daty po polsku — a563d9d
+- [x] 1.6 Case detail: nagłówki paneli, topbar statusy, pasek decyzji po polsku — a563d9d
+- [x] 1.7 Tagi stanu (Strumieniowanie, Nadpisano) i etykieta "Nie ujawniono / Brak danych" po polsku — a563d9d
