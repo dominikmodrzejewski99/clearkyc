@@ -3,7 +3,7 @@ project: ClearKYC
 version: 1
 status: draft
 created: 2026-05-29
-updated: 2026-06-04
+updated: 2026-06-20
 prd_version: 1
 main_goal: market-feedback
 top_blocker: decisions
@@ -39,6 +39,7 @@ Senior KYB Analysts w bankach spedzaja 4-8 godzin na manualnej weryfikacji kazde
 | S-03 | red-flag-taxonomy      | zobaczyc red flagi po zakonczeniu analizy, kazdy powiazany z zamknieta taksonomia kategorii ryzyka                                               | S-01, zamknieta taksonomia red flag (Open Question 1) | FR-007, US-01                              | blocked  |
 | S-04 | workstation-ux-fidelity | zobaczyc upload screen z topbarem, drop zone w stylu Claude Design, sidebar "Recent cases" i przycisk "Run analysis" w naglowku panelu ekstrakcji | S-01                                                  | FR-004, FR-009                             | done     |
 | S-05 | workstation-detail-fidelity | widziec topbar z nazwa encji i wskaznikiem stanu analizy; wybrac decyzje dwuetapowo (klik aktywuje przycisk, "Commit decision" zatwierdza); belka decyzji z ostrzezeniem przy nierozwiazanych polach; naglowek panelu PDF z tytułem i liczba stron | S-01, S-04                                | FR-009, FR-012, FR-011                     | proposed |
+| S-06 | pl-ui-text                  | widziec caly interfejs aplikacji w jezyku polskim — wszystkie etykiety, przyciski, komunikaty bledow, placeholder-y i statusy sa spolszczone; brak mieszanki angielsko-polskiej                                                                   | S-01                                      | FR-009                                     | new      |
 
 ## Streams
 
@@ -193,6 +194,18 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 - **Risk:** zmiana przepływu decyzji z jedno- na dwuetapowy moze zerwac istniejace testy DecisionBar i ContrakcDE2E; wymagana staranna migracja testu.
 - **Status:** proposed
 
+### S-06: Pełna polonizacja tekstów UI
+
+- **Outcome:** analityk widzi caly interfejs w jezyku polskim: przyciski (Begin extraction, Run analysis, Approve, Reject, Escalate, Commit decision, Remove file, Browse files), etykiety (Upload source document, Compliance decision, Extraction, Source document, Recent cases, No recent cases), komunikaty bledow (Only PDF files are supported, Failed to create case, File exceeds the 50 MB limit), statusy workstation (Awaiting analysis, Analysing…, Extraction complete), ostrzezenia (missingFields warning, All required fields resolved), tagi cytowania (str. N zamiast p. N) i wszystkie pozostale anglojezyczne stringi. Brak mieszanego angielsko-polskiego jezyka w UI.
+- **Change ID:** pl-ui-text
+- **PRD refs:** FR-009 (interfejs dla analityka)
+- **Prerequisites:** S-01
+- **Parallel with:** S-05 (czysto frontendowe, brak konfliktow)
+- **Blockers:** -
+- **Unknowns:** -
+- **Risk:** niski — zmiany tylko w szablonach HTML i string literalach TypeScript; brak zmian logiki. Glowne ryzyko to przeoczenie tekstu (szczegolnie dynamicznie budowane stringi w TS).
+- **Status:** new
+
 ### S-03: Red flag i taksonomia ryzyka
 
 - **Outcome:** analityk widzi zidentyfikowane red flagi po zakonczeniu analizy calego dokumentu, kazdy powiazany z wpisem w zamknietej taksonomii kategorii ryzyka; pola "Not Disclosed / Inferred Missing" moga laczyz sie w red flag z taksonomii.
@@ -219,6 +232,7 @@ Foundations ponizej zakladaja obecnosc wymienionych warstw i ich nie re-scaffold
 | S-02       | field-verification-export | Dostarczyc weryfikacje pola + eksport JSON z walidacja    | impl_reviewed         | Zaimplementowane 2026-06-01; commity b9dfd57-274825c           |
 | S-04       | workstation-ux-fidelity | Dostarczyc upload screen + UX fidelity do projektu Claude Design | done               | Zaimplementowane 2026-06-04                    |
 | S-05       | workstation-detail-fidelity | Dostarczyc topbar workstation + dwuetapowy commit + naglowek PDF | yes               | Uruchom `/10x-plan workstation-detail-fidelity` |
+| S-06       | pl-ui-text             | Spolszczyc wszystkie teksty UI aplikacji                     | yes                   | Uruchom `/10x-plan pl-ui-text`                 |
 | S-03       | red-flag-taxonomy      | Dostarczyc red flag z zamknieta taksonomia ryzyka            | no                    | Zablokowane: Open Question 1 (taksonomia)      |
 
 ## Open Roadmap Questions

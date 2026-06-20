@@ -56,7 +56,7 @@ export class CaseNewComponent {
         },
         error: () => {
           this.isUploading.set(false);
-          this.uploadError.set('Failed to create case. Please try again.');
+          this.uploadError.set('Nie udało się utworzyć sprawy. Spróbuj ponownie.');
         },
       });
   }
@@ -68,7 +68,7 @@ export class CaseNewComponent {
 
   protected formatDate(isoString: string): string {
     const d = new Date(isoString);
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
   }
 
@@ -81,7 +81,13 @@ export class CaseNewComponent {
   }
 
   protected getCaseBadgeLabel(c: CaseSummary): string {
+    const labels: Record<string, string> = {
+      approved:  'Zatwierdzona',
+      rejected:  'Odrzucona',
+      escalated: 'Eskalowana',
+      pending:   'W toku',
+    };
     const cls = this.getCaseBadgeClass(c);
-    return cls.charAt(0).toUpperCase() + cls.slice(1);
+    return labels[cls] ?? cls;
   }
 }

@@ -36,11 +36,11 @@ const MAX_SIZE_BYTES = 50 * 1024 * 1024;
 
   private validate(file: File): void {
     if (file.type !== 'application/pdf') {
-      this.error.set('Only PDF files are supported.');
+      this.error.set('Obsługiwane są tylko pliki PDF.');
       return;
     }
     if (file.size > MAX_SIZE_BYTES) {
-      this.error.set('File exceeds the 50 MB limit.');
+      this.error.set('Plik przekracza limit 50 MB.');
       return;
     }
     this.error.set(null);

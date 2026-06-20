@@ -1,9 +1,9 @@
 <div class="extraction-form">
   <div class="pane-head">
-    <span class="ph-title">Extraction</span>
+    <span class="ph-title">Ekstrakcja</span>
     <div class="ph-tools">
       @if (caseStore.isAnalyzing() || caseStore.extractionFields().length > 0) {
-        <span class="ph-stat">{{ totalFieldsCount() }} fields · {{ citedFieldsCount() }} cited</span>
+        <span class="ph-stat">{{ totalFieldsCount() }} pól · {{ citedFieldsCount() }} z cytatem</span>
       }
       @if (!caseStore.isAnalyzing() && caseStore.caseStatus() !== 'LOCKED') {
         <button
@@ -12,8 +12,8 @@
           (click)="tryStartAnalysis()"
           type="button"
         >
-          @if (caseStore.extractionFields().length > 0) { ↻ Re-run }
-          @else { ▶ Run analysis }
+          @if (caseStore.extractionFields().length > 0) { ↻ Ponów }
+          @else { ▶ Uruchom analizę }
         </button>
       }
     </div>
@@ -38,7 +38,7 @@
             <div class="field-value">
               <div class="override-form">
                 <div class="of-head">
-                  <span class="of-icon">✎</span> Override · {{ field.fieldName }}
+                  <span class="of-icon">✎</span> Nadpisanie · {{ field.fieldName }}
                 </div>
                 <div class="of-field">
                   <label>Nowa wartość</label>
@@ -77,9 +77,9 @@
               <div class="fv-line">
                 @if (!field.value && caseStore.isAnalyzing()) {
                   <span class="val-streaming"><span class="cursor"></span></span>
-                  <span class="state-tag stream-tag">Streaming</span>
+                  <span class="state-tag stream-tag">Strumieniowanie</span>
                 } @else if (isMissing(field)) {
-                  <span class="extraction-form__value-text val-missing">Not Disclosed / Inferred Missing</span>
+                  <span class="extraction-form__value-text val-missing">Nie ujawniono / Brak danych</span>
                 } @else {
                   <span class="extraction-form__value-text">
                     @if (caseStore.fieldOverrides()[field.fieldName]) {
@@ -92,10 +92,10 @@
                   }
                   @if (caseStore.isAnalyzing()) {
                     <span class="cursor"></span>
-                    <span class="state-tag stream-tag">Streaming</span>
+                    <span class="state-tag stream-tag">Strumieniowanie</span>
                   }
                   @if (caseStore.fieldOverrides()[field.fieldName]) {
-                    <span class="state-tag override-tag">Overridden</span>
+                    <span class="state-tag override-tag">Nadpisano</span>
                   }
                 }
                 @if (caseStore.caseStatus() === 'ANALYZED' && !caseStore.isAnalyzing() && !editingField()) {
@@ -111,7 +111,7 @@
               @if (caseStore.fieldOverrides()[field.fieldName]) {
                 <div class="override-note">
                   {{ caseStore.fieldOverrides()[field.fieldName]!.justification }}
-                  <span class="who">Analityk · override</span>
+                  <span class="who">Analityk · nadpisano</span>
                 </div>
               }
               @for (citation of field.citations; track $index) {

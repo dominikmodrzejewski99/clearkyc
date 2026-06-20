@@ -14,8 +14,8 @@
     (change)="onFileChange($event)"
   />
   <div class="dz-icon">⬆</div>
-  <div class="dz-label">Drag and drop your document here</div>
-  <div class="dz-hint">or <b (click)="$event.stopPropagation(); fileInput.click()">browse files</b> to select</div>
+  <div class="dz-label">Przeciągnij i upuść dokument tutaj</div>
+  <div class="dz-hint">lub <b (click)="$event.stopPropagation(); fileInput.click()">przeglądaj pliki</b> aby wybrać</div>
   <div class="dz-formats">PDF · max 50 MB</div>
   @if (error()) {
     <p class="dz-error">{{ error() }}</p>

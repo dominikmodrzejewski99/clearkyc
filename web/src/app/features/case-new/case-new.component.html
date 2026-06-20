@@ -6,13 +6,13 @@
       <div class="brand-mark">CK</div>
       <div class="tb-doc">
         <div class="tb-entity">ClearKYC</div>
-        <div class="tb-meta">KYB Compliance Workstation</div>
+        <div class="tb-meta">Stacja analityczna KYB</div>
       </div>
     </div>
     <div class="tb-right">
       <span class="run-state">
         <span class="rs-dot"></span>
-        New case
+        Nowa sprawa
       </span>
     </div>
   </header>
@@ -23,8 +23,8 @@
     <!-- left: main upload area -->
     <div class="upload-main">
       <div class="upload-hero">
-        <div class="uh-title">Upload source document</div>
-        <div class="uh-sub">Upload a corporate PDF for KYB entity extraction and compliance analysis.</div>
+        <div class="uh-title">Wgraj dokument źródłowy</div>
+        <div class="uh-sub">Wgraj korporacyjny PDF do ekstrakcji podmiotów KYB i analizy compliance.</div>
       </div>
 
       @if (!selectedFile()) {
@@ -38,11 +38,11 @@
               <div class="fc-meta">
                 <span>{{ formatSize(selectedFile()!.size) }}</span>
                 <span class="fc-sep">·</span>
-                <span>Ready for analysis</span>
+                <span>Gotowy do analizy</span>
               </div>
             </div>
             <div class="fc-check">✓</div>
-            <button class="fc-remove" type="button" title="Remove file" (click)="removeFile()">✕</button>
+            <button class="fc-remove" type="button" title="Usuń plik" (click)="removeFile()">✕</button>
           </div>
         </div>
       }
@@ -53,21 +53,21 @@
         }
         <div class="upload-submit">
           @if (isUploading()) {
-            <span class="upload-status">Creating case...</span>
+            <span class="upload-status">Tworzenie sprawy...</span>
           }
           <button
             class="submit-btn"
             type="button"
             [disabled]="!selectedFile() || isUploading()"
             (click)="onSubmit()"
-          >&#9654; Begin extraction</button>
+          >&#9654; Rozpocznij ekstrakcję</button>
         </div>
       </div>
     </div>
 
     <!-- right: recent cases sidebar -->
     <div class="upload-sidebar">
-      <div class="us-head">Recent cases</div>
+      <div class="us-head">Ostatnie sprawy</div>
       <div class="us-body">
         @for (c of recentCases(); track c.id) {
           <a class="case-card" [routerLink]="['/cases', c.id]">
@@ -79,11 +79,11 @@
             </div>
           </a>
         } @empty {
-          <div class="us-empty">No recent cases</div>
+          <div class="us-empty">Brak ostatnich spraw</div>
         }
       </div>
       <div class="us-footer">
-        <b>{{ recentCases().length }}</b> cases loaded
+        <b>{{ recentCases().length }}</b> spraw załadowanych
       </div>
     </div>
 
