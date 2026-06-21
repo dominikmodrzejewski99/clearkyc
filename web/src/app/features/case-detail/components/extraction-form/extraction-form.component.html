@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  @if (caseStore.extractionFields().length === 0 && caseStore.caseStatus() !== 'LOCKED' && caseStore.caseStatus() !== 'ANALYZED') {
+  @if (caseStore.extractionFields().length === 0 && caseStore.caseStatus() !== 'LOCKED' && (caseStore.caseStatus() !== 'ANALYZED' || caseStore.isAnalyzing())) {
     <div class="ef-skeleton" [class.ef-skeleton--shimmer]="caseStore.isAnalyzing()">
       <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
       <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
@@ -60,7 +60,7 @@
           [class.field-row--overridden]="!!caseStore.fieldOverrides()[field.fieldName]"
         >
           @if (editingField() === field.fieldName) {
-            <div class="field-label">{{ field.fieldName }}</div>
+            <div class="field-label">{{ fieldLabel(field.fieldName) }}</div>
             <div class="field-value">
               <div class="override-form">
                 <div class="of-head">
@@ -101,7 +101,7 @@
               </div>
             </div>
           } @else {
-            <div class="field-label">{{ field.fieldName }}</div>
+            <div class="field-label">{{ fieldLabel(field.fieldName) }}</div>
             <div class="field-value">
               <div class="fv-line">
                 @if (!field.value && caseStore.isAnalyzing()) {

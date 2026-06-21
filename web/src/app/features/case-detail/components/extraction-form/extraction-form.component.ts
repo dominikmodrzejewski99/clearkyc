@@ -87,6 +87,21 @@ export class ExtractionFormComponent {
     this.editJustification.set((event.target as HTMLTextAreaElement).value);
   }
 
+  protected fieldLabel(fieldName: string): string {
+    if (fieldName === 'companyName') return 'Nazwa firmy';
+
+    const dirName = fieldName.match(/^directors\[(\d+)\]\.name$/);
+    if (dirName) return `Dyrektor ${+dirName[1] + 1} - imie i nazwisko`;
+
+    const uboName = fieldName.match(/^ubos\[(\d+)\]\.name$/);
+    if (uboName) return `UBO ${+uboName[1] + 1} - imie i nazwisko`;
+
+    const uboOwn = fieldName.match(/^ubos\[(\d+)\]\.ownershipPercentage$/);
+    if (uboOwn) return `UBO ${+uboOwn[1] + 1} - udzial (%)`;
+
+    return fieldName;
+  }
+
   protected isMissing(field: ExtractionField): boolean {
     if (this.caseStore.fieldOverrides()[field.fieldName]) return false;
     return field.value === 'Not Disclosed / Inferred Missing' || (field.citations?.length ?? 0) === 0;

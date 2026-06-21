@@ -203,23 +203,23 @@ Nie dodawać `animation-delay` ani stagger. `animation-fill-mode: both` (skrót 
 
 #### Automated
 
-- [x] 1.1 Typecheck przechodzi po dodaniu skeleton HTML i SCSS
+- [x] 1.1 Typecheck przechodzi po dodaniu skeleton HTML i SCSS — 0d7f794
 
 #### Manual
 
-- [x] 1.2 Skeleton bez PDF: 8 rzędów + hint "Wgraj plik PDF"
-- [x] 1.3 Skeleton z PDF: 8 rzędów + hint "Kliknij ▶ Uruchom analizę"
-- [x] 1.4 Shimmer podczas luki startu (isAnalyzing=true, 0 pól)
-- [x] 1.5 Skeleton chowa się gdy pojawia się pierwsze pole
-- [x] 1.6 Skeleton niewidoczny dla LOCKED i po refresh ANALYZED
+- [x] 1.2 Skeleton bez PDF: 8 rzędów + hint "Wgraj plik PDF" — 0d7f794
+- [x] 1.3 Skeleton z PDF: 8 rzędów + hint "Kliknij ▶ Uruchom analizę" — 0d7f794
+- [x] 1.4 Shimmer podczas luki startu (isAnalyzing=true, 0 pól) — 0d7f794
+- [x] 1.5 Skeleton chowa się gdy pojawia się pierwsze pole — 0d7f794
+- [x] 1.6 Skeleton niewidoczny dla LOCKED i po refresh ANALYZED — 0d7f794
 
 ### Phase 2: Fade-in animation dla wierszy pól
 
 #### Automated
 
-- [ ] 2.1 Typecheck przechodzi po dodaniu rowAppear
+- [x] 2.1 Typecheck przechodzi po dodaniu rowAppear
 
 #### Manual
 
-- [ ] 2.2 Fade-in widoczny podczas aktywnego streamu (nowe pole wlatuje 150ms)
-- [ ] 2.3 Brak migotania layoutu podczas animacji
+- [x] 2.2 Fade-in widoczny podczas aktywnego streamu (nowe pole wlatuje 150ms)
+- [x] 2.3 Brak migotania layoutu podczas animacji
