@@ -30,6 +30,14 @@ export class DecisionBarComponent {
     ).length
   );
 
+  protected readonly lockedDecisionLabel = computed(() => {
+    const d = this.lockedDecision();
+    if (d === 'APPROVE') return 'Zatwierdzona';
+    if (d === 'REJECT') return 'Odrzucona';
+    if (d === 'ESCALATE') return 'Eskalowana';
+    return '';
+  });
+
   protected pickDecision(d: Decision): void {
     this.pendingDecision.set(d);
   }

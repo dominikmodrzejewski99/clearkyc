@@ -1,6 +1,6 @@
 @if (caseStore.caseStatus() === 'LOCKED') {
   <div class="decision-bar decision-bar--locked">
-    Sprawa zablokowana — decyzja: <strong>{{ lockedDecision() ?? caseStore.caseStatus() }}</strong>
+    Sprawa zablokowana — decyzja: <strong>{{ lockedDecisionLabel() }}</strong>
   </div>
 } @else if (caseStore.caseStatus() === 'ANALYZED') {
   <div class="decision-bar">
@@ -11,7 +11,7 @@
       <div class="decision-meta__title">Decyzja compliance</div>
       <div class="decision-meta__sub">
         @if (missingFieldsCount() > 0) {
-          <span class="decision-meta__warn">▲ {{ missingFieldsCount() }} {{ missingFieldsCount() === 1 ? 'pole' : missingFieldsCount() <= 4 ? 'pola' : 'pól' }} z brakującymi danymi — zweryfikuj przed decyzją</span>
+          <span class="decision-meta__warn decision-meta__warn--alert">▲ {{ missingFieldsCount() }} {{ missingFieldsCount() === 1 ? 'pole' : missingFieldsCount() <= 4 ? 'pola' : 'pól' }} z brakującymi danymi — zweryfikuj przed decyzją</span>
         } @else {
           Wszystkie wymagane pola uzupełnione — zapisuje do niezmiennego rejestru audytowego
         }

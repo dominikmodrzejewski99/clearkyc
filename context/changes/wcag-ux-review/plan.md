@@ -544,32 +544,32 @@ Dodaj `:focus-visible` w `app-layout.component.scss` na `.app-layout__resizer`.
 
 #### Automated
 
-- [x] 1.1 Typecheck passes po zmianach Fazy 1 (`cd web && npx tsc --noEmit`)
-- [x] 1.2 Build passes po zmianach Fazy 1 (`cd web && npm run build`)
+- [x] 1.1 Typecheck passes po zmianach Fazy 1 (`cd web && npx tsc --noEmit`) — 3d2f100
+- [x] 1.2 Build passes po zmianach Fazy 1 (`cd web && npm run build`) — 3d2f100
 
 #### Manual
 
-- [x] 1.3 `<html lang="pl">` widoczne w DevTools
-- [x] 1.4 `role="dialog"` na `.oo-modal` (nie na backdrop) widoczne w accessibility tree
-- [x] 1.5 Dropzone ma `role="button"` i accessible name w accessibility tree
-- [x] 1.6 citation-badge renderuje się jako `<button>` w DOM
-- [x] 1.7 `role="radiogroup"` + `aria-checked` na decision-bar przełączają się po kliknięciu
-- [x] 1.8 `role="alert"` na error banner extraction-form widoczne w DOM
-- [x] 1.9 Red flag items są `<li>` wewnątrz `<ul>`
-- [x] 1.10 axe DevTools scan: brak nowych naruszeń Level A/AA na `/cases/new`
+- [x] 1.3 `<html lang="pl">` widoczne w DevTools — 3d2f100
+- [x] 1.4 `role="dialog"` na `.oo-modal` (nie na backdrop) widoczne w accessibility tree — 3d2f100
+- [x] 1.5 Dropzone ma `role="button"` i accessible name w accessibility tree — 3d2f100
+- [x] 1.6 citation-badge renderuje się jako `<button>` w DOM — 3d2f100
+- [x] 1.7 `role="radiogroup"` + `aria-checked` na decision-bar przełączają się po kliknięciu — 3d2f100
+- [x] 1.8 `role="alert"` na error banner extraction-form widoczne w DOM — 3d2f100
+- [x] 1.9 Red flag items są `<li>` wewnątrz `<ul>` — 3d2f100
+- [x] 1.10 axe DevTools scan: brak nowych naruszeń Level A/AA na `/cases/new` — 3d2f100
 
 ### Phase 2: Drugorzędne ARIA + proste UX fixes
 
 #### Automated
 
-- [ ] 2.1 Typecheck passes po zmianach Fazy 2
-- [ ] 2.2 Build passes po zmianach Fazy 2
+- [x] 2.1 Typecheck passes po zmianach Fazy 2
+- [x] 2.2 Build passes po zmianach Fazy 2
 
 #### Manual
 
-- [ ] 2.3 Locked decision bar wyświetla "Zatwierdzona" / "Odrzucona" / "Eskalowana" (PL)
-- [ ] 2.4 Link `← Sprawy` prowadzi na `/cases` → redirect do `/cases/new`
-- [ ] 2.5 URL `/cases` działa i przekierowuje (nie 404)
+- [x] 2.3 Locked decision bar wyświetla "Zatwierdzona" / "Odrzucona" / "Eskalowana" (PL)
+- [x] 2.4 Link `← Sprawy` prowadzi na `/cases` → redirect do `/cases/new`
+- [x] 2.5 URL `/cases` działa i przekierowuje (nie 404)
 
 ### Phase 3: System kolorów i :focus-visible
 

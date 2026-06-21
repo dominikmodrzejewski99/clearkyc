@@ -12,6 +12,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/case-detail/case-detail.component').then(m => m.CaseDetailComponent),
     canActivate: [authGuard],
   },
+  { path: 'cases', redirectTo: 'cases/new', pathMatch: 'full' },
   {
     path: '',
     loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent),
