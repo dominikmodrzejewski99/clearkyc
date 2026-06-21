@@ -1,6 +1,6 @@
 import { Component, DestroyRef, OnInit, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppLayoutComponent } from '../../layout/app-layout/app-layout.component';
 import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewer.component';
 import { ExtractionFormComponent } from './components/extraction-form/extraction-form.component';
@@ -20,6 +20,7 @@ import { CaseService } from '../../core/services/case.service';
 export class CaseDetailComponent implements OnInit {
   protected readonly caseStore = inject(CaseStore);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly caseService = inject(CaseService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -54,6 +55,10 @@ export class CaseDetailComponent implements OnInit {
           error: () => { /* 404 for cases created before PDF storage — re-upload banner shown */ },
         });
     }
+  }
+
+  protected onDecided(): void {
+    setTimeout(() => this.router.navigate(['/cases/new']), 1500);
   }
 
   protected onReUpload(event: Event): void {
