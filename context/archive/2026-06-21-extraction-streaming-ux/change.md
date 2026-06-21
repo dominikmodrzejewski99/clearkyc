@@ -1,10 +1,10 @@
 ---
 change_id: extraction-streaming-ux
 title: Typewriter animation and empty-state guidance during extraction
-status: implementing
+status: archived
 created: 2026-06-21
 updated: 2026-06-21
-archived_at: null
+archived_at: 2026-06-21T18:23:16Z
 ---
 
 ## Notes
