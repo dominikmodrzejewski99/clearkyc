@@ -591,14 +591,14 @@ Dodaj `:focus-visible` w `app-layout.component.scss` na `.app-layout__resizer`.
 
 #### Automated
 
-- [x] 4.1 `npm install` w `web/` bez błędów; `@angular/cdk` w `package.json`
-- [x] 4.2 Typecheck passes po zmianach Fazy 4
-- [x] 4.3 Build passes po zmianach Fazy 4
+- [x] 4.1 `npm install` w `web/` bez błędów; `@angular/cdk` w `package.json` — 58a24b7
+- [x] 4.2 Typecheck passes po zmianach Fazy 4 — 58a24b7
+- [x] 4.3 Build passes po zmianach Fazy 4 — 58a24b7
 
 #### Manual
 
-- [x] 4.4 Tab przez overlay NIE wychodzi poza `.oo-modal` (focus trap działa)
-- [x] 4.5 Escape zamyka onboarding overlay
-- [x] 4.6 Tab na resizer — element ma fokus i widoczny outline
-- [x] 4.7 ArrowRight/ArrowLeft zmienia szerokość paneli; Shift+Arrow krok 5%
-- [x] 4.8 axe DevTools scan na `/cases/<id>` z overlayem — brak naruszeń
+- [x] 4.4 Tab przez overlay NIE wychodzi poza `.oo-modal` (focus trap działa) — 58a24b7
+- [x] 4.5 Escape zamyka onboarding overlay — 58a24b7
+- [x] 4.6 Tab na resizer — element ma fokus i widoczny outline — 58a24b7
+- [x] 4.7 ArrowRight/ArrowLeft zmienia szerokość paneli; Shift+Arrow krok 5% — 58a24b7
+- [x] 4.8 axe DevTools scan na `/cases/<id>` z overlayem — brak naruszeń — 58a24b7
