@@ -3,7 +3,17 @@
     <ng-content select="[slot='pdf']" />
   </div>
 
-  <div class="app-layout__resizer" (mousedown)="onResizerMouseDown($event)"></div>
+  <div
+    class="app-layout__resizer"
+    tabindex="0"
+    role="separator"
+    aria-label="Zmień szerokość paneli (strzałki lewo/prawo)"
+    [attr.aria-valuenow]="leftWidth()"
+    aria-valuemin="30"
+    aria-valuemax="70"
+    (mousedown)="onResizerMouseDown($event)"
+    (keydown)="onResizerKeyDown($event)"
+  ></div>
 
   <div class="app-layout__pane app-layout__pane--form">
     <ng-content select="[slot='form']" />

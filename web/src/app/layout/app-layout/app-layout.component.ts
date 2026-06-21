@@ -16,6 +16,16 @@ export class AppLayoutComponent {
     '--pdf-pane-width': this.leftWidth() + '%',
   }));
 
+  protected onResizerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.leftWidth.update(w => Math.min(70, w + (event.shiftKey ? 5 : 1)));
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.leftWidth.update(w => Math.max(30, w - (event.shiftKey ? 5 : 1)));
+    }
+  }
+
   protected onResizerMouseDown(startEvent: MouseEvent): void {
     startEvent.preventDefault();
     const containerWidth: number = this.host.nativeElement.getBoundingClientRect().width;

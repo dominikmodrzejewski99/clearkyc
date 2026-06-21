@@ -1,6 +1,6 @@
 @if (visible()) {
-  <div class="oo-backdrop" (click)="dismiss()">
-    <div class="oo-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="oo-title">
+  <div class="oo-backdrop" (click)="dismiss()" (keydown.escape)="dismiss()">
+    <div class="oo-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="oo-title" cdkTrapFocus cdkTrapFocusAutoCapture>
       <div class="oo-header">
         <span class="oo-counter">{{ step() }} / {{ TOTAL_STEPS }}</span>
         <button type="button" class="oo-close" (click)="dismiss()" aria-label="Zamknij przewodnik">×</button>

@@ -1,9 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-onboarding-overlay',
   standalone: true,
-  imports: [],
+  imports: [A11yModule],
   templateUrl: './onboarding-overlay.component.html',
   styleUrl: './onboarding-overlay.component.scss',
 })
