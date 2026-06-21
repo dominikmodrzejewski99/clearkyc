@@ -562,30 +562,30 @@ Dodaj `:focus-visible` w `app-layout.component.scss` na `.app-layout__resizer`.
 
 #### Automated
 
-- [x] 2.1 Typecheck passes po zmianach Fazy 2
-- [x] 2.2 Build passes po zmianach Fazy 2
+- [x] 2.1 Typecheck passes po zmianach Fazy 2 — 4a60b9b
+- [x] 2.2 Build passes po zmianach Fazy 2 — 4a60b9b
 
 #### Manual
 
-- [x] 2.3 Locked decision bar wyświetla "Zatwierdzona" / "Odrzucona" / "Eskalowana" (PL)
-- [x] 2.4 Link `← Sprawy` prowadzi na `/cases` → redirect do `/cases/new`
-- [x] 2.5 URL `/cases` działa i przekierowuje (nie 404)
+- [x] 2.3 Locked decision bar wyświetla "Zatwierdzona" / "Odrzucona" / "Eskalowana" (PL) — 4a60b9b
+- [x] 2.4 Link `← Sprawy` prowadzi na `/cases` → redirect do `/cases/new` — 4a60b9b
+- [x] 2.5 URL `/cases` działa i przekierowuje (nie 404) — 4a60b9b
 
 ### Phase 3: System kolorów i :focus-visible
 
 #### Automated
 
-- [ ] 3.1 Typecheck passes po zmianach Fazy 3
-- [ ] 3.2 Build passes po zmianach Fazy 3
+- [x] 3.1 Typecheck passes po zmianach Fazy 3
+- [x] 3.2 Build passes po zmianach Fazy 3
 
 #### Manual
 
-- [ ] 3.3 `--text-placeholder` nowa wartość kontrast ≥4.5:1 na white (DevTools Contrast Ratio)
-- [ ] 3.4 `--text-tertiary` nowa wartość kontrast ≥4.5:1 na `--gray-50` (#F5F7F9)
-- [ ] 3.5 Tab przez decision-bar: przyciski mają widoczny niebieski outline
-- [ ] 3.6 Tab przez onboarding overlay: wszystkie przyciski mają outline, × ma powiększony obszar
-- [ ] 3.7 citation-badge `<button>` wygląda identycznie jak poprzednio (bez domyślnych styli przycisków)
-- [ ] 3.8 axe DevTools: brak naruszeń kontrastu Level AA na `/cases/<id>`
+- [x] 3.3 `--text-placeholder` nowa wartość kontrast ≥4.5:1 na white (DevTools Contrast Ratio)
+- [x] 3.4 `--text-tertiary` nowa wartość kontrast ≥4.5:1 na `--gray-50` (#F5F7F9)
+- [x] 3.5 Tab przez decision-bar: przyciski mają widoczny niebieski outline
+- [x] 3.6 Tab przez onboarding overlay: wszystkie przyciski mają outline, × ma powiększony obszar
+- [x] 3.7 citation-badge `<button>` wygląda identycznie jak poprzednio (bez domyślnych styli przycisków)
+- [x] 3.8 axe DevTools: brak naruszeń kontrastu Level AA na `/cases/<id>`
 
 ### Phase 4: Klawiatura i CDK focus trap
 

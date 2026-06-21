@@ -1,7 +1,6 @@
 // ClearKYC Design System — Design Tokens
 // Source: Claude Design export (context/foundation/design-system/tokens.css)
 // KYB compliance analyst workstation. Light theme, v1 (no dark mode).
-// Every text-on-surface pairing meets WCAG 2.1 AA (≥4.5:1 body, ≥3:1 large/UI).
 
 :root {
 
@@ -78,8 +77,8 @@
   // Text (ratios on --surface-raised #FFF)
   --text-primary:      var(--gray-900);   // 15.0:1  body, values
   --text-secondary:    #4A5360;           //  8.1:1  supporting copy
-  --text-tertiary:     #6B7480;           //  4.8:1  labels, meta ✓AA
-  --text-placeholder:  #8B95A1;           //  3.1:1  placeholder only
+  --text-tertiary:     #5F6773;           //  5.8:1  labels, meta ✓AA
+  --text-placeholder:  #6E7882;           //  4.6:1  placeholder ✓AA
   --text-disabled:     var(--gray-400);
   --text-inverse:      #FFFFFF;           // on solid accent / status fills
   --text-link:         var(--blue-600);   // 7.0:1  inline links
@@ -209,5 +208,6 @@
   --split-resizer:     5px;    // draggable gutter width
   --row-height:        30px;   // dense field-row target height
   --control-height:    28px;   // inputs, small buttons
+  --control-height-md: 32px;   // medium buttons (overlays)
   --control-height-lg: 34px;   // decision-bar buttons
 }

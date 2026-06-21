@@ -39,9 +39,15 @@
   font-size: var(--text-lg);
   color: var(--text-tertiary);
   line-height: 1;
-  padding: 0;
+  padding: var(--space-2);
 
   &:hover { color: var(--text-primary); }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
 }
 
 .oo-body {
@@ -86,7 +92,7 @@
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   padding: 0 var(--space-4);
-  height: var(--control-height-md);
+  height: var(--control-height-lg);
   border-radius: var(--radius-sm);
   border: none;
   background: var(--accent);
@@ -94,6 +100,12 @@
   cursor: pointer;
 
   &:hover { background: var(--accent-hover); }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
 }
 
 .oo-btn-secondary {
@@ -101,7 +113,7 @@
   font-size: var(--text-md);
   font-weight: var(--weight-medium);
   padding: 0 var(--space-4);
-  height: var(--control-height-md);
+  height: var(--control-height-lg);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: transparent;
@@ -110,4 +122,10 @@
 
   &:hover:not(:disabled) { background: var(--surface-hover); }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
 }

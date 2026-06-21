@@ -264,6 +264,13 @@
     color: var(--accent-text);
     border-color: var(--border-default);
   }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+    opacity: 1;
+  }
 }
 
 /* ---- citation snippet (matches workstation .citation) ---- */
@@ -290,6 +297,12 @@
   &:hover {
     background: var(--accent-subtle);
     border-left-color: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 
   .src {

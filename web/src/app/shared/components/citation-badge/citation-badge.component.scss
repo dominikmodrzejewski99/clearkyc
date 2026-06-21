@@ -1,9 +1,13 @@
 .cite-sup {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   color: var(--accent);
   vertical-align: super;
-  cursor: pointer;
   font-weight: var(--weight-medium);
   margin-left: 2px;
   line-height: 1;
