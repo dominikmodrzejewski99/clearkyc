@@ -26,6 +26,13 @@
     </div>
   }
 
+  @if (caseStore.caseStatus() === 'ANALYZED' && !calloutDismissed()) {
+    <div class="ef-callout">
+      <span>✓ Analiza zakończona — przejrzyj wartości i cytacje, następnie wybierz decyzję w dolnym pasku.</span>
+      <button type="button" (click)="dismissCallout()" aria-label="Zamknij wskazówkę">×</button>
+    </div>
+  }
+
   @if (caseStore.extractionFields().length > 0) {
     <div class="field-list">
       @for (field of caseStore.extractionFields(); track field.fieldName) {

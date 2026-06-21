@@ -36,6 +36,9 @@
         (click)="pickDecision('ESCALATE')"
         type="button"
       >Eskaluj</button>
+      @if (pendingDecision()) {
+        <p class="decision-bar__warning">⚠ Po potwierdzeniu sprawa zostanie zablokowana — tej operacji nie można cofnąć.</p>
+      }
       <button
         class="commit-btn"
         [disabled]="!pendingDecision() || isSubmitting()"

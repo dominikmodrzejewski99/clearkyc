@@ -3,5 +3,6 @@
   (click)="navigate()"
   (keyup.enter)="navigate()"
   tabindex="0"
-  [title]="citation().quote"
+  [title]="'Kliknij → str. ' + citation().page + ' w PDF · ' + citation().quote.slice(0, 60) + (citation().quote.length > 60 ? '…' : '')"
+  [attr.aria-label]="'Cytat ' + index() + ': przejdź do str. ' + citation().page + ' w PDF'"
 >[{{ index() }}]</sup>

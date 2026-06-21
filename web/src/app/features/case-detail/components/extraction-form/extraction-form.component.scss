@@ -7,6 +7,33 @@
   position: relative;
 }
 
+/* ---- analyzed callout ---- */
+.ef-callout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-subtle);
+  border-left: 3px solid var(--accent);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--text-lg);
+    color: var(--text-tertiary);
+    line-height: 1;
+    padding: 0 var(--space-2);
+    flex-shrink: 0;
+
+    &:hover { color: var(--text-primary); }
+  }
+}
+
 /* ---- pane header ---- */
 .pane-head {
   flex: 0 0 auto;

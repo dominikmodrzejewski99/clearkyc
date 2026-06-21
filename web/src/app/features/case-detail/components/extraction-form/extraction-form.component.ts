@@ -24,6 +24,11 @@ export class ExtractionFormComponent {
   protected readonly editJustification = signal<string>('');
   protected readonly showReanalyzeWarning = signal<boolean>(false);
   protected readonly expandedOverrideField = signal<string | null>(null);
+  protected readonly calloutDismissed = signal<boolean>(false);
+
+  protected dismissCallout(): void {
+    this.calloutDismissed.set(true);
+  }
 
   protected readonly totalFieldsCount = computed(() => this.caseStore.extractionFields().length);
   protected readonly citedFieldsCount = computed(() =>
