@@ -1,0 +1,231 @@
+<!-- NAV -->
+<nav class="nav" aria-label="Główna nawigacja">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <div class="brand-mark">C</div>
+      <span class="brand-name">ClearKYC</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="#problem">Problem</a>
+      <a class="nav-link" href="#how">Jak to działa</a>
+      <a class="nav-link" href="#features">Możliwości</a>
+      <button class="btn btn-outline" (click)="login()">Zaloguj się</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="top"></div>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 class="h1">Analiza dokumentów KYB wspomagana przez AI</h1>
+        <p class="hero-sub">ClearKYC czyta złożone dokumenty korporacyjne, wyodrębnia kluczowe dane z cytowaniami źródłowymi i umożliwia analitykowi weryfikację przed podjęciem decyzji. Zamiast 4 do 8 godzin ręcznej pracy, jeden ustrukturyzowany przepływ.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" (click)="login()">Zaloguj się</button>
+          <a class="btn btn-outline btn-lg" href="#how" style="border-color:var(--border-strong); color:var(--text-secondary)">Zobacz jak to działa</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="mock" role="img" aria-label="Podgląd interfejsu ClearKYC: po lewej dokument PDF, po prawej formularz ekstrakcji z cytatami">
+          <div class="mock-top">
+            <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+            <span class="mock-title mono">Northgate Holdings Limited · KYB-2026-04417</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-pane left">
+              <div class="mock-ph"><span>Dokument źródłowy</span><span class="mono">p.2 / 15</span></div>
+              <div class="mock-doc">
+                <div class="skel t"></div>
+                <div class="skel" style="width:100%"></div>
+                <div class="skel hl" style="width:92%"></div>
+                <div class="skel" style="width:78%"></div>
+                <div class="skel" style="width:88%"></div>
+                <div class="skel" style="width:64%"></div>
+                <div class="skel" style="width:95%"></div>
+                <div class="skel" style="width:72%"></div>
+              </div>
+            </div>
+            <div class="mock-pane">
+              <div class="mock-ph"><span>Ekstrakcja</span><span class="mono">18 pól · 14 cytatów</span></div>
+              <div class="mock-field">
+                <div class="mf-label">Nazwa podmiotu</div>
+                <div class="mf-val">Northgate Holdings Limited<span class="mf-sup">[1]</span></div>
+                <div class="mf-cite">„the name of the Company is Northgate Holdings Limited"</div>
+              </div>
+              <div class="mock-field">
+                <div class="mf-label">Jurysdykcja</div>
+                <div class="mf-val">England and Wales<span class="mf-sup">[5]</span></div>
+              </div>
+              <div class="mock-field">
+                <div class="mf-label">Siedziba</div>
+                <div class="mf-val">82 King Street, Manchester<span class="mf-cursor"></span> <span class="mf-tag">● Streaming</span></div>
+              </div>
+              <div class="mock-decisions">
+                <div class="mock-btn ap">✓ Zatwierdź</div>
+                <div class="mock-btn re">✕ Odrzuć</div>
+                <div class="mock-btn es">▲ Eskaluj</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEM -->
+<section class="section canvas" id="problem">
+  <div class="wrap">
+    <div class="eyebrow reveal">Problem</div>
+    <h2 class="h2 reveal" style="--rd:.06s">Weryfikacja firm jest żmudna i podatna na błędy</h2>
+    <p class="lead">Banki muszą dokładnie sprawdzić każdą firmę-klienta zanim ją obsłużą: kto ją kontroluje, kto za nią stoi, czy nie ma podejrzanych powiązań. To wymaga przeczytania setek stron dokumentów, takich jak akty założycielskie, rejestry korporacyjne czy umowy spółek.</p>
+    <p class="lead" style="margin-top:var(--space-4)">Starsze narzędzia KYC sprawdzają listy sankcji, ale nie rozumieją treści narracyjnej. Analityk musi czytać PDF-y ręcznie i przepisywać dane do Excela. Jeden złożony wniosek to nawet 4 do 8 godzin pracy.</p>
+    <div class="stats reveal" style="--rd:.12s">
+      <div class="stat">
+        <div class="stat-num">4-8 h</div>
+        <div class="stat-label">ręcznej pracy na jedną sprawę</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">setki</div>
+        <div class="stat-label">stron dokumentów PDF do przeczytania</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">wysokie</div>
+        <div class="stat-label">ryzyko błędów przy ręcznej weryfikacji</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="eyebrow">Jak to działa</div>
+    <h2 class="h2">Trzy kroki do decyzji</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-head">
+          <span class="step-circle">1</span>
+          <span class="step-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </span>
+        </div>
+        <div class="step-title">Prześlij dokument</div>
+        <p class="step-body">Przeciągnij plik PDF lub wybierz z dysku. ClearKYC obsługuje złożone dokumenty korporacyjne, takie jak akty założycielskie, wyciągi z rejestrów i umowy spółek.</p>
+        <div class="step-viz">
+          <div class="viz-drop">
+            <div class="viz-up">⬆</div>
+            <div class="viz-chip"><span class="viz-pdf">PDF</span> Articles_of_Association.pdf</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal" style="--rd:.12s">
+        <div class="step-head">
+          <span class="step-circle">2</span>
+          <span class="step-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a3 3 0 0 0-3 3v0a3 3 0 0 0-3 3 3 3 0 0 0 .8 5.7A3 3 0 0 0 12 21a3 3 0 0 0 5.2-3.3A3 3 0 0 0 18 9a3 3 0 0 0-3-3v0a3 3 0 0 0-3-3Z"></path><path d="M12 3v18"></path></svg>
+          </span>
+        </div>
+        <div class="step-title">AI analizuje i ekstrahuje</div>
+        <p class="step-body">Model czyta cały dokument i wyodrębnia kluczowe dane: nazwę firmy, dyrektorów, właścicieli rzeczywistych. Każde pole pojawia się w czasie rzeczywistym z cytatem ze źródła.</p>
+        <div class="step-viz">
+          <div class="viz-field">
+            <span class="viz-fl">Nazwa podmiotu</span>
+            <span class="viz-fv">Northgate Holdings Ltd<sup class="viz-sup">[1]</sup></span>
+          </div>
+          <div class="viz-field">
+            <span class="viz-fl">Dyrektorzy</span>
+            <span class="viz-fv">James P. Holloway<span class="viz-cursor"></span></span>
+          </div>
+          <div class="viz-live"><span class="viz-pulse"></span> Ekstrakcja na żywo</div>
+        </div>
+      </div>
+
+      <div class="step reveal" style="--rd:.24s">
+        <div class="step-head">
+          <span class="step-circle">3</span>
+          <span class="step-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          </span>
+        </div>
+        <div class="step-title">Analityk weryfikuje i decyduje</div>
+        <p class="step-body">Sprawdź wyodrębnione dane. Kliknij cytat, by przejść do fragmentu w dokumencie. Popraw, jeśli trzeba, z obowiązkowym uzasadnieniem. Zatwierdź, Odrzuć lub Eskaluj, a decyzja trafia do rejestru.</p>
+        <div class="step-viz">
+          <div class="viz-decisions">
+            <span class="viz-btn ap">✓ Zatwierdź</span>
+            <span class="viz-btn re">✕ Odrzuć</span>
+            <span class="viz-btn es">▲ Eskaluj</span>
+          </div>
+          <div class="viz-audit"><span class="mono">🔒</span> Zapisano do rejestru audytu</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section canvas" id="features">
+  <div class="wrap">
+    <div class="eyebrow reveal">Możliwości</div>
+    <h2 class="h2 reveal" style="--rd:.06s">Wszystko, czego potrzebuje analityk</h2>
+    <div class="features">
+      <div class="card reveal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="13 2 13 10 20 10"></polyline><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor" stroke="none"></path></svg>
+        </div>
+        <div class="card-title">Ekstrakcja na żywo</div>
+        <p class="card-body">Pola formularza wypełniają się w miarę jak AI czyta dokument. Nie ma czekania na wynik, widzisz postęp w czasie rzeczywistym.</p>
+      </div>
+      <div class="card reveal" style="--rd:.08s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        </div>
+        <div class="card-title">Każde pole ma cytat</div>
+        <p class="card-body">Każda wyodrębniona wartość jest powiązana z dokładnym fragmentem dokumentu. Kliknij cytat, a widok PDF przeskoczy do właściwej strony.</p>
+      </div>
+      <div class="card reveal" style="--rd:.16s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+        </div>
+        <div class="card-title">Kontrola analityka</div>
+        <p class="card-body">Analityk może poprawić każde pole, bo model nie jest nieomylny. Każda zmiana wymaga krótkiego uzasadnienia, które trafia do rejestru.</p>
+      </div>
+      <div class="card reveal" style="--rd:.24s">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div class="card-title">Pełny ślad audytu</div>
+        <p class="card-body">Zatwierdzenie, odrzucenie lub eskalacja jest zapisywana z pełną historią: kto, kiedy, co zmienił i dlaczego.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Gotowy do pracy nad sprawą?</h2>
+      <p>Zaloguj się, aby przesłać pierwszy dokument i zobaczyć ekstrakcję w działaniu.</p>
+      <button class="btn btn-on-dark btn-lg" (click)="login()">Zaloguj się</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <div class="brand-mark" style="width:22px;height:22px;font-size:var(--text-sm)">C</div>
+      ClearKYC
+    </div>
+    <div class="footer-meta">Projekt zaliczeniowy kursu 10xDevs</div>
+    <div class="footer-links">
+      <a href="https://github.com" target="_blank" rel="noopener">Repozytorium GitHub</a>
+    </div>
+  </div>
+</footer>

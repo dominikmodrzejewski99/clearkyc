@@ -5,7 +5,7 @@
 } @else if (caseStore.caseStatus() === 'ANALYZED') {
   <div class="decision-bar">
     @if (submitError()) {
-      <p class="decision-bar__error">{{ submitError() }}</p>
+      <p class="decision-bar__error" role="alert" aria-live="assertive">{{ submitError() }}</p>
     }
     <div class="decision-meta">
       <div class="decision-meta__title">Decyzja compliance</div>
@@ -18,32 +18,41 @@
       </div>
     </div>
     <div class="decision-bar__buttons">
-      <button
-        class="decision-bar__btn decision-bar__btn--approve"
-        [class.decision-bar__btn--active]="pendingDecision() === 'APPROVE'"
-        (click)="pickDecision('APPROVE')"
-        type="button"
-      >Zatwierdź</button>
-      <button
-        class="decision-bar__btn decision-bar__btn--reject"
-        [class.decision-bar__btn--active]="pendingDecision() === 'REJECT'"
-        (click)="pickDecision('REJECT')"
-        type="button"
-      >Odrzuć</button>
-      <button
-        class="decision-bar__btn decision-bar__btn--escalate"
-        [class.decision-bar__btn--active]="pendingDecision() === 'ESCALATE'"
-        (click)="pickDecision('ESCALATE')"
-        type="button"
-      >Eskaluj</button>
+      <div role="radiogroup" aria-label="Decyzja compliance">
+        <button
+          class="decision-bar__btn decision-bar__btn--approve"
+          [class.decision-bar__btn--active]="pendingDecision() === 'APPROVE'"
+          (click)="pickDecision('APPROVE')"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="pendingDecision() === 'APPROVE' ? 'true' : 'false'"
+        >Zatwierdź</button>
+        <button
+          class="decision-bar__btn decision-bar__btn--reject"
+          [class.decision-bar__btn--active]="pendingDecision() === 'REJECT'"
+          (click)="pickDecision('REJECT')"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="pendingDecision() === 'REJECT' ? 'true' : 'false'"
+        >Odrzuć</button>
+        <button
+          class="decision-bar__btn decision-bar__btn--escalate"
+          [class.decision-bar__btn--active]="pendingDecision() === 'ESCALATE'"
+          (click)="pickDecision('ESCALATE')"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="pendingDecision() === 'ESCALATE' ? 'true' : 'false'"
+        >Eskaluj</button>
+      </div>
       @if (pendingDecision()) {
-        <p class="decision-bar__warning">⚠ Po potwierdzeniu sprawa zostanie zablokowana — tej operacji nie można cofnąć.</p>
+        <p class="decision-bar__warning" id="decision-warning" aria-live="polite" aria-atomic="true">⚠ Po potwierdzeniu sprawa zostanie zablokowana — tej operacji nie można cofnąć.</p>
       }
       <button
         class="commit-btn"
         [disabled]="!pendingDecision() || isSubmitting()"
         (click)="commit()"
         type="button"
+        [attr.aria-describedby]="pendingDecision() ? 'decision-warning' : null"
       >Potwierdź decyzję</button>
     </div>
   </div>

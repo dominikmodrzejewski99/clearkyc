@@ -1,16 +1,22 @@
 <div
   class="drop-zone"
   [class.drag-over]="isDragOver()"
+  role="button"
+  tabindex="0"
+  aria-label="Wgraj plik PDF — kliknij lub przeciągnij plik"
   (dragover)="onDragOver($event)"
   (dragleave)="onDragLeave()"
   (drop)="onDrop($event)"
   (click)="fileInput.click()"
+  (keyup.enter)="fileInput.click()"
+  (keyup.space)="fileInput.click()"
 >
   <input
     #fileInput
     type="file"
     accept=".pdf"
     class="dz-input"
+    aria-label="Wybierz plik PDF (maks. 50 MB)"
     (change)="onFileChange($event)"
   />
   <div class="dz-icon">⬆</div>
@@ -18,6 +24,6 @@
   <div class="dz-hint">lub <b (click)="$event.stopPropagation(); fileInput.click()">przeglądaj pliki</b> aby wybrać</div>
   <div class="dz-formats">PDF · max 50 MB</div>
   @if (error()) {
-    <p class="dz-error">{{ error() }}</p>
+    <p class="dz-error" role="alert" aria-live="assertive" aria-atomic="true">{{ error() }}</p>
   }
 </div>

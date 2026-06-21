@@ -20,14 +20,14 @@
   </div>
 
   @if (caseStore.analysisError()) {
-    <div class="extraction-form__error-banner">
+    <div class="extraction-form__error-banner" role="alert" aria-live="assertive" aria-atomic="true">
       <span>{{ caseStore.analysisError() }}</span>
       <button type="button" (click)="tryStartAnalysis()">Ponów analizę</button>
     </div>
   }
 
   @if (caseStore.caseStatus() === 'ANALYZED' && !calloutDismissed()) {
-    <div class="ef-callout">
+    <div class="ef-callout" role="status" aria-live="polite" aria-atomic="true">
       <span>✓ Analiza zakończona — przejrzyj wartości i cytacje, następnie wybierz decyzję w dolnym pasku.</span>
       <button type="button" (click)="dismissCallout()" aria-label="Zamknij wskazówkę">×</button>
     </div>
@@ -48,8 +48,9 @@
                   <span class="of-icon">✎</span> Nadpisanie · {{ field.fieldName }}
                 </div>
                 <div class="of-field">
-                  <label>Nowa wartość</label>
+                  <label for="edit-value-input">Nowa wartość</label>
                   <input
+                    id="edit-value-input"
                     class="input"
                     type="text"
                     [value]="editDraft()"
@@ -58,12 +59,14 @@
                   />
                 </div>
                 <div class="of-field">
-                  <label>Uzasadnienie <span class="req-tag">— wymagane</span></label>
+                  <label for="edit-justification-input">Uzasadnienie <span class="req-tag">— wymagane</span></label>
                   <textarea
+                    id="edit-justification-input"
                     class="input ta"
                     [value]="editJustification()"
                     (input)="updateEditJustification($event)"
                     placeholder="Wyjaśnij podstawę tej zmiany…"
+                    aria-required="true"
                   ></textarea>
                   <div class="of-help">Zapisane przy Twoim ID analityka w dzienniku audytu.</div>
                 </div>
@@ -147,8 +150,8 @@
 
   @if (showReanalyzeWarning()) {
     <div class="ef-overlay">
-      <div class="ef-dialog">
-        <h3>Ponowna analiza usunie nadpisania</h3>
+      <div class="ef-dialog" role="alertdialog" aria-labelledby="ef-dialog-title">
+        <h3 id="ef-dialog-title">Ponowna analiza usunie nadpisania</h3>
         <p>Masz aktywne nadpisania pól. Uruchomienie ponownej analizy usunie wszystkie overrides.</p>
         <div class="ef-dialog-actions">
           <button type="button" class="btn-sm" (click)="showReanalyzeWarning.set(false)">Anuluj</button>

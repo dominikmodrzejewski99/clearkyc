@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="fc-check">✓</div>
-            <button class="fc-remove" type="button" title="Usuń plik" (click)="removeFile()">✕</button>
+            <button class="fc-remove" type="button" title="Usuń plik" aria-label="Usuń wybrany plik PDF" (click)="removeFile()">✕</button>
           </div>
         </div>
       }
@@ -53,7 +53,7 @@
         }
         <div class="upload-submit">
           @if (isUploading()) {
-            <span class="upload-status">Tworzenie sprawy...</span>
+            <span class="upload-status" role="status" aria-live="polite" aria-atomic="true">Tworzenie sprawy...</span>
           }
           <button
             class="submit-btn"
@@ -68,20 +68,22 @@
     <!-- right: recent cases sidebar -->
     <div class="upload-sidebar">
       <div class="us-head">Ostatnie sprawy</div>
-      <div class="us-body">
+      <ul class="us-body" style="list-style:none;padding:0;margin:0">
         @for (c of recentCases(); track c.id) {
-          <a class="case-card" [routerLink]="['/cases', c.id]">
-            <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
-            <div class="cc-row">
-              <span class="cc-id">{{ c.id }}</span>
-              <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
-              <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
-            </div>
-          </a>
+          <li>
+            <a class="case-card" [routerLink]="['/cases', c.id]">
+              <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
+              <div class="cc-row">
+                <span class="cc-id">{{ c.id }}</span>
+                <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
+                <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
+              </div>
+            </a>
+          </li>
         } @empty {
-          <div class="us-empty">Brak ostatnich spraw</div>
+          <li class="us-empty">Brak ostatnich spraw</li>
         }
-      </div>
+      </ul>
       <div class="us-footer">
         <b>{{ recentCases().length }}</b> spraw załadowanych
       </div>

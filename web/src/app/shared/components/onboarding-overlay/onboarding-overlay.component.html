@@ -1,6 +1,6 @@
 @if (visible()) {
-  <div class="oo-backdrop" (click)="dismiss()" role="dialog" aria-modal="true" aria-label="Pierwsze kroki w ClearKYC">
-    <div class="oo-modal" (click)="$event.stopPropagation()">
+  <div class="oo-backdrop" (click)="dismiss()">
+    <div class="oo-modal" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="oo-title">
       <div class="oo-header">
         <span class="oo-counter">{{ step() }} / {{ TOTAL_STEPS }}</span>
         <button type="button" class="oo-close" (click)="dismiss()" aria-label="Zamknij przewodnik">×</button>
@@ -10,17 +10,17 @@
         @switch (step()) {
           @case (1) {
             <div class="oo-icon">📄</div>
-            <h2 class="oo-title">Twój obszar roboczy</h2>
+            <h2 class="oo-title" id="oo-title">Twój obszar roboczy</h2>
             <p class="oo-desc">PDF ze sprawą wyświetla się po lewej. Formularz ekstrakcji po prawej. Możesz przeciągać środkowy separator, żeby dopasować proporcje paneli.</p>
           }
           @case (2) {
             <div class="oo-icon">🔗</div>
-            <h2 class="oo-title">Cytowania prowadzą do źródła</h2>
+            <h2 class="oo-title" id="oo-title">Cytowania prowadzą do źródła</h2>
             <p class="oo-desc">Niebieskie znaczniki <strong>[1] [2]</strong> przy wartościach to cytaty ze źródłowego PDF. Kliknij dowolny — przeglądarka po lewej przewinie do odpowiedniego fragmentu i go podświetli.</p>
           }
           @case (3) {
             <div class="oo-icon">⚖️</div>
-            <h2 class="oo-title">Decyzja compliance jest nieodwracalna</h2>
+            <h2 class="oo-title" id="oo-title">Decyzja compliance jest nieodwracalna</h2>
             <p class="oo-desc">W dolnym pasku wybierz <strong>Zatwierdź</strong>, <strong>Odrzuć</strong> lub <strong>Eskaluj</strong>, następnie kliknij „Potwierdź decyzję". Po potwierdzeniu sprawa zostaje zablokowana i nie można jej edytować.</p>
           }
         }

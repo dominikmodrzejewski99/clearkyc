@@ -1,20 +1,22 @@
 @if (caseStore.caseStatus() === 'ANALYZED' || caseStore.caseStatus() === 'LOCKED') {
-  <section class="red-flag-list">
-    <h3 class="red-flag-list__title">Red Flags</h3>
+  <section class="red-flag-list" aria-labelledby="red-flag-heading">
+    <h3 class="red-flag-list__title" id="red-flag-heading">Red Flags</h3>
     @if (caseStore.redFlags().length === 0) {
       <p class="no-flags">Brak zidentyfikowanych red flag.</p>
     } @else {
-      @for (flag of caseStore.redFlags(); track $index) {
-        <div class="red-flag-item">
-          <span class="category-badge">{{ flag.category }}</span>
-          <p class="description">{{ flag.description }}</p>
-          <div class="citations">
-            @for (citation of flag.citations; track $index) {
-              <app-citation-badge [citation]="citation" [index]="$index" />
-            }
-          </div>
-        </div>
-      }
+      <ul class="red-flag-items" aria-live="polite" aria-atomic="false" style="list-style:none;padding:0;margin:0">
+        @for (flag of caseStore.redFlags(); track $index) {
+          <li class="red-flag-item">
+            <span class="category-badge">{{ flag.category }}</span>
+            <p class="description">{{ flag.description }}</p>
+            <div class="citations">
+              @for (citation of flag.citations; track $index) {
+                <app-citation-badge [citation]="citation" [index]="$index" />
+              }
+            </div>
+          </li>
+        }
+      </ul>
     }
   </section>
 }
