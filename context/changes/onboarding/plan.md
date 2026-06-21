@@ -298,24 +298,24 @@ Nie dodajemy unit testów dla tej zmiany — onboarding jest czystą warstwą UI
 
 #### Automated
 
-- [x] 1.1 Typecheck przechodzi po zmianach Fazy 1 (`cd web && npx tsc --noEmit`)
-- [x] 1.2 Build kompiluje się (`cd web && npm run build`)
+- [x] 1.1 Typecheck przechodzi po zmianach Fazy 1 (`cd web && npx tsc --noEmit`) — ed0639b
+- [x] 1.2 Build kompiluje się (`cd web && npm run build`) — ed0639b
 
 #### Manual
 
-- [x] 1.3 Citation badge jest niebieski, tooltip mówi "Kliknij → str. N w PDF", klik nawiguje
-- [x] 1.4 Ostrzeżenie ⚠ pojawia się po wybraniu decyzji, znika po LOCKED
-- [x] 1.5 Callout ANALYZED pojawia się po analizie, × zamyka go
+- [x] 1.3 Citation badge jest niebieski, tooltip mówi "Kliknij → str. N w PDF", klik nawiguje — ed0639b
+- [x] 1.4 Ostrzeżenie ⚠ pojawia się po wybraniu decyzji, znika po LOCKED — ed0639b
+- [x] 1.5 Callout ANALYZED pojawia się po analizie, × zamyka go — ed0639b
 
 ### Phase 2: First-use onboarding overlay
 
 #### Automated
 
-- [ ] 2.1 Typecheck przechodzi po zmianach Fazy 2 (`cd web && npx tsc --noEmit`)
-- [ ] 2.2 Build kompiluje się (`cd web && npm run build`)
+- [x] 2.1 Typecheck przechodzi po zmianach Fazy 2 (`cd web && npx tsc --noEmit`)
+- [x] 2.2 Build kompiluje się (`cd web && npm run build`)
 
 #### Manual
 
-- [ ] 2.3 Overlay pojawia się przy pierwszej wizycie (po wyczyszczeniu localStorage)
-- [ ] 2.4 Nawigacja kroków 1→2→3 działa, Wstecz działa
-- [ ] 2.5 Zamknięcie overlay ustawia localStorage, kolejna wizyta overlay nie pokazuje
+- [x] 2.3 Overlay pojawia się przy pierwszej wizycie (po wyczyszczeniu localStorage)
+- [x] 2.4 Nawigacja kroków 1→2→3 działa, Wstecz działa
+- [x] 2.5 Zamknięcie overlay ustawia localStorage, kolejna wizyta overlay nie pokazuje

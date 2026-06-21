@@ -7,12 +7,13 @@ import { ExtractionFormComponent } from './components/extraction-form/extraction
 import { DecisionBarComponent } from '../../shared/components/decision-bar/decision-bar.component';
 import { RedFlagListComponent } from './components/red-flag-list/red-flag-list.component';
 import { WorkstationTopbarComponent } from '../../shared/components/workstation-topbar/workstation-topbar.component';
+import { OnboardingOverlayComponent } from '../../shared/components/onboarding-overlay/onboarding-overlay.component';
 import { CaseStore } from '../../core/store/case.store';
 import { CaseService } from '../../core/services/case.service';
 
 @Component({
   selector: 'app-case-detail',
-  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, RedFlagListComponent, WorkstationTopbarComponent],
+  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, RedFlagListComponent, WorkstationTopbarComponent, OnboardingOverlayComponent],
   templateUrl: './case-detail.component.html',
   styleUrl: './case-detail.component.scss',
 })
