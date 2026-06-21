@@ -423,8 +423,8 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Manual
 
-- [ ] 1.3 `POST /api/cases` z plikiem → `GET /api/cases/{id}` zwraca `entityName` bez `.pdf`
-- [ ] 1.4 Stara sprawa (null entityName) nie rzuca błędu
+- [x] 1.3 `POST /api/cases` z plikiem → `GET /api/cases/{id}` zwraca `entityName` bez `.pdf`
+- [x] 1.4 Stara sprawa (null entityName) nie rzuca błędu
 
 ### Phase 2: WorkstationTopbarComponent + CaseDetail wiring
 
@@ -435,10 +435,10 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Manual
 
-- [ ] 2.3 Topbar widoczny ponad layoutem na `/cases/:id`
-- [ ] 2.4 Nazwa encji w topbarze (fallback: caseId gdy null)
-- [ ] 2.5 Run-state badge przechodzi idle → running → complete poprawnie
-- [ ] 2.6 Brak pionowego przepełnienia viewport
+- [x] 2.3 Topbar widoczny ponad layoutem na `/cases/:id`
+- [x] 2.4 Nazwa encji w topbarze (fallback: caseId gdy null)
+- [x] 2.5 Run-state badge przechodzi idle → running → complete poprawnie
+- [x] 2.6 Brak pionowego przepełnienia viewport
 
 ### Phase 3: PDF pane header
 
@@ -448,9 +448,9 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Manual
 
-- [ ] 3.2 Nagłówek "Source document" widoczny nad panelem PDF
-- [ ] 3.3 Liczba stron (np. "3 pp") pojawia się po załadowaniu pliku
-- [ ] 3.4 PDF body scrolluje niezależnie poniżej nagłówka
+- [x] 3.2 Nagłówek "Source document" widoczny nad panelem PDF
+- [x] 3.3 Liczba stron (np. "3 pp") pojawia się po załadowaniu pliku
+- [x] 3.4 PDF body scrolluje niezależnie poniżej nagłówka
 
 ### Phase 4: Decision bar — two-step commit + tests
 
@@ -461,7 +461,7 @@ Flyway V2 migration jest additive (tylko ADD COLUMN nullable) — nie wymaga bac
 
 #### Manual
 
-- [ ] 4.3 Klik decyzji → solid fill, "Commit decision" aktywuje
-- [ ] 4.4 Klik "Commit decision" → finalize API wywołane, sprawa locked
-- [ ] 4.5 Amber warning widoczny gdy pola missing
-- [ ] 4.6 "Commit decision" disabled podczas submittowania
+- [x] 4.3 Klik decyzji → solid fill, "Commit decision" aktywuje
+- [x] 4.4 Klik "Commit decision" → finalize API wywołane, sprawa locked
+- [x] 4.5 Amber warning widoczny gdy pola missing
+- [x] 4.6 "Commit decision" disabled podczas submittowania
