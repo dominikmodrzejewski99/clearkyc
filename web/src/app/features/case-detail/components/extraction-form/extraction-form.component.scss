@@ -112,6 +112,69 @@
   }
 }
 
+/* ---- skeleton empty state ---- */
+.ef-skeleton {
+  border-top: 1px solid var(--border-default);
+  flex-shrink: 0;
+}
+
+.ef-skel-row {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: center;
+
+  &:nth-child(even) { background: var(--surface-stripe); }
+}
+
+.ef-skel-bar {
+  height: 12px;
+  border-radius: var(--radius-xs);
+  background: var(--gray-200);
+}
+
+.ef-skel-bar--label {
+  width: 72px;
+
+  .ef-skel-row:nth-child(3n) & { width: 96px; }
+  .ef-skel-row:nth-child(even) & { width: 56px; }
+}
+
+.ef-skel-bar--value {
+  width: 85%;
+
+  .ef-skel-row:nth-child(even) & { width: 60%; }
+  .ef-skel-row:nth-child(3n) & { width: 90%; }
+  .ef-skel-row:nth-child(4n) & { width: 45%; }
+}
+
+.ef-skel-hint {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+  border-top: 1px solid var(--border-subtle);
+  line-height: var(--leading-snug);
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+.ef-skeleton--shimmer .ef-skel-bar {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 25%,
+    rgba(255, 255, 255, 0.7) 50%,
+    var(--gray-200) 75%
+  );
+  background-size: 200% auto;
+  animation: shimmer 1.5s linear infinite;
+}
+
 /* ---- field list ---- */
 .field-list {
   overflow: hidden;

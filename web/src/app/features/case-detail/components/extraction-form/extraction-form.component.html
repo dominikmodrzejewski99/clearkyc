@@ -19,6 +19,25 @@
     </div>
   </div>
 
+  @if (caseStore.extractionFields().length === 0 && caseStore.caseStatus() !== 'LOCKED' && caseStore.caseStatus() !== 'ANALYZED') {
+    <div class="ef-skeleton" [class.ef-skeleton--shimmer]="caseStore.isAnalyzing()">
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      <div class="ef-skel-row"><span class="ef-skel-bar ef-skel-bar--label"></span><span class="ef-skel-bar ef-skel-bar--value"></span></div>
+      @if (!caseStore.isAnalyzing()) {
+        <p class="ef-skel-hint">
+          @if (!caseStore.pdfBlob()) { Wgraj plik PDF aby rozpocząć analizę. }
+          @else { Kliknij ▶ Uruchom analizę w prawym górnym rogu. }
+        </p>
+      }
+    </div>
+  }
+
   @if (caseStore.analysisError()) {
     <div class="extraction-form__error-banner" role="alert" aria-live="assertive" aria-atomic="true">
       <span>{{ caseStore.analysisError() }}</span>
