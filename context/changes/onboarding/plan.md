@@ -311,11 +311,11 @@ Nie dodajemy unit testów dla tej zmiany — onboarding jest czystą warstwą UI
 
 #### Automated
 
-- [x] 2.1 Typecheck przechodzi po zmianach Fazy 2 (`cd web && npx tsc --noEmit`)
-- [x] 2.2 Build kompiluje się (`cd web && npm run build`)
+- [x] 2.1 Typecheck przechodzi po zmianach Fazy 2 (`cd web && npx tsc --noEmit`) — c14a9f2
+- [x] 2.2 Build kompiluje się (`cd web && npm run build`) — c14a9f2
 
 #### Manual
 
-- [x] 2.3 Overlay pojawia się przy pierwszej wizycie (po wyczyszczeniu localStorage)
-- [x] 2.4 Nawigacja kroków 1→2→3 działa, Wstecz działa
-- [x] 2.5 Zamknięcie overlay ustawia localStorage, kolejna wizyta overlay nie pokazuje
+- [x] 2.3 Overlay pojawia się przy pierwszej wizycie (po wyczyszczeniu localStorage) — c14a9f2
+- [x] 2.4 Nawigacja kroków 1→2→3 działa, Wstecz działa — c14a9f2
+- [x] 2.5 Zamknięcie overlay ustawia localStorage, kolejna wizyta overlay nie pokazuje — c14a9f2

@@ -1,7 +1,7 @@
 ---
 change_id: onboarding
 title: In-app onboarding tour for new users
-status: implementing
+status: implemented
 created: 2026-06-21
 updated: 2026-06-21
 archived_at: null
