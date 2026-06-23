@@ -276,9 +276,9 @@ z payloadem red flags.
 
 #### Automated
 
-- [x] 3.1 `./mvnw test` przechodzi bez błędów
+- [x] 3.1 `./mvnw test` przechodzi bez błędów — 9ef14e5
 
 #### Manual
 
-- [x] 3.2 Finalizacja z red flags — endpoint zwraca 200 OK
-- [x] 3.3 Finalizacja bez red flags — endpoint zwraca 200 OK
+- [x] 3.2 Finalizacja z red flags — endpoint zwraca 200 OK — 9ef14e5
+- [x] 3.3 Finalizacja bez red flags — endpoint zwraca 200 OK — 9ef14e5

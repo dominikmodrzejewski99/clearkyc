@@ -1,7 +1,7 @@
 ---
 change_id: refactor-opportunities
 title: Refactor opportunities - ranking i plan dla długu technicznego
-status: implementing
+status: implemented
 created: 2026-06-22
 updated: 2026-06-23
 archived_at: null
