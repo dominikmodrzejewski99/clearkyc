@@ -1,5 +1,6 @@
 package com.example.clearkyc.web.dto;
 
+import com.example.clearkyc.analysis.RedFlagItem;
 import com.example.clearkyc.domain.DecisionType;
 
 import java.util.List;
@@ -7,5 +8,5 @@ import java.util.List;
 public record FinalizeRequest(
         DecisionType decision,
         List<FieldRecord> fields,
-        List<Object> red_flags) {
+        List<RedFlagItem> red_flags) {
 }

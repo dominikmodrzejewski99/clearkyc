@@ -263,22 +263,22 @@ z payloadem red flags.
 
 #### Automated
 
-- [x] 2.1 `npm run build` przechodzi bez błędów TypeScript
-- [x] 2.2 grep polskich stringów zwraca wyniki wyłącznie z `ui-labels.ts`
+- [x] 2.1 `npm run build` przechodzi bez błędów TypeScript — 9d78ef1
+- [x] 2.2 grep polskich stringów zwraca wyniki wyłącznie z `ui-labels.ts` — 9d78ef1
 
 #### Manual
 
-- [x] 2.3 Etykiety pól KYB poprawne w formularzu ekstrakcji
-- [x] 2.4 Badge statusów decyzji poprawny w decision-bar po finalizacji
-- [x] 2.5 Badge statusów poprawny na liście spraw w case-new
+- [x] 2.3 Etykiety pól KYB poprawne w formularzu ekstrakcji — 9d78ef1
+- [x] 2.4 Badge statusów decyzji poprawny w decision-bar po finalizacji — 9d78ef1
+- [x] 2.5 Badge statusów poprawny na liście spraw w case-new — 9d78ef1
 
 ### Phase 3: K6 — FinalizeRequest.red_flags: List\<RedFlagItem\>
 
 #### Automated
 
-- [ ] 3.1 `./mvnw test` przechodzi bez błędów
+- [x] 3.1 `./mvnw test` przechodzi bez błędów
 
 #### Manual
 
-- [ ] 3.2 Finalizacja z red flags — endpoint zwraca 200 OK
-- [ ] 3.3 Finalizacja bez red flags — endpoint zwraca 200 OK
+- [x] 3.2 Finalizacja z red flags — endpoint zwraca 200 OK
+- [x] 3.3 Finalizacja bez red flags — endpoint zwraca 200 OK
