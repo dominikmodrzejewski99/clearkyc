@@ -127,10 +127,15 @@ export class ExtractionFormComponent {
       .pipe(takeUntil(this.cancelStream$), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: event => {
-          if (event.type === 'FieldExtracted') this.caseStore.appendField(event.field);
-          else if (event.type === 'RedFlagsFound') this.caseStore.setRedFlags(event.flags);
-          else if (event.type === 'AnalysisComplete') this.caseStore.markAnalyzed();
-          else if (event.type === 'AnalysisError') this.caseStore.markAnalysisError(event.message);
+          switch (event.type) {
+            case 'FieldExtracted': this.caseStore.appendField(event.field); break;
+            case 'RedFlagsFound': this.caseStore.setRedFlags(event.flags); break;
+            case 'AnalysisComplete': this.caseStore.markAnalyzed(); break;
+            case 'AnalysisError': this.caseStore.markAnalysisError(event.message); break;
+            default: {
+              const _exhaustive: never = event;
+            }
+          }
         },
         error: () => this.caseStore.markAnalysisError('Błąd połączenia ze strumieniem analizy.'),
       });

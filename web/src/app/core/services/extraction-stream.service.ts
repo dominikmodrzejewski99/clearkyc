@@ -79,10 +79,17 @@ export function parseSSEMessage(raw: string): ExtractionEvent | null {
 
   try {
     const payload = JSON.parse(dataLine);
-    if (eventType === 'FieldExtracted') return { type: 'FieldExtracted', field: payload };
-    if (eventType === 'AnalysisComplete') return { type: 'AnalysisComplete', caseId: payload.caseId ?? payload };
-    if (eventType === 'AnalysisError') return { type: 'AnalysisError', message: payload.message ?? String(payload) };
-    if (eventType === 'RedFlagsFound') return { type: 'RedFlagsFound', flags: payload.flags ?? [] };
+    const typedEventType = eventType as ExtractionEvent['type'];
+    switch (typedEventType) {
+      case 'FieldExtracted': return { type: 'FieldExtracted', field: payload };
+      case 'AnalysisComplete': return { type: 'AnalysisComplete', caseId: payload.caseId ?? payload };
+      case 'AnalysisError': return { type: 'AnalysisError', message: payload.message ?? String(payload) };
+      case 'RedFlagsFound': return { type: 'RedFlagsFound', flags: payload.flags ?? [] };
+      default: {
+        const _exhaustive: never = typedEventType;
+        return null;
+      }
+    }
   } catch {
     // ignore malformed JSON
   }
