@@ -6,6 +6,7 @@ import { FileDropzoneComponent } from '../../shared/components/file-dropzone/fil
 import { CaseService } from '../../core/services/case.service';
 import { CaseStore } from '../../core/store/case.store';
 import { CaseSummary } from '../../core/models/extraction.models';
+import { getCaseBadgeLabel as resolveCaseBadgeLabel } from '../../core/models/ui-labels';
 
 @Component({
   selector: 'app-case-new',
@@ -81,13 +82,6 @@ export class CaseNewComponent {
   }
 
   protected getCaseBadgeLabel(c: CaseSummary): string {
-    const labels: Record<string, string> = {
-      approved:  'Zatwierdzona',
-      rejected:  'Odrzucona',
-      escalated: 'Eskalowana',
-      pending:   'W toku',
-    };
-    const cls = this.getCaseBadgeClass(c);
-    return labels[cls] ?? cls;
+    return resolveCaseBadgeLabel(this.getCaseBadgeClass(c));
   }
 }

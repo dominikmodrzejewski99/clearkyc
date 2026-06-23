@@ -252,25 +252,25 @@ z payloadem red flags.
 
 #### Automated
 
-- [x] 1.1 `npm run build` przechodzi bez błędów TypeScript
-- [x] 1.2 Tymczasowy wariant union powoduje błąd kompilacji w obu zmienionych plikach (manualna weryfikacja mechanizmu)
+- [x] 1.1 `npm run build` przechodzi bez błędów TypeScript — 73bec65
+- [x] 1.2 Tymczasowy wariant union powoduje błąd kompilacji w obu zmienionych plikach (manualna weryfikacja mechanizmu) — 73bec65
 
 #### Manual
 
-- [x] 1.3 Analiza dokumentu w UI przebiega poprawnie, konsola wolna od błędów
+- [x] 1.3 Analiza dokumentu w UI przebiega poprawnie, konsola wolna od błędów — 73bec65
 
 ### Phase 2: K2 — Centralizacja polskich etykiet UI
 
 #### Automated
 
-- [ ] 2.1 `npm run build` przechodzi bez błędów TypeScript
-- [ ] 2.2 grep polskich stringów zwraca wyniki wyłącznie z `ui-labels.ts`
+- [x] 2.1 `npm run build` przechodzi bez błędów TypeScript
+- [x] 2.2 grep polskich stringów zwraca wyniki wyłącznie z `ui-labels.ts`
 
 #### Manual
 
-- [ ] 2.3 Etykiety pól KYB poprawne w formularzu ekstrakcji
-- [ ] 2.4 Badge statusów decyzji poprawny w decision-bar po finalizacji
-- [ ] 2.5 Badge statusów poprawny na liście spraw w case-new
+- [x] 2.3 Etykiety pól KYB poprawne w formularzu ekstrakcji
+- [x] 2.4 Badge statusów decyzji poprawny w decision-bar po finalizacji
+- [x] 2.5 Badge statusów poprawny na liście spraw w case-new
 
 ### Phase 3: K6 — FinalizeRequest.red_flags: List\<RedFlagItem\>
 

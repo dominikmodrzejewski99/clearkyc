@@ -6,6 +6,7 @@ import { CitationBadgeComponent } from '../../../../shared/components/citation-b
 import { CaseStore } from '../../../../core/store/case.store';
 import { ExtractionStreamService } from '../../../../core/services/extraction-stream.service';
 import { Citation, ExtractionField } from '../../../../core/models/extraction.models';
+import { getFieldLabel } from '../../../../core/models/ui-labels';
 
 @Component({
   selector: 'app-extraction-form',
@@ -88,18 +89,7 @@ export class ExtractionFormComponent {
   }
 
   protected fieldLabel(fieldName: string): string {
-    if (fieldName === 'companyName') return 'Nazwa firmy';
-
-    const dirName = fieldName.match(/^directors\[(\d+)\]\.name$/);
-    if (dirName) return `Dyrektor ${+dirName[1] + 1} - imie i nazwisko`;
-
-    const uboName = fieldName.match(/^ubos\[(\d+)\]\.name$/);
-    if (uboName) return `UBO ${+uboName[1] + 1} - imie i nazwisko`;
-
-    const uboOwn = fieldName.match(/^ubos\[(\d+)\]\.ownershipPercentage$/);
-    if (uboOwn) return `UBO ${+uboOwn[1] + 1} - udzial (%)`;
-
-    return fieldName;
+    return getFieldLabel(fieldName);
   }
 
   protected isMissing(field: ExtractionField): boolean {
