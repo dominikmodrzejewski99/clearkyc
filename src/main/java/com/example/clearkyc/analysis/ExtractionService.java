@@ -76,7 +76,7 @@ public class ExtractionService {
 
     public Flux<ServerSentEvent<ExtractionEvent>> streamAnalysis(UUID caseId, MultipartFile pdfFile, String analystIdentity) {
         return Flux.defer(() -> {
-            KybCase kybCase = caseRepository.findById(caseId)
+            KybCase kybCase = caseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
             // Block concurrent runs and locked cases; allow re-analysis from ANALYZED state.
             if (kybCase.getStatus() == CaseStatus.ANALYZING) {

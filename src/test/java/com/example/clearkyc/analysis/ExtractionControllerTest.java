@@ -86,6 +86,18 @@ class ExtractionControllerTest {
     }
 
     @Test
+    void triggerAnalysis_withJwt_caseOwnedByAnotherAnalyst_returns404() throws Exception {
+        // Service returns 404 when the case exists but belongs to a different analyst (IDOR guard).
+        when(extractionService.streamAnalysis(any(), any(), eq("analyst-a")))
+                .thenThrow(new ResponseStatusException(NOT_FOUND, "Case not found"));
+
+        mockMvc.perform(multipart("/api/cases/{id}/analysis", UUID.randomUUID())
+                        .file(PDF_FILE)
+                        .with(jwt().jwt(j -> j.subject("analyst-a"))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void triggerAnalysis_withJwt_caseAlreadyAnalyzing_returns409() throws Exception {
         when(extractionService.streamAnalysis(any(), any(), any()))
                 .thenThrow(new ResponseStatusException(CONFLICT));
