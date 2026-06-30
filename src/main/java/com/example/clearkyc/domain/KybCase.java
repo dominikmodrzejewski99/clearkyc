@@ -43,10 +43,6 @@ public class KybCase {
     protected KybCase() {
     }
 
-    public KybCase(CaseStatus status) {
-        this.status = status;
-    }
-
     public KybCase(CaseStatus status, String entityName, String analystIdentity) {
         this.status = status;
         this.entityName = entityName;

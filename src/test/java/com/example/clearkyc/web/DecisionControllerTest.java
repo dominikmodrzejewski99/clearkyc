@@ -17,8 +17,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -77,6 +79,19 @@ class DecisionControllerTest {
                         .content(VALID_JSON)
                         .with(jwt()))
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    void finalizeCase_withJwt_caseOwnedByAnotherAnalyst_returns404() throws Exception {
+        // Service returns 404 when the case exists but belongs to a different analyst (IDOR guard).
+        when(finalizeService.finalize(any(), any(), eq("analyst-a")))
+                .thenThrow(new ResponseStatusException(NOT_FOUND, "Case not found"));
+
+        mockMvc.perform(post("/api/cases/{id}/finalize", UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(VALID_JSON)
+                        .with(jwt().jwt(j -> j.subject("analyst-a"))))
+                .andExpect(status().isNotFound());
     }
 
     @Test

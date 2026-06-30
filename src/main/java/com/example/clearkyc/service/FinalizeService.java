@@ -58,7 +58,7 @@ public class FinalizeService {
 
     @Transactional
     public FinalizeResponse finalize(UUID caseId, FinalizeRequest request, String analystIdentity) {
-        KybCase kybCase = kybCaseRepository.findById(caseId)
+        KybCase kybCase = kybCaseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
 
         if (kybCase.getStatus() == CaseStatus.LOCKED) {
