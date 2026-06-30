@@ -53,7 +53,7 @@ class CaseControllerTest {
     @Test
     void listCases_withJwt_returns200WithList() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.listCases())
+        when(caseService.listCases(any()))
                 .thenReturn(List.of(new CaseSummaryResponse(id, "CREATED", Instant.now(), "Spółka ABC", null)));
 
         mockMvc.perform(get("/api/cases").with(jwt()))
@@ -77,7 +77,7 @@ class CaseControllerTest {
     @Test
     void createCase_withJwt_returns201WithId() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.createCase(any(), any()))
+        when(caseService.createCase(any(), any(), any()))
                 .thenReturn(new CreateCaseResponse(id, "CREATED", Instant.now()));
 
         mockMvc.perform(multipart("/api/cases")
@@ -91,7 +91,7 @@ class CaseControllerTest {
     @Test
     void getCase_withJwt_existingCase_returns200() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.getCase(id))
+        when(caseService.getCase(eq(id), any()))
                 .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, null));
 
         mockMvc.perform(get("/api/cases/{id}", id).with(jwt()))
@@ -101,9 +101,20 @@ class CaseControllerTest {
 
     @Test
     void getCase_withJwt_unknownCase_returns404() throws Exception {
-        when(caseService.getCase(any())).thenThrow(new ResponseStatusException(NOT_FOUND));
+        when(caseService.getCase(any(), any())).thenThrow(new ResponseStatusException(NOT_FOUND));
 
         mockMvc.perform(get("/api/cases/{id}", UUID.randomUUID()).with(jwt()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCase_withJwt_caseOwnedByAnotherAnalyst_returns404() throws Exception {
+        // Service returns 404 when the case exists but belongs to a different analyst (IDOR guard).
+        when(caseService.getCase(any(), eq("analyst-a")))
+                .thenThrow(new ResponseStatusException(NOT_FOUND, "Case not found"));
+
+        mockMvc.perform(get("/api/cases/{id}", UUID.randomUUID())
+                        .with(jwt().jwt(j -> j.subject("analyst-a"))))
                 .andExpect(status().isNotFound());
     }
 
@@ -116,7 +127,7 @@ class CaseControllerTest {
     @Test
     void updateCase_withJwt_nonLockedCase_returns200WithUpdatedName() throws Exception {
         UUID id = UUID.randomUUID();
-        when(caseService.updateCase(eq(id), any()))
+        when(caseService.updateCase(eq(id), any(), any()))
                 .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, "AcmeCorp"));
 
         mockMvc.perform(patch("/api/cases/{id}", id)
@@ -129,7 +140,7 @@ class CaseControllerTest {
 
     @Test
     void updateCase_withJwt_lockedCase_returns409() throws Exception {
-        when(caseService.updateCase(any(), any()))
+        when(caseService.updateCase(any(), any(), any()))
                 .thenThrow(new ResponseStatusException(CONFLICT, "Locked cases cannot be modified"));
 
         mockMvc.perform(patch("/api/cases/{id}", UUID.randomUUID())
@@ -156,7 +167,7 @@ class CaseControllerTest {
     @Test
     void deleteCase_withJwt_nonCreatedCase_returns409() throws Exception {
         doThrow(new ResponseStatusException(CONFLICT, "Only cases in CREATED state can be deleted"))
-                .when(caseService).deleteCase(any());
+                .when(caseService).deleteCase(any(), any());
 
         mockMvc.perform(delete("/api/cases/{id}", UUID.randomUUID()).with(jwt()))
                 .andExpect(status().isConflict());
@@ -165,7 +176,7 @@ class CaseControllerTest {
     @Test
     void deleteCase_withJwt_unknownCase_returns404() throws Exception {
         doThrow(new ResponseStatusException(NOT_FOUND, "Case not found"))
-                .when(caseService).deleteCase(any());
+                .when(caseService).deleteCase(any(), any());
 
         mockMvc.perform(delete("/api/cases/{id}", UUID.randomUUID()).with(jwt()))
                 .andExpect(status().isNotFound());

@@ -28,9 +28,13 @@ public class CaseController {
         this.caseService = caseService;
     }
 
+    private static String analystIdentity(Jwt jwt) {
+        return jwt != null ? jwt.getSubject() : "dev-user";
+    }
+
     @GetMapping
-    public List<CaseSummaryResponse> listCases() {
-        return caseService.listCases();
+    public List<CaseSummaryResponse> listCases(@AuthenticationPrincipal Jwt jwt) {
+        return caseService.listCases(analystIdentity(jwt));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -46,15 +50,17 @@ public class CaseController {
                 ? originalName.replaceAll("(?i)\\.pdf$", "")
                 : null;
         try {
-            return caseService.createCase(entityName, file.getBytes());
+            return caseService.createCase(entityName, file.getBytes(), analystIdentity(jwt));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to read PDF");
         }
     }
 
     @GetMapping(value = "/{caseId}/document", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> getDocument(@PathVariable UUID caseId) {
-        byte[] pdf = caseService.getPdfData(caseId);
+    public ResponseEntity<byte[]> getDocument(
+            @PathVariable UUID caseId,
+            @AuthenticationPrincipal Jwt jwt) {
+        byte[] pdf = caseService.getPdfData(caseId, analystIdentity(jwt));
         if (pdf == null) {
             return ResponseEntity.notFound().build();
         }
@@ -64,20 +70,25 @@ public class CaseController {
     }
 
     @GetMapping("/{caseId}")
-    public CaseDetailResponse getCase(@PathVariable UUID caseId) {
-        return caseService.getCase(caseId);
+    public CaseDetailResponse getCase(
+            @PathVariable UUID caseId,
+            @AuthenticationPrincipal Jwt jwt) {
+        return caseService.getCase(caseId, analystIdentity(jwt));
     }
 
     @PatchMapping(value = "/{caseId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public CaseDetailResponse updateCase(
             @PathVariable UUID caseId,
-            @RequestBody UpdateCaseRequest request) {
-        return caseService.updateCase(caseId, request);
+            @RequestBody UpdateCaseRequest request,
+            @AuthenticationPrincipal Jwt jwt) {
+        return caseService.updateCase(caseId, request, analystIdentity(jwt));
     }
 
     @DeleteMapping("/{caseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCase(@PathVariable UUID caseId) {
-        caseService.deleteCase(caseId);
+    public void deleteCase(
+            @PathVariable UUID caseId,
+            @AuthenticationPrincipal Jwt jwt) {
+        caseService.deleteCase(caseId, analystIdentity(jwt));
     }
 }

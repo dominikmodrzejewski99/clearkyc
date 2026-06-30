@@ -20,14 +20,14 @@ class KybCaseRepositoryTest {
 
     @Test
     void save_generatesUUID_whenIdNull() {
-        KybCase saved = repository.save(new KybCase(CaseStatus.CREATED));
+        KybCase saved = repository.save(new KybCase(CaseStatus.CREATED, null, "test-analyst"));
 
         assertNotNull(saved.getId());
     }
 
     @Test
     void findById_returnsCase_whenExists() {
-        KybCase saved = repository.save(new KybCase(CaseStatus.CREATED));
+        KybCase saved = repository.save(new KybCase(CaseStatus.CREATED, null, "test-analyst"));
 
         Optional<KybCase> found = repository.findById(saved.getId());
 
@@ -36,7 +36,7 @@ class KybCaseRepositoryTest {
 
     @Test
     void save_setsCreatedAt_automatically() {
-        KybCase saved = repository.saveAndFlush(new KybCase(CaseStatus.CREATED));
+        KybCase saved = repository.saveAndFlush(new KybCase(CaseStatus.CREATED, null, "test-analyst"));
 
         assertNotNull(saved.getCreatedAt());
     }

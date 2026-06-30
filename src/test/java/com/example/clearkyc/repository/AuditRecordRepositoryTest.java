@@ -25,7 +25,7 @@ class AuditRecordRepositoryTest {
 
     @Test
     void save_persistsAuditRecord_withJsonPayload() {
-        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.ANALYZED));
+        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.ANALYZED, null, "test-analyst"));
         String payload = "{\"decision\":\"APPROVE\"}";
         AuditRecord record = new AuditRecord(kybCase, "analyst@example.com", DecisionType.APPROVE, payload);
 
@@ -38,7 +38,7 @@ class AuditRecordRepositoryTest {
 
     @Test
     void findByKybCase_returnsRecord_whenExists() {
-        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.ANALYZED));
+        KybCase kybCase = kybCaseRepository.save(new KybCase(CaseStatus.ANALYZED, null, "test-analyst"));
         auditRecordRepository.save(
                 new AuditRecord(kybCase, "analyst@example.com", DecisionType.APPROVE, "{}")
         );

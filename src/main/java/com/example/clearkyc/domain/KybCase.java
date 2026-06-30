@@ -37,6 +37,9 @@ public class KybCase {
     @Column(name = "pdf_data")
     private byte[] pdfData;
 
+    @Column(name = "analyst_identity", nullable = false)
+    private String analystIdentity;
+
     protected KybCase() {
     }
 
@@ -44,9 +47,10 @@ public class KybCase {
         this.status = status;
     }
 
-    public KybCase(CaseStatus status, String entityName) {
+    public KybCase(CaseStatus status, String entityName, String analystIdentity) {
         this.status = status;
         this.entityName = entityName;
+        this.analystIdentity = analystIdentity;
     }
 
     public UUID getId() { return id; }
@@ -60,4 +64,5 @@ public class KybCase {
     public void setEntityName(String entityName) { this.entityName = entityName; }
     public byte[] getPdfData() { return pdfData; }
     public void setPdfData(byte[] pdfData) { this.pdfData = pdfData; }
+    public String getAnalystIdentity() { return analystIdentity; }
 }

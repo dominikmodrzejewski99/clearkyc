@@ -9,7 +9,6 @@ import com.example.clearkyc.web.dto.CaseDetailResponse;
 import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
 import com.example.clearkyc.web.dto.UpdateCaseRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +29,8 @@ public class CaseService {
     }
 
     @Transactional
-    public CaseDetailResponse updateCase(UUID caseId, UpdateCaseRequest request) {
-        KybCase kybCase = kybCaseRepository.findById(caseId)
+    public CaseDetailResponse updateCase(UUID caseId, UpdateCaseRequest request, String analystIdentity) {
+        KybCase kybCase = kybCaseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
         if (kybCase.getStatus() == CaseStatus.LOCKED) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Locked cases cannot be modified");
@@ -49,8 +48,8 @@ public class CaseService {
     }
 
     @Transactional
-    public void deleteCase(UUID caseId) {
-        KybCase kybCase = kybCaseRepository.findById(caseId)
+    public void deleteCase(UUID caseId, String analystIdentity) {
+        KybCase kybCase = kybCaseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
         if (kybCase.getStatus() != CaseStatus.CREATED) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Only cases in CREATED state can be deleted");
@@ -59,8 +58,8 @@ public class CaseService {
     }
 
     @Transactional(readOnly = true)
-    public List<CaseSummaryResponse> listCases() {
-        return kybCaseRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt")).stream()
+    public List<CaseSummaryResponse> listCases(String analystIdentity) {
+        return kybCaseRepository.findAllByAnalystIdentityOrderByCreatedAtDesc(analystIdentity).stream()
                 .map(c -> {
                     String decision = null;
                     if (c.getStatus() == CaseStatus.LOCKED) {
@@ -78,23 +77,23 @@ public class CaseService {
                 .toList();
     }
 
-    public CreateCaseResponse createCase(String entityName, byte[] pdfData) {
-        KybCase kybCase = new KybCase(CaseStatus.CREATED, entityName);
+    public CreateCaseResponse createCase(String entityName, byte[] pdfData, String analystIdentity) {
+        KybCase kybCase = new KybCase(CaseStatus.CREATED, entityName, analystIdentity);
         kybCase.setPdfData(pdfData);
         kybCaseRepository.save(kybCase);
         return new CreateCaseResponse(kybCase.getId(), kybCase.getStatus().name(), kybCase.getCreatedAt());
     }
 
     @Transactional(readOnly = true)
-    public byte[] getPdfData(UUID caseId) {
-        return kybCaseRepository.findById(caseId)
+    public byte[] getPdfData(UUID caseId, String analystIdentity) {
+        return kybCaseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                 .map(KybCase::getPdfData)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
     }
 
     @Transactional(readOnly = true)
-    public CaseDetailResponse getCase(UUID caseId) {
-        KybCase kybCase = kybCaseRepository.findById(caseId)
+    public CaseDetailResponse getCase(UUID caseId, String analystIdentity) {
+        KybCase kybCase = kybCaseRepository.findByIdAndAnalystIdentity(caseId, analystIdentity)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
 
         AuditSummary audit = null;
