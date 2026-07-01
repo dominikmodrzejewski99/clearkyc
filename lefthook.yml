@@ -46,14 +46,14 @@ pre-commit:
   commands:
     lint:
       glob: "*.{ts,tsx,js,jsx}"
-      exclude: "web/**"
+      exclude: "{web/**,.claude/**}"
       run: npx eslint --fix {staged_files} && git add {staged_files}
     typecheck:
       # TypeScript lives in web/ (Angular project); run tsc there
       run: cd web && npx tsc --noEmit
     test:
       glob: "*.{ts,tsx}"
-      exclude: "web/**"
+      exclude: "{web/**,.claude/**}"
       run: npx vitest related {staged_files} --run
     web-test:
       # Angular spec files require @angular/build:unit-test; run ng test
