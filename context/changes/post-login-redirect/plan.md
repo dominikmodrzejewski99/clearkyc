@@ -169,6 +169,6 @@ Not applicable — no data or schema changes.
 
 #### Automated
 
-- [x] 2.1 New spec passes: `npm run test -- --include='**/auth.guard.spec.ts'`
-- [x] 2.2 Full unit test suite still passes: `npm run test` (same 7 pre-existing unrelated failures as Phase 1; no new failures)
-- [x] 2.3 Lint passes: `npm run lint` (same 6 pre-existing unrelated errors as Phase 1; no new errors)
+- [x] 2.1 New spec passes: `npm run test -- --include='**/auth.guard.spec.ts'` — c5c84fe
+- [x] 2.2 Full unit test suite still passes: `npm run test` (all 70 tests pass — pre-existing extraction-ui/decision-bar failures fixed in aa4092e, unrelated but needed to unblock the pre-commit hook) — c5c84fe
+- [x] 2.3 Lint passes: `npm run lint` (6 pre-existing unrelated errors remain — hook's lint step only checks staged files, so these never blocked commits) — c5c84fe
