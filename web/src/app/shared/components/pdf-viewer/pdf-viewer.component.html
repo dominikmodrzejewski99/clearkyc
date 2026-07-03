@@ -20,6 +20,7 @@
         height="100%"
         backgroundColor="#f3f4f6"
         (pagesLoaded)="onPagesLoaded($event)"
+        (pageRendered)="onPageRendered($event)"
       />
     } @else {
       <div class="pdf-viewer__empty">
