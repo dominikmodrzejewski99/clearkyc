@@ -44,12 +44,15 @@ export class PdfViewerComponent {
       this.pendingFind = null;
     });
 
-    // Page navigation itself is driven entirely by the template's [page]="targetPage()"
-    // binding (targetPage mirrors the same citation's page number). This effect only
-    // handles highlighting: dontScrollIntoView is intentional — without it, find() jumps
-    // to the first occurrence in the whole document, which may be a different field's
-    // citation on a different page, causing wrong-position scrolling when the same text
-    // is cited by multiple fields.
+    // [page]="targetPage()" in the template keeps the same citation's page number, but that
+    // alone only anchors to the TOP of the page — it can't distinguish a citation near the
+    // top of a page from one near the bottom. find() is what actually scrolls to the exact
+    // occurrence, so dontScrollIntoView must stay OFF here. To stop find() from jumping to
+    // an unrelated earlier occurrence of the same text elsewhere in the document (e.g. a
+    // repeated company name), we explicitly re-anchor to the top of the target page with
+    // scrollPageIntoView() immediately before calling find() — pdf.js's find searches
+    // forward from the current scroll position, so this makes it resolve to the first
+    // occurrence on (or after) the citation's own page.
     //
     // A page far from the current viewport is virtualized — its text layer doesn't exist
     // in the DOM until pdf.js actually renders it, which can take longer than any fixed
@@ -70,11 +73,17 @@ export class PdfViewerComponent {
         this.pendingFind = { page: q.page, query };
         return;
       }
-      this.pdfService.find(query, {
-        highlightAll: true,
-        matchDiacritics: false,
-        dontScrollIntoView: true,
-      });
+      this.findOnPage(q.page, query);
+    });
+  }
+
+  private findOnPage(page: number, query: string): void {
+    if (page > 0) {
+      this.pdfService.scrollPageIntoView(page);
+    }
+    this.pdfService.find(query, {
+      highlightAll: true,
+      matchDiacritics: false,
     });
   }
 
@@ -94,10 +103,6 @@ export class PdfViewerComponent {
     if (this.pendingFind?.page !== event.pageNumber) return;
     const { query } = this.pendingFind;
     this.pendingFind = null;
-    this.pdfService.find(query, {
-      highlightAll: true,
-      matchDiacritics: false,
-      dontScrollIntoView: true,
-    });
+    this.findOnPage(event.pageNumber, query);
   }
 }
