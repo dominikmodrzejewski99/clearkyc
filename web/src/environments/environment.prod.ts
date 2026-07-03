@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   skipAuth: false,
   auth0: {
-    domain: 'REPLACE_ME_AUTH0_DOMAIN',
-    clientId: 'REPLACE_ME_CLIENT_ID',
-    audience: 'REPLACE_ME_AUDIENCE',
-  },
+    domain: 'dev-3kjr48h52rpcpqhv.us.auth0.com',
+    clientId: 'waNYiWlXzAxogZEudesES33AQWTPDyl4',
+    audience: 'http://localhost:1999',
+  }
 };
