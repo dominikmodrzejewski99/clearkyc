@@ -72,7 +72,7 @@ describe('DecisionBarComponent', () => {
       const btn = el.querySelector<HTMLButtonElement>('.decision-bar__btn--approve');
       expect(btn).not.toBeNull();
       expect(btn?.disabled).toBe(false);
-      expect(btn?.textContent?.trim()).toBe('Approve');
+      expect(btn?.textContent?.trim()).toBe('Zatwierdź');
     });
 
     it('Reject button is present and enabled', () => {

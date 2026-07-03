@@ -73,7 +73,7 @@ describe('ExtractionFormComponent', () => {
 
     it('button label contains "Run analysis"', () => {
       const btn = el.querySelector('.run-btn');
-      expect(btn?.textContent).toContain('Run analysis');
+      expect(btn?.textContent).toContain('Uruchom analizę');
     });
   });
 
@@ -218,7 +218,7 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
 
       const valueText = el.querySelector('.extraction-form__value-text');
-      expect(valueText?.textContent?.trim()).toBe('Not Disclosed / Inferred Missing');
+      expect(valueText?.textContent?.trim()).toBe('Nie ujawniono / Brak danych');
       expect(valueText?.textContent).not.toContain('ACME Corp.');
     });
 
@@ -230,7 +230,7 @@ describe('ExtractionFormComponent', () => {
       fixture.detectChanges();
 
       const valueText = el.querySelector('.extraction-form__value-text');
-      expect(valueText?.textContent?.trim()).toBe('Not Disclosed / Inferred Missing');
+      expect(valueText?.textContent?.trim()).toBe('Nie ujawniono / Brak danych');
     });
 
     it('renders raw value when citations are present', () => {

@@ -31,9 +31,10 @@ export class DecisionBarComponent {
     ).length
   );
 
-  protected readonly lockedDecisionLabel = computed(() =>
-    getDecisionLabel(this.lockedDecision())
-  );
+  protected readonly lockedDecisionLabel = computed(() => {
+    const decision = this.lockedDecision();
+    return decision ? getDecisionLabel(decision) : this.caseStore.caseStatus();
+  });
 
   protected pickDecision(d: Decision): void {
     this.pendingDecision.set(d);

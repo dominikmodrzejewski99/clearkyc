@@ -5,7 +5,10 @@
       @if (caseStore.isAnalyzing() || caseStore.extractionFields().length > 0) {
         <span class="ph-stat">{{ totalFieldsCount() }} pól · {{ citedFieldsCount() }} z cytatem</span>
       }
-      @if (!caseStore.isAnalyzing() && caseStore.caseStatus() !== 'LOCKED') {
+      @if (!caseStore.isAnalyzing()
+        && caseStore.caseStatus() !== 'LOCKED'
+        && caseStore.caseStatus() !== 'ANALYZING'
+        && (caseStore.caseStatus() !== 'ANALYZED' || caseStore.analysisError())) {
         <button
           class="run-btn"
           [disabled]="!caseStore.pdfBlob()"
