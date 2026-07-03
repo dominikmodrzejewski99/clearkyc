@@ -33,7 +33,10 @@ export class DecisionBarComponent {
 
   protected readonly lockedDecisionLabel = computed(() => {
     const decision = this.lockedDecision();
-    return decision ? getDecisionLabel(decision) : this.caseStore.caseStatus();
+    // lockedDecision resets to null on page refresh; caseStatus() is the only
+    // reachable fallback value here ('LOCKED'), so hardcode its Polish label
+    // rather than leaking the raw backend enum into this Polish-only UI.
+    return decision ? getDecisionLabel(decision) : 'Zablokowana';
   });
 
   protected pickDecision(d: Decision): void {

@@ -212,10 +212,10 @@ describe('DecisionBarComponent', () => {
       expect(locked?.textContent).toContain('Sprawa zablokowana');
     });
 
-    it('falls back to showing caseStatus when lockedDecision is null (page-refresh scenario)', () => {
-      // lockedDecision is null by default; template renders: lockedDecision() ?? caseStore.caseStatus()
+    it('falls back to a Polish label when lockedDecision is null (page-refresh scenario)', () => {
+      // lockedDecision is null by default; must not leak the raw caseStatus() enum into the UI
       const strong = el.querySelector('.decision-bar--locked strong');
-      expect(strong?.textContent?.trim()).toBe('LOCKED');
+      expect(strong?.textContent?.trim()).toBe('Zablokowana');
     });
 
     it('no Approve/Reject/Escalate buttons', () => {
