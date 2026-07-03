@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = () => {
     switchMap(() => auth.isAuthenticated$),
     map(isAuthenticated => {
       if (!isAuthenticated) {
-        auth.loginWithRedirect();
+        auth.loginWithRedirect({ appState: { target: 'cases/new' } });
         return false;
       }
       return true;
