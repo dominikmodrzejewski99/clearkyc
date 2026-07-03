@@ -60,6 +60,9 @@ public class ExtractionService {
             Available categories: SANCTIONS_EXPOSURE, SHELL_COMPANY_INDICATORS, JURISDICTION_RISK,
             OPAQUE_OWNERSHIP, PEP_LINKAGE, SECTOR_SPECIFIC_RISK
 
+            Write the red flag "description" in Polish, regardless of the source document's language.
+            "quote" inside citations must stay verbatim in the document's original language — never translate a quote.
+
             Emit red flag lines ONLY after all field lines. If no red flags: emit nothing (no red flag lines).
             A "Not Disclosed / Inferred Missing" field value MAY chain into a red flag — use your judgment.
             """;
