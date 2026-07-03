@@ -157,18 +157,18 @@ Not applicable — no data or schema changes.
 - [ ] 1.1 Guard unit test passes: `npm run test -- --include='**/auth.guard.spec.ts'`
 - [ ] 1.2 Full unit test suite passes: `npm run test`
 - [ ] 1.3 Lint passes: `npm run lint`
-- [x] 1.4 Production build succeeds: `npm run build`
+- [x] 1.4 Production build succeeds: `npm run build` — 9929abe
 
 #### Manual
 
-- [x] 1.5 Login via demo account lands on `cases/new`
-- [x] 1.6 Direct visit to a guarded deep link, then login, lands on `cases/new`
-- [x] 1.7 Cancelled/failed login returns to a clean `/`
+- [x] 1.5 Login via demo account lands on `cases/new` — 9929abe
+- [x] 1.6 Direct visit to a guarded deep link, then login, lands on `cases/new` — 9929abe
+- [x] 1.7 Cancelled/failed login returns to a clean `/` — 9929abe
 
 ### Phase 2: Unit test coverage for the guard's redirect target
 
 #### Automated
 
-- [ ] 2.1 New spec passes: `npm run test -- --include='**/auth.guard.spec.ts'`
-- [ ] 2.2 Full unit test suite still passes: `npm run test`
-- [ ] 2.3 Lint passes: `npm run lint`
+- [x] 2.1 New spec passes: `npm run test -- --include='**/auth.guard.spec.ts'`
+- [x] 2.2 Full unit test suite still passes: `npm run test` (same 7 pre-existing unrelated failures as Phase 1; no new failures)
+- [x] 2.3 Lint passes: `npm run lint` (same 6 pre-existing unrelated errors as Phase 1; no new errors)
