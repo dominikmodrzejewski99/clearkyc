@@ -24,7 +24,7 @@ public class ExtractionController {
 
     @PostMapping(
             value = "/api/cases/{caseId}/analysis",
-            produces = MediaType.TEXT_EVENT_STREAM_VALUE,
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE + ";charset=UTF-8",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public Flux<ServerSentEvent<ExtractionEvent>> streamAnalysis(
