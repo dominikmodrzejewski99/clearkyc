@@ -7,7 +7,9 @@
   font-family: var(--font-mono);
   font-size: var(--text-2xs);
   color: var(--accent);
-  vertical-align: super;
+  vertical-align: baseline;
+  position: relative;
+  top: -0.5em;
   font-weight: var(--weight-medium);
   margin-left: 2px;
   line-height: 1;
