@@ -41,18 +41,13 @@
               }
             ],
             "styles": [
-              "@fontsource/ibm-plex-sans/latin-400.css",
-              "@fontsource/ibm-plex-sans/latin-400-italic.css",
-              "@fontsource/ibm-plex-sans/latin-500.css",
-              "@fontsource/ibm-plex-sans/latin-600.css",
-              "@fontsource/ibm-plex-sans/latin-700.css",
-              "@fontsource/ibm-plex-sans/latin-ext-400.css",
-              "@fontsource/ibm-plex-sans/latin-ext-400-italic.css",
-              "@fontsource/ibm-plex-sans/latin-ext-500.css",
-              "@fontsource/ibm-plex-sans/latin-ext-600.css",
-              "@fontsource/ibm-plex-sans/latin-ext-700.css",
-              "@fontsource/ibm-plex-mono/latin-400.css",
-              "@fontsource/ibm-plex-mono/latin-400-italic.css",
+              "@fontsource/ibm-plex-sans/400.css",
+              "@fontsource/ibm-plex-sans/400-italic.css",
+              "@fontsource/ibm-plex-sans/500.css",
+              "@fontsource/ibm-plex-sans/600.css",
+              "@fontsource/ibm-plex-sans/700.css",
+              "@fontsource/ibm-plex-mono/400.css",
+              "@fontsource/ibm-plex-mono/400-italic.css",
               "src/styles.scss"
             ]
           },
