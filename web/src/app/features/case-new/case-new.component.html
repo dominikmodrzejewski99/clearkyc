@@ -37,16 +37,16 @@
               <button
                 class="sd-tile"
                 type="button"
-                [disabled]="loadingSampleId() === doc.id"
+                [disabled]="loadingSampleId() !== null"
                 (click)="loadSampleDocument(doc)"
               >
                 <div class="sd-name">{{ doc.entityName }}</div>
                 <div class="sd-tag">{{ doc.tag }}</div>
                 @if (loadingSampleId() === doc.id) {
-                  <div class="sd-loading">Wczytywanie…</div>
+                  <div class="sd-loading" role="status" aria-live="polite">Wczytywanie…</div>
                 }
                 @if (sampleErrorId() === doc.id) {
-                  <div class="sd-error">Nie udało się wczytać. Spróbuj ponownie.</div>
+                  <div class="sd-error" role="status" aria-live="polite">Nie udało się wczytać. Spróbuj ponownie.</div>
                 }
               </button>
             }

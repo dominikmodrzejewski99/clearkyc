@@ -218,16 +218,16 @@ Brak — funkcja czysto addytywna, nie dotyka istniejących danych ani schematu.
 
 #### Automated
 
-- [x] 2.1 Typecheck przechodzi
-- [x] 2.2 Lint przechodzi (jeśli skonfigurowany)
+- [x] 2.1 Typecheck przechodzi — 2cd3147
+- [x] 2.2 Lint przechodzi (jeśli skonfigurowany) — 2cd3147
 
 #### Manual
 
-- [x] 2.3 3 kafelki widoczne z poprawnymi nazwami i tagami
-- [x] 2.4 Kliknięcie kafelka Northgate pokazuje poprawny plik
-- [x] 2.5 Kliknięcie pozostałych 2 kafelków pokazuje poprawny plik
-- [x] 2.6 "Rozpocznij ekstrakcję" po wyborze przykładu działa jak dla pliku ręcznego
-- [x] 2.7 Symulowany błąd sieci pokazuje inline komunikat błędu bez blokowania innych kafelków
+- [x] 2.3 3 kafelki widoczne z poprawnymi nazwami i tagami — 2cd3147
+- [x] 2.4 Kliknięcie kafelka Northgate pokazuje poprawny plik — 2cd3147
+- [x] 2.5 Kliknięcie pozostałych 2 kafelków pokazuje poprawny plik — 2cd3147
+- [x] 2.6 "Rozpocznij ekstrakcję" po wyborze przykładu działa jak dla pliku ręcznego — 2cd3147
+- [x] 2.7 Symulowany błąd sieci pokazuje inline komunikat błędu bez blokowania innych kafelków — 2cd3147
 
 ### Phase 3: Test jednostkowy logiki ładowania przykładu
 

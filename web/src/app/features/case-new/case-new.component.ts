@@ -76,7 +76,9 @@ export class CaseNewComponent {
 
     fetch(doc.path)
       .then(response => {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok || !response.headers.get('content-type')?.includes('pdf')) {
+          throw new Error(`HTTP ${response.status}`);
+        }
         return response.blob();
       })
       .then(blob => {
