@@ -75,8 +75,12 @@ export class CaseNewComponent {
 
   protected getCaseBadgeClass(c: CaseSummary): string {
     if (c.status === 'LOCKED' && c.decision) {
-      // APPROVE → approved, REJECT → rejected, ESCALATE → escalated
-      return c.decision.toLowerCase() + 'd';
+      const classes: Record<string, string> = {
+        APPROVE: 'approved',
+        REJECT: 'rejected',
+        ESCALATE: 'escalated',
+      };
+      return classes[c.decision] ?? 'pending';
     }
     return 'pending';
   }

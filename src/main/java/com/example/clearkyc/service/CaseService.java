@@ -1,6 +1,7 @@
 package com.example.clearkyc.service;
 
 import com.example.clearkyc.domain.CaseStatus;
+import com.example.clearkyc.domain.DecisionType;
 import com.example.clearkyc.domain.KybCase;
 import com.example.clearkyc.repository.AuditRecordRepository;
 import com.example.clearkyc.repository.KybCaseRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,21 +61,13 @@ public class CaseService {
 
     @Transactional(readOnly = true)
     public List<CaseSummaryResponse> listCases(String analystIdentity) {
-        return kybCaseRepository.findAllByAnalystIdentityOrderByCreatedAtDesc(analystIdentity).stream()
-                .map(c -> {
-                    String decision = null;
-                    if (c.getStatus() == CaseStatus.LOCKED) {
-                        decision = auditRecordRepository.findByKybCase(c)
-                                .map(r -> r.getDecision().name())
-                                .orElse(null);
-                    }
-                    return new CaseSummaryResponse(
-                            c.getId(),
-                            c.getStatus().name(),
-                            c.getCreatedAt(),
-                            c.getEntityName(),
-                            decision);
-                })
+        return kybCaseRepository.findCaseSummaryRows(analystIdentity).stream()
+                .map(row -> new CaseSummaryResponse(
+                        (UUID) row[0],
+                        ((CaseStatus) row[1]).name(),
+                        (Instant) row[2],
+                        (String) row[3],
+                        row[4] == null ? null : ((DecisionType) row[4]).name()))
                 .toList();
     }
 
