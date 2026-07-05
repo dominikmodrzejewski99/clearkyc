@@ -33,6 +33,13 @@ npx playwright test               # run E2E tests
 
 Health endpoint: https://clearkyc.fly.dev/actuator/health
 
+## Demo access
+
+```
+Email:    demo@10xdevs.pl
+Password: 10xDevs1!
+```
+
 ## Deployment
 
 Auto-deploy on push to `main` via GitHub Actions (`.github/workflows/fly-deploy.yml`). Target: Fly.io app `clearkyc`, region `fra`, Paketo buildpack with `BP_JVM_VERSION=21`.
