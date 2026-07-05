@@ -233,9 +233,9 @@ Brak — funkcja czysto addytywna, nie dotyka istniejących danych ani schematu.
 
 #### Automated
 
-- [ ] 3.1 Nowy test przechodzi
-- [ ] 3.2 Pełny zestaw testów frontowych przechodzi bez regresji
+- [x] 3.1 Nowy test przechodzi
+- [x] 3.2 Pełny zestaw testów frontowych przechodzi bez regresji
 
 #### Manual
 
-- [ ] 3.3 Brak regresji na istniejącym flow ręcznego wgrywania pliku
+- [x] 3.3 Brak regresji na istniejącym flow ręcznego wgrywania pliku
