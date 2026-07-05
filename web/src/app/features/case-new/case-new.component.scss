@@ -196,6 +196,69 @@
   }
 }
 
+/* ---- sample documents ("Wypróbuj z przykładem") ---- */
+.sample-docs {
+  width: 100%;
+  max-width: 480px;
+  margin-top: var(--space-6);
+}
+
+.sd-label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2);
+  text-align: center;
+}
+
+.sd-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.sd-tile {
+  flex: 1 1 140px;
+  max-width: 200px;
+  padding: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+
+  &:hover:not(:disabled) { background: var(--surface-hover); }
+  &:disabled { cursor: not-allowed; opacity: 0.7; }
+}
+
+.sd-name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.sd-tag {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.sd-loading {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  margin-top: var(--space-2);
+}
+
+.sd-error {
+  font-size: var(--text-2xs);
+  color: var(--reject-text);
+  margin-top: var(--space-2);
+}
+
 /* ---- submit area ---- */
 .upload-fields {
   margin-top: var(--space-6);

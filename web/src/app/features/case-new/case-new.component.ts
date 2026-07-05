@@ -8,6 +8,13 @@ import { CaseStore } from '../../core/store/case.store';
 import { CaseSummary } from '../../core/models/extraction.models';
 import { getCaseBadgeLabel as resolveCaseBadgeLabel } from '../../core/models/ui-labels';
 
+interface SampleDocument {
+  id: string;
+  path: string;
+  entityName: string;
+  tag: string;
+}
+
 @Component({
   selector: 'app-case-new',
   imports: [FileDropzoneComponent, RouterLink],
@@ -24,6 +31,30 @@ export class CaseNewComponent {
   protected readonly isUploading = signal(false);
   protected readonly uploadError = signal<string | null>(null);
 
+  protected readonly loadingSampleId = signal<string | null>(null);
+  protected readonly sampleErrorId = signal<string | null>(null);
+
+  protected readonly sampleDocuments: SampleDocument[] = [
+    {
+      id: 'northgate',
+      path: '/demo/northgate-holdings-articles.pdf',
+      entityName: 'Northgate Holdings Limited',
+      tag: 'Ukryty UBO, nominee director',
+    },
+    {
+      id: 'meridian',
+      path: '/demo/meridian-retail-group.pdf',
+      entityName: 'Meridian Retail Group Ltd',
+      tag: 'Czysta sprawa, brak red flag',
+    },
+    {
+      id: 'bosphorus',
+      path: '/demo/bosphorus-trading-fze.pdf',
+      entityName: 'Bosphorus Trading FZE',
+      tag: 'Sankcje / PEP linkage',
+    },
+  ];
+
   protected readonly recentCases = toSignal(
     this.caseService.listCases().pipe(catchError(() => of([] as CaseSummary[]))),
     { initialValue: [] as CaseSummary[] }
@@ -37,6 +68,28 @@ export class CaseNewComponent {
   protected removeFile(): void {
     this.selectedFile.set(null);
     this.uploadError.set(null);
+  }
+
+  protected loadSampleDocument(doc: SampleDocument): void {
+    this.loadingSampleId.set(doc.id);
+    this.sampleErrorId.set(null);
+
+    fetch(doc.path)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.blob();
+      })
+      .then(blob => {
+        const filename = doc.path.split('/').pop()!;
+        const file = new File([blob], filename, { type: 'application/pdf' });
+        this.onFileSelected(file);
+      })
+      .catch(() => {
+        this.sampleErrorId.set(doc.id);
+      })
+      .finally(() => {
+        this.loadingSampleId.set(null);
+      });
   }
 
   protected onSubmit(): void {

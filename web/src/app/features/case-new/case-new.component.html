@@ -29,6 +29,29 @@
 
       @if (!selectedFile()) {
         <app-file-dropzone (fileSelected)="onFileSelected($event)" />
+
+        <div class="sample-docs">
+          <div class="sd-label">Albo wypróbuj przykład</div>
+          <div class="sd-tiles">
+            @for (doc of sampleDocuments; track doc.id) {
+              <button
+                class="sd-tile"
+                type="button"
+                [disabled]="loadingSampleId() === doc.id"
+                (click)="loadSampleDocument(doc)"
+              >
+                <div class="sd-name">{{ doc.entityName }}</div>
+                <div class="sd-tag">{{ doc.tag }}</div>
+                @if (loadingSampleId() === doc.id) {
+                  <div class="sd-loading">Wczytywanie…</div>
+                }
+                @if (sampleErrorId() === doc.id) {
+                  <div class="sd-error">Nie udało się wczytać. Spróbuj ponownie.</div>
+                }
+              </button>
+            }
+          </div>
+        </div>
       } @else {
         <div class="file-selected">
           <div class="file-card">
