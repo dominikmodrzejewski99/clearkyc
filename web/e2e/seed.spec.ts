@@ -20,9 +20,9 @@ test('authenticated analyst sees the PDF upload form on /cases/new', async ({ pa
   // Navigate: authGuard sprawdza token i przepuszcza dalej
   await page.goto('/cases/new');
 
-  // Assert: formularz wgrywania renderuje się (heading + przycisk wyboru pliku)
-  await expect(page.getByRole('heading', { name: 'Nowa sprawa KYB' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Wybierz plik' })).toBeVisible();
+  // Assert: formularz wgrywania renderuje się (nagłówek + przycisk uploadu)
+  await expect(page.getByText('Wgraj dokument źródłowy')).toBeVisible();
+  await expect(page.getByRole('button', { name: /Wgraj plik PDF/ })).toBeVisible();
 
   // No cleanup: read-only navigation — brak stanu do posprzątania
 });
