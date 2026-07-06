@@ -40,6 +40,10 @@ public class KybCase {
     @Column(name = "analyst_identity", nullable = false)
     private String analystIdentity;
 
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.JSON)
+    @Column(name = "extraction_data")
+    private String extractionData;
+
     protected KybCase() {
     }
 
@@ -61,4 +65,6 @@ public class KybCase {
     public byte[] getPdfData() { return pdfData; }
     public void setPdfData(byte[] pdfData) { this.pdfData = pdfData; }
     public String getAnalystIdentity() { return analystIdentity; }
+    public String getExtractionData() { return extractionData; }
+    public void setExtractionData(String extractionData) { this.extractionData = extractionData; }
 }

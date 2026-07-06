@@ -3,6 +3,7 @@ package com.example.clearkyc.analysis;
 import com.example.clearkyc.domain.CaseStatus;
 import com.example.clearkyc.domain.KybCase;
 import com.example.clearkyc.repository.KybCaseRepository;
+import com.example.clearkyc.web.dto.FieldRecord;
 import tools.jackson.databind.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.codec.ServerSentEvent;
 
@@ -114,6 +117,7 @@ public class ExtractionService {
             AtomicReference<StringBuilder> buf = new AtomicReference<>(new StringBuilder());
             AtomicBoolean hadError = new AtomicBoolean(false);
             AtomicReference<List<RedFlagItem>> accumulatedFlags = new AtomicReference<>(new ArrayList<>());
+            AtomicReference<List<FieldRecord>> accumulatedFields = new AtomicReference<>(new ArrayList<>());
 
             Flux<ExtractionEvent> eventFlux = chatModel.stream(prompt)
                     .mapNotNull(r -> r.getResult() != null ? r.getResult().getOutput().getText() : null)
@@ -137,7 +141,16 @@ public class ExtractionService {
                                 accumulatedFlags.get().add(flag);
                                 return null;
                             }
-                            return (ExtractionEvent) jsonMapper.readValue(line, ExtractionEvent.FieldExtracted.class);
+                            FieldRecord field = jsonMapper.readValue(line, FieldRecord.class);
+                            accumulatedFields.get().add(field);
+                            // Convert FieldRecord to FieldExtracted for SSE event
+                            var citations = field.citations() != null 
+                                ? field.citations().stream()
+                                    .map(c -> new Citation(c.quote(), c.page()))
+                                    .toList()
+                                : List.<Citation>of();
+                            return (ExtractionEvent) new ExtractionEvent.FieldExtracted(
+                                field.fieldName(), field.value(), citations);
                         } catch (Exception e) {
                             log.warn("Skipping unparseable NDJSON line: {}", line);
                             return null;
@@ -155,6 +168,18 @@ public class ExtractionService {
                     })
                     // On error: revert to CREATED so analyst can re-submit; on success: ANALYZED
                     .doFinally(s -> {
+                        if (!hadError.get()) {
+                            // Save extraction data for ANALYZED cases
+                            try {
+                                Map<String, Object> extractionPayload = new HashMap<>();
+                                extractionPayload.put("fields", accumulatedFields.get());
+                                extractionPayload.put("red_flags", accumulatedFlags.get());
+                                String jsonPayload = jsonMapper.writeValueAsString(extractionPayload);
+                                kybCase.setExtractionData(jsonPayload);
+                            } catch (Exception e) {
+                                log.warn("Failed to serialize extraction data for case {}: {}", kybCase.getId(), e.getMessage());
+                            }
+                        }
                         kybCase.setStatus(hadError.get() ? CaseStatus.CREATED : CaseStatus.ANALYZED);
                         caseRepository.save(kybCase);
                     });

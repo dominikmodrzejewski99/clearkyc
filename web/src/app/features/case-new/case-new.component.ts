@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { catchError, of } from 'rxjs';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FileDropzoneComponent } from '../../shared/components/file-dropzone/file-dropzone.component';
 import { CaseService } from '../../core/services/case.service';
 import { CaseStore } from '../../core/store/case.store';
@@ -55,10 +54,13 @@ export class CaseNewComponent {
     },
   ];
 
-  protected readonly recentCases = toSignal(
-    this.caseService.listCases().pipe(catchError(() => of([] as CaseSummary[]))),
-    { initialValue: [] as CaseSummary[] }
-  );
+  protected readonly recentCases = this.caseStore.recentCases;
+  protected readonly recentCasesLoading = this.caseStore.recentCasesLoading;
+  protected readonly recentCasesError = this.caseStore.recentCasesError;
+
+  constructor() {
+    this.caseStore.loadRecentCases();
+  }
 
   protected onFileSelected(file: File): void {
     this.selectedFile.set(file);
@@ -108,6 +110,7 @@ export class CaseNewComponent {
         next: response => {
           this.caseStore.caseId.set(response.id);
           this.caseStore.pdfBlob.set(file);
+          this.caseStore.refreshRecentCases();
           this.router.navigate(['/cases', response.id]);
         },
         error: () => {

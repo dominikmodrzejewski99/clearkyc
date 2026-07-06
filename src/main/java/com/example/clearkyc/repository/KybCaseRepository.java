@@ -18,6 +18,7 @@ public interface KybCaseRepository extends JpaRepository<KybCase, UUID> {
             from KybCase c left join AuditRecord ar on ar.kybCase = c
             where c.analystIdentity = :analystIdentity
             order by c.createdAt desc
+            limit 20
             """)
     List<Object[]> findCaseSummaryRows(@Param("analystIdentity") String analystIdentity);
 }

@@ -110,6 +110,7 @@ public class CaseService {
         AuditSummary audit = null;
         List<FieldRecord> fields = null;
         List<RedFlagItem> redFlags = null;
+        
         if (kybCase.getStatus() == CaseStatus.LOCKED) {
             AuditRecord auditRecord = auditRecordRepository.findByKybCase(kybCase).orElse(null);
             if (auditRecord != null) {
@@ -118,6 +119,11 @@ public class CaseService {
                 fields = payloadFields.fields();
                 redFlags = payloadFields.redFlags();
             }
+        } else if (kybCase.getStatus() == CaseStatus.ANALYZED && kybCase.getExtractionData() != null) {
+            // Load extraction data for ANALYZED cases
+            PayloadFields payloadFields = parsePayload(caseId, kybCase.getExtractionData());
+            fields = payloadFields.fields();
+            redFlags = payloadFields.redFlags();
         }
 
         return new CaseDetailResponse(

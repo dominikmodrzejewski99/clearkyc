@@ -1,8 +1,12 @@
-import { Injectable, signal } from '@angular/core';
-import { ActiveCitation, CaseStatus, ExtractionField, FieldOverride, RedFlagItem } from '../models/extraction.models';
+import { Injectable, inject, signal } from '@angular/core';
+import { ActiveCitation, CaseStatus, CaseSummary, ExtractionField, FieldOverride, RedFlagItem } from '../models/extraction.models';
+import { CaseService } from '../services/case.service';
+import { catchError, of, shareReplay } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CaseStore {
+  private readonly caseService = inject(CaseService);
+
   readonly caseId = signal<string | null>(null);
   readonly caseStatus = signal<CaseStatus>('CREATED');
   readonly entityName = signal<string | null>(null);
@@ -14,6 +18,41 @@ export class CaseStore {
   readonly fieldOverrides = signal<Record<string, FieldOverride>>({});
   readonly activeQuote = signal<ActiveCitation | null>(null);
   readonly redFlags = signal<RedFlagItem[]>([]);
+  readonly recentCases = signal<CaseSummary[]>([]);
+  readonly recentCasesLoading = signal<boolean>(false);
+  readonly recentCasesError = signal<string | null>(null);
+
+  private recentCases$ = this.caseService.listCases().pipe(
+    shareReplay(1),
+    catchError(() => of([] as CaseSummary[]))
+  );
+
+  loadRecentCases(): void {
+    if (this.recentCases().length > 0 || this.recentCasesLoading()) {
+      return;
+    }
+    this.recentCasesLoading.set(true);
+    this.recentCasesError.set(null);
+    this.recentCases$.subscribe({
+      next: cases => {
+        this.recentCases.set(cases);
+        this.recentCasesLoading.set(false);
+      },
+      error: () => {
+        this.recentCasesError.set('Nie udało się załadować ostatnich spraw');
+        this.recentCasesLoading.set(false);
+      }
+    });
+  }
+
+  refreshRecentCases(): void {
+    this.recentCases$ = this.caseService.listCases().pipe(
+      shareReplay(1),
+      catchError(() => of([] as CaseSummary[]))
+    );
+    this.recentCases.set([]);
+    this.loadRecentCases();
+  }
 
   reset(): void {
     this.caseId.set(null);
@@ -27,6 +66,7 @@ export class CaseStore {
     this.fieldOverrides.set({});
     this.activeQuote.set(null);
     this.redFlags.set([]);
+    // Note: recentCases is NOT reset here - it should persist across case navigation
   }
 
   appendField(field: ExtractionField): void {

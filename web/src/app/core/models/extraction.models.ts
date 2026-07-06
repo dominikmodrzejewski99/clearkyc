@@ -42,6 +42,8 @@ export interface CaseDetail {
   lockedAt: string | null;
   audit: AuditSummary | null;
   entityName?: string | null;
+  fields?: FieldRecord[] | null;
+  red_flags?: RedFlagItem[] | null;
 }
 
 export interface AuditSummary {

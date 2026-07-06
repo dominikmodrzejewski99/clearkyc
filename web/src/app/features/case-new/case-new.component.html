@@ -92,19 +92,25 @@
     <div class="upload-sidebar">
       <div class="us-head">Ostatnie sprawy</div>
       <ul class="us-body" style="list-style:none;padding:0;margin:0">
-        @for (c of recentCases(); track c.id) {
-          <li>
-            <a class="case-card" [routerLink]="['/cases', c.id]">
-              <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
-              <div class="cc-row">
-                <span class="cc-id">{{ c.id }}</span>
-                <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
-                <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
-              </div>
-            </a>
-          </li>
-        } @empty {
-          <li class="us-empty">Brak ostatnich spraw</li>
+        @if (recentCasesLoading()) {
+          <li class="us-loading">Wczytywanie...</li>
+        } @else if (recentCasesError()) {
+          <li class="us-error">{{ recentCasesError() }}</li>
+        } @else {
+          @for (c of recentCases(); track c.id) {
+            <li>
+              <a class="case-card" [routerLink]="['/cases', c.id]">
+                <div class="cc-entity">{{ c.entityName ?? c.id }}</div>
+                <div class="cc-row">
+                  <span class="cc-id">{{ c.id }}</span>
+                  <span [class]="'cc-badge ' + getCaseBadgeClass(c)">{{ getCaseBadgeLabel(c) }}</span>
+                  <span class="cc-date">{{ formatDate(c.createdAt) }}</span>
+                </div>
+              </a>
+            </li>
+          } @empty {
+            <li class="us-empty">Brak ostatnich spraw</li>
+          }
         }
       </ul>
       <div class="us-footer">

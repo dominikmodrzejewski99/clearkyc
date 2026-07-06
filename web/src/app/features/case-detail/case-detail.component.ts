@@ -44,6 +44,13 @@ export class CaseDetailComponent implements OnInit {
         next: response => {
           this.caseStore.caseStatus.set(response.status);
           this.caseStore.entityName.set(response.entityName ?? null);
+          // Wczytaj dane ekstrakcji jeśli są dostępne (dla LOCKED cases)
+          if (response.fields) {
+            this.caseStore.extractionFields.set(response.fields);
+          }
+          if (response.red_flags) {
+            this.caseStore.setRedFlags(response.red_flags);
+          }
         },
       });
 
