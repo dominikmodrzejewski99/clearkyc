@@ -298,8 +298,8 @@ immediately without backfill.
 
 #### Automated
 
-- [x] 1.1 Backend compiles and existing tests pass: `./mvnw test`
-- [x] 1.2 New CaseServiceTest covers valid payload, malformed payload, non-LOCKED cases
+- [x] 1.1 Backend compiles and existing tests pass: `./mvnw test` — e8508d4
+- [x] 1.2 New CaseServiceTest covers valid payload, malformed payload, non-LOCKED cases — e8508d4
 
 ### Phase 2: Frontend — rehydrate CaseStore on LOCKED load
 
