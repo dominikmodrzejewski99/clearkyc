@@ -92,7 +92,7 @@ class CaseControllerTest {
     void getCase_withJwt_existingCase_returns200() throws Exception {
         UUID id = UUID.randomUUID();
         when(caseService.getCase(eq(id), any()))
-                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, null));
+                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, null, null, null));
 
         mockMvc.perform(get("/api/cases/{id}", id).with(jwt()))
                 .andExpect(status().isOk())
@@ -128,7 +128,7 @@ class CaseControllerTest {
     void updateCase_withJwt_nonLockedCase_returns200WithUpdatedName() throws Exception {
         UUID id = UUID.randomUUID();
         when(caseService.updateCase(eq(id), any(), any()))
-                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, "AcmeCorp"));
+                .thenReturn(new CaseDetailResponse(id, "CREATED", Instant.now(), Instant.now(), null, null, "AcmeCorp", null, null));
 
         mockMvc.perform(patch("/api/cases/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)

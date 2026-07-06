@@ -1,5 +1,7 @@
 package com.example.clearkyc.service;
 
+import com.example.clearkyc.analysis.RedFlagItem;
+import com.example.clearkyc.domain.AuditRecord;
 import com.example.clearkyc.domain.CaseStatus;
 import com.example.clearkyc.domain.DecisionType;
 import com.example.clearkyc.domain.KybCase;
@@ -9,7 +11,13 @@ import com.example.clearkyc.web.dto.AuditSummary;
 import com.example.clearkyc.web.dto.CaseDetailResponse;
 import com.example.clearkyc.web.dto.CaseSummaryResponse;
 import com.example.clearkyc.web.dto.CreateCaseResponse;
+import com.example.clearkyc.web.dto.FieldRecord;
 import com.example.clearkyc.web.dto.UpdateCaseRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +25,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class CaseService {
+
+    private static final Logger log = LoggerFactory.getLogger(CaseService.class);
+
+    // TODO(json-schema-validator-jackson3): remove bare ObjectMapper once networknt adds Jackson 3.x support.
+    // Spring Boot 4 exposes a tools.jackson (3.x) bean incompatible with the 2.x API used to write this payload.
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private final KybCaseRepository kybCaseRepository;
     private final AuditRecordRepository auditRecordRepository;
@@ -46,7 +61,9 @@ public class CaseService {
                 kybCase.getUpdatedAt(),
                 kybCase.getLockedAt(),
                 null,
-                kybCase.getEntityName());
+                kybCase.getEntityName(),
+                null,
+                null);
     }
 
     @Transactional
@@ -91,10 +108,16 @@ public class CaseService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found"));
 
         AuditSummary audit = null;
+        List<FieldRecord> fields = null;
+        List<RedFlagItem> redFlags = null;
         if (kybCase.getStatus() == CaseStatus.LOCKED) {
-            audit = auditRecordRepository.findByKybCase(kybCase)
-                    .map(r -> new AuditSummary(r.getId(), r.getDecision().name(), r.getFinalizedAt()))
-                    .orElse(null);
+            AuditRecord auditRecord = auditRecordRepository.findByKybCase(kybCase).orElse(null);
+            if (auditRecord != null) {
+                audit = new AuditSummary(auditRecord.getId(), auditRecord.getDecision().name(), auditRecord.getFinalizedAt());
+                PayloadFields payloadFields = parsePayload(caseId, auditRecord.getPayload());
+                fields = payloadFields.fields();
+                redFlags = payloadFields.redFlags();
+            }
         }
 
         return new CaseDetailResponse(
@@ -104,6 +127,29 @@ public class CaseService {
                 kybCase.getUpdatedAt(),
                 kybCase.getLockedAt(),
                 audit,
-                kybCase.getEntityName());
+                kybCase.getEntityName(),
+                fields,
+                redFlags);
+    }
+
+    private PayloadFields parsePayload(UUID caseId, String payloadJson) {
+        try {
+            Map<String, Object> payloadMap = objectMapper.readValue(payloadJson, new TypeReference<Map<String, Object>>() {
+            });
+            List<FieldRecord> fields = objectMapper.convertValue(
+                    payloadMap.get("fields"), new TypeReference<List<FieldRecord>>() {
+                    });
+            List<RedFlagItem> redFlags = payloadMap.containsKey("red_flags")
+                    ? objectMapper.convertValue(payloadMap.get("red_flags"), new TypeReference<List<RedFlagItem>>() {
+                    })
+                    : null;
+            return new PayloadFields(fields, redFlags);
+        } catch (JsonProcessingException | IllegalArgumentException e) {
+            log.warn("Failed to parse audit payload for case {}: {}", caseId, e.getMessage());
+            return new PayloadFields(null, null);
+        }
+    }
+
+    private record PayloadFields(List<FieldRecord> fields, List<RedFlagItem> redFlags) {
     }
 }

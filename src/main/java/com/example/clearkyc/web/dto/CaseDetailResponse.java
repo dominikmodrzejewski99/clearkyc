@@ -1,6 +1,9 @@
 package com.example.clearkyc.web.dto;
 
+import com.example.clearkyc.analysis.RedFlagItem;
+
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public record CaseDetailResponse(
@@ -10,5 +13,7 @@ public record CaseDetailResponse(
         Instant updatedAt,
         Instant lockedAt,
         AuditSummary audit,
-        String entityName) {
+        String entityName,
+        List<FieldRecord> fields,
+        List<RedFlagItem> red_flags) {
 }

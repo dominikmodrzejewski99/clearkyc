@@ -1,9 +1,9 @@
 ---
 change_id: persist-extraction-state
 title: Persist extraction results so case detail survives a page refresh
-status: new
+status: implementing
 created: 2026-07-05
-updated: 2026-07-05
+updated: 2026-07-06
 archived_at: null
 ---
 
@@ -38,3 +38,12 @@ danych bez zmian po stronie serwera (nowa kolumna/tabela + zapis w
 Otwarte pytanie do rozstrzygnięcia w /ai-frame lub na starcie /ai-plan:
 czy trzeba trwale persistować pełny wynik ekstrakcji, czy wystarczy inne
 podejście (np. automatyczny re-run analizy po wykryciu utraty stanu).
+
+## Update 2026-07-06
+
+`/ai-frame` (`frame.md`) rozdzielił to na dwa różne problemy:
+1. **LOCKED reload = potwierdzony bug** — dane już są w `AuditRecord.payload`,
+   brakuje tylko zwrócenia ich do frontendu. Zaplanowane w `plan.md` (ten
+   change), gotowe do `/ai-implement`.
+2. **Pre-decision (ANALYZING/ANALYZED) reload = otwarta decyzja produktowa**,
+   nie bug — do ustalenia osobno po zamknięciu (1).
