@@ -1,7 +1,7 @@
 ---
 change_id: extraction-sse-codec
 title: Codec layer dla parseSSEMessage (K1)
-status: implementing
+status: implemented
 created: 2026-07-07
 updated: 2026-07-07
 archived_at: null

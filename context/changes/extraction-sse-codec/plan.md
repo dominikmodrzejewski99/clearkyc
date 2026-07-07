@@ -202,11 +202,11 @@ zgodnie z `refactor-opportunities/plan.md` Testing Strategy.
 
 #### Automated
 
-- [x] 1.1 `npm run build` przechodzi bez błędów TypeScript
-- [x] 1.2 `npx vitest run extraction.codec.spec.ts` — wszystkie przypadki zielone
-- [x] 1.3 `npx vitest run` (pełny suite) bez regresji
+- [x] 1.1 `npm run build` przechodzi bez błędów TypeScript — beb0cae
+- [x] 1.2 `npx vitest run extraction.codec.spec.ts` — wszystkie przypadki zielone — beb0cae
+- [x] 1.3 `npx vitest run` (pełny suite) bez regresji — beb0cae
 
 #### Manual
 
-- [x] 1.4 Analiza dokumentu w UI przebiega poprawnie, bez regresji
-- [x] 1.5 `AnalysisError.errorCode` widoczny w logu przy symulowanym błędzie backendu
+- [x] 1.4 Analiza dokumentu w UI przebiega poprawnie, bez regresji — beb0cae
+- [x] 1.5 `AnalysisError.errorCode` widoczny w logu przy symulowanym błędzie backendu — beb0cae
