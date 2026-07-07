@@ -31,7 +31,7 @@ export interface RedFlagItem {
 export type ExtractionEvent =
   | { type: 'FieldExtracted'; field: ExtractionField }
   | { type: 'AnalysisComplete'; caseId: string }
-  | { type: 'AnalysisError'; message: string }
+  | { type: 'AnalysisError'; errorCode: string; message: string }
   | { type: 'RedFlagsFound'; flags: RedFlagItem[] };
 
 export interface CaseDetail {

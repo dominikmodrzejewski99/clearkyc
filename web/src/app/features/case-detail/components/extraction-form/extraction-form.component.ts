@@ -121,7 +121,10 @@ export class ExtractionFormComponent {
             case 'FieldExtracted': this.caseStore.appendField(event.field); break;
             case 'RedFlagsFound': this.caseStore.setRedFlags(event.flags); break;
             case 'AnalysisComplete': this.caseStore.markAnalyzed(); break;
-            case 'AnalysisError': this.caseStore.markAnalysisError(event.message); break;
+            case 'AnalysisError':
+              console.error('[extraction]', event.errorCode, event.message);
+              this.caseStore.markAnalysisError(event.message);
+              break;
             default: {
               const _exhaustive: never = event;
             }

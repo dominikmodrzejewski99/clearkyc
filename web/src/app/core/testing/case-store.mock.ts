@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { vi } from 'vitest';
-import { ActiveCitation, CaseStatus, ExtractionField, FieldOverride, RedFlagItem } from '../models/extraction.models';
+import { ActiveCitation, CaseStatus, CaseSummary, ExtractionField, FieldOverride, RedFlagItem } from '../models/extraction.models';
 
 // Use real Angular signals — vi.fn() does NOT satisfy Signal<T>.
 // The template's @if expressions call each signal as a function and Angular's
@@ -18,15 +18,20 @@ export function createCaseStoreMock() {
     fieldOverrides:   signal<Record<string, FieldOverride>>({}),
     activeQuote:      signal<ActiveCitation | null>(null),
     redFlags:         signal<RedFlagItem[]>([]),
+    recentCases:        signal<CaseSummary[]>([]),
+    recentCasesLoading: signal<boolean>(false),
+    recentCasesError:   signal<string | null>(null),
 
-    reset:             vi.fn(),
-    appendField:       vi.fn(),
-    setOverride:       vi.fn(),
-    clearOverride:     vi.fn(),
-    setRedFlags:       vi.fn(),
-    markAnalysisError: vi.fn(),
-    markAnalyzed:      vi.fn(),
-    markLocked:        vi.fn(),
+    reset:              vi.fn(),
+    loadRecentCases:    vi.fn(),
+    refreshRecentCases: vi.fn(),
+    appendField:        vi.fn(),
+    setOverride:        vi.fn(),
+    clearOverride:      vi.fn(),
+    setRedFlags:        vi.fn(),
+    markAnalysisError:  vi.fn(),
+    markAnalyzed:       vi.fn(),
+    markLocked:         vi.fn(),
   };
 }
 

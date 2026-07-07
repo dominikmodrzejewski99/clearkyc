@@ -4,6 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { firstValueFrom } from 'rxjs';
 import { ExtractionEvent } from '../models/extraction.models';
 import { environment } from '../../../environments/environment';
+import { parseSSEMessage } from './extraction.codec';
 
 @Injectable({ providedIn: 'root' })
 export class ExtractionStreamService {
@@ -64,35 +65,4 @@ export class ExtractionStreamService {
       return () => controller.abort();
     });
   }
-}
-
-export function parseSSEMessage(raw: string): ExtractionEvent | null {
-  let eventType = '';
-  let dataLine = '';
-
-  for (const line of raw.split('\n')) {
-    if (line.startsWith('event:')) eventType = line.slice(6).trim();
-    else if (line.startsWith('data:')) dataLine = line.slice(5).trim();
-  }
-
-  if (!eventType || !dataLine) return null;
-
-  try {
-    const payload = JSON.parse(dataLine);
-    const typedEventType = eventType as ExtractionEvent['type'];
-    switch (typedEventType) {
-      case 'FieldExtracted': return { type: 'FieldExtracted', field: payload };
-      case 'AnalysisComplete': return { type: 'AnalysisComplete', caseId: payload.caseId ?? payload };
-      case 'AnalysisError': return { type: 'AnalysisError', message: payload.message ?? String(payload) };
-      case 'RedFlagsFound': return { type: 'RedFlagsFound', flags: payload.flags ?? [] };
-      default: {
-        const _exhaustive: never = typedEventType;
-        return null;
-      }
-    }
-  } catch {
-    // ignore malformed JSON
-  }
-
-  return null;
 }
