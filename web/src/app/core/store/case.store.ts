@@ -97,9 +97,11 @@ export class CaseStore {
   markAnalyzed(): void {
     this.caseStatus.set('ANALYZED');
     this.isAnalyzing.set(false);
+    this.refreshRecentCases();
   }
 
   markLocked(): void {
     this.caseStatus.set('LOCKED');
+    this.refreshRecentCases();
   }
 }

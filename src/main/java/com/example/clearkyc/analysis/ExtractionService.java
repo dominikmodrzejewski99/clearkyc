@@ -186,10 +186,19 @@ public class ExtractionService {
 
             return eventFlux.map(event ->
                     ServerSentEvent.<ExtractionEvent>builder()
-                            .event(event.getClass().getSimpleName())
+                            .event(wireType(event))
                             .data(event)
                             .build()
             );
         });
+    }
+
+    static String wireType(ExtractionEvent event) {
+        return switch (event) {
+            case ExtractionEvent.FieldExtracted e -> "FieldExtracted";
+            case ExtractionEvent.AnalysisComplete e -> "AnalysisComplete";
+            case ExtractionEvent.AnalysisError e -> "AnalysisError";
+            case ExtractionEvent.RedFlagsFound e -> "RedFlagsFound";
+        };
     }
 }
