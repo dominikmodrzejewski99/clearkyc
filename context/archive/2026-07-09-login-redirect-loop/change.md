@@ -1,10 +1,10 @@
 ---
 change_id: login-redirect-loop
 title: Login bounces back to landing page instead of staying on cases/new
-status: implementing
+status: archived
 created: 2026-07-09
 updated: 2026-07-09
-archived_at: null
+archived_at: 2026-07-09T21:17:47Z
 ---
 
 ## Notes
