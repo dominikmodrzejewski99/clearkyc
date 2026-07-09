@@ -157,6 +157,6 @@ Not applicable — no data or schema changes.
 
 #### Automated
 
-- [ ] 2.1 New spec passes: `npm run test -- --include='**/app.config.spec.ts'`
-- [ ] 2.2 Full unit test suite still passes: `npm run test`
-- [ ] 2.3 Lint passes: `npm run lint`
+- [x] 2.1 New spec passes: `npm run test -- --include='**/app.config.spec.ts'` — 2/2 passed
+- [x] 2.2 Full unit test suite still passes: `npm run test` — 82/82 passed
+- [x] 2.3 Lint passes: `npm run lint` — `app.config.ts`/`app.config.spec.ts` clean (`npx eslint` on both, 0 errors); 7 pre-existing errors remain in unrelated files, confirmed via `git stash` to predate this change
