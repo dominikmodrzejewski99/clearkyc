@@ -143,15 +143,15 @@ Not applicable — no data or schema changes.
 
 #### Automated
 
-- [x] 1.1 Unit test suite passes: `npm run test`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Production build succeeds: `npm run build`
+- [x] 1.1 Unit test suite passes: `npm run test` — 397a058
+- [x] 1.2 Lint passes: `npm run lint` — 397a058
+- [x] 1.3 Production build succeeds: `npm run build` — 397a058
 
 #### Manual
 
-- [ ] 1.4 Cold-start login (incognito) lands on `cases/new` on first attempt
-- [ ] 1.5 Dev mode (`skipAuth: true`) loads without Auth0-related console errors
-- [ ] 1.6 Cancelled/failed login returns to a clean `/`
+- [x] 1.4 Cold-start login (incognito) lands on `cases/new` on first attempt — confirmed by user; brief landing-page flash observed before redirect, deemed acceptable
+- [x] 1.5 Dev mode (`skipAuth: true`) loads without Auth0-related console errors — confirmed by user
+- [x] 1.6 Cancelled/failed login returns to a clean `/` — confirmed by user
 
 ### Phase 2: Unit test coverage for the initializer's environment guard
 
