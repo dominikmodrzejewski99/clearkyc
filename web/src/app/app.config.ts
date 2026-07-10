@@ -8,9 +8,11 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authHttpInterceptorFn, AuthService, provideAuth0 } from '@auth0/auth0-angular';
+import { filter, take } from 'rxjs';
 
 import { routes } from './app.routes';
 import { environment } from '../environments/environment';
+import { CaseStore } from './core/store/case.store';
 
 // Forces AuthService's construction before the Router resolves any route.
 // Its constructor is self-subscribing and processes the Auth0 callback
@@ -20,6 +22,23 @@ export function authInitializer(): void {
   if (!environment.skipAuth) {
     inject(AuthService);
   }
+}
+
+// Starts the recent-cases fetch as early as authentication state allows,
+// running in parallel with route resolution and lazy-chunk loading instead
+// of only starting after both finish.
+export function recentCasesPrefetchInitializer(): void {
+  performance.mark('clearkyc:recent-cases-prefetch:start');
+  const caseStore = inject(CaseStore);
+
+  if (environment.skipAuth) {
+    caseStore.loadRecentCases();
+    return;
+  }
+
+  inject(AuthService)
+    .isAuthenticated$.pipe(filter(Boolean), take(1))
+    .subscribe(() => caseStore.loadRecentCases());
 }
 
 export const appConfig: ApplicationConfig = {
@@ -46,5 +65,6 @@ export const appConfig: ApplicationConfig = {
       }),
     ]),
     provideAppInitializer(authInitializer),
+    provideAppInitializer(recentCasesPrefetchInitializer),
   ],
 };

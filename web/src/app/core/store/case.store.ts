@@ -22,6 +22,8 @@ export class CaseStore {
   readonly recentCasesLoading = signal<boolean>(false);
   readonly recentCasesError = signal<string | null>(null);
 
+  private firstLoadMeasured = false;
+
   private recentCases$ = this.caseService.listCases().pipe(
     shareReplay(1),
     catchError(() => of([] as CaseSummary[]))
@@ -37,12 +39,27 @@ export class CaseStore {
       next: cases => {
         this.recentCases.set(cases);
         this.recentCasesLoading.set(false);
+        this.markFirstLoadComplete();
       },
       error: () => {
         this.recentCasesError.set('Nie udało się załadować ostatnich spraw');
         this.recentCasesLoading.set(false);
+        this.markFirstLoadComplete();
       }
     });
+  }
+
+  private markFirstLoadComplete(): void {
+    if (this.firstLoadMeasured) {
+      return;
+    }
+    this.firstLoadMeasured = true;
+    performance.mark('clearkyc:recent-cases:fetch-end');
+    performance.measure(
+      'clearkyc:recent-cases:first-load',
+      'clearkyc:recent-cases-prefetch:start',
+      'clearkyc:recent-cases:fetch-end'
+    );
   }
 
   refreshRecentCases(): void {

@@ -377,6 +377,7 @@
   font-weight: var(--weight-semibold);
   padding: 0 5px;
   border-radius: var(--radius-xs);
+  white-space: nowrap;
 
   &.approved  { background: var(--approve-bg);   color: var(--approve-text);   border: 1px solid var(--approve-border); }
   &.rejected  { background: var(--reject-bg);    color: var(--reject-text);    border: 1px solid var(--reject-border); }
