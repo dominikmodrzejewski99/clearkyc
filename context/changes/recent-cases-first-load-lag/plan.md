@@ -187,6 +187,6 @@ Not applicable — no data or schema changes.
 
 #### Automated
 
-- [x] 2.1 New/extended specs pass: `npm run test -- --include='**/app.config.spec.ts' --include='**/case.store.spec.ts'`
-- [x] 2.2 Full unit test suite still passes: `npm run test`
-- [x] 2.3 Lint passes: `npm run lint`
+- [x] 2.1 New/extended specs pass: `npm run test -- --include='**/app.config.spec.ts' --include='**/case.store.spec.ts'` — 82238e3
+- [x] 2.2 Full unit test suite still passes: `npm run test` — 82238e3
+- [x] 2.3 Lint passes: `npm run lint` — 82238e3
