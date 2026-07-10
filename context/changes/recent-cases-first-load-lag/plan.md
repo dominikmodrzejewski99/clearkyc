@@ -172,21 +172,21 @@ Not applicable — no data or schema changes.
 
 #### Automated
 
-- [x] 1.1 Unit test suite passes: `npm run test`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Production build succeeds: `npm run build`
+- [x] 1.1 Unit test suite passes: `npm run test` — b15a83a
+- [x] 1.2 Lint passes: `npm run lint` — b15a83a
+- [x] 1.3 Production build succeeds: `npm run build` — b15a83a
 
 #### Manual
 
-- [x] 1.4 Recent-cases sidebar populates visibly sooner in a fresh incognito session (DevTools Network timeline comparison)
-- [x] 1.5 `performance.getEntriesByName('clearkyc:recent-cases:first-load')` returns exactly one entry after first load
-- [x] 1.6 No additional measurement entries appear after a case create / status change
-- [x] 1.7 Dev mode (`skipAuth: true`) loads without Auth0-related console errors and recent-cases list populates
+- [x] 1.4 Recent-cases sidebar populates visibly sooner in a fresh incognito session (DevTools Network timeline comparison) — b15a83a
+- [x] 1.5 `performance.getEntriesByName('clearkyc:recent-cases:first-load')` returns exactly one entry after first load — b15a83a
+- [x] 1.6 No additional measurement entries appear after a case create / status change — b15a83a
+- [x] 1.7 Dev mode (`skipAuth: true`) loads without Auth0-related console errors and recent-cases list populates — b15a83a
 
 ### Phase 2: Unit test coverage for the prefetch initializer and measurement guard
 
 #### Automated
 
-- [ ] 2.1 New/extended specs pass: `npm run test -- --include='**/app.config.spec.ts' --include='**/case.store.spec.ts'`
-- [ ] 2.2 Full unit test suite still passes: `npm run test`
-- [ ] 2.3 Lint passes: `npm run lint`
+- [x] 2.1 New/extended specs pass: `npm run test -- --include='**/app.config.spec.ts' --include='**/case.store.spec.ts'`
+- [x] 2.2 Full unit test suite still passes: `npm run test`
+- [x] 2.3 Lint passes: `npm run lint`
