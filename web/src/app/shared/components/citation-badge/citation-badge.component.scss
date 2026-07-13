@@ -1,3 +1,14 @@
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes citeSupFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .cite-sup {
+    animation: citeSupFadeIn 200ms ease-out both;
+  }
+}
+
 .cite-sup {
   background: none;
   border: none;

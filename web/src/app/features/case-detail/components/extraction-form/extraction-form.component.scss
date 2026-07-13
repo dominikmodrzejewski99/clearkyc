@@ -342,6 +342,17 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes citationFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .citation {
+    animation: citationFadeIn 200ms ease-out both;
+  }
+}
+
 /* ---- citation snippet (matches workstation .citation) ---- */
 .citation {
   display: block;

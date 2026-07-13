@@ -1,9 +1,11 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { vi } from 'vitest';
+import { Subject } from 'rxjs';
 import { ExtractionFormComponent } from './extraction-form.component';
 import { CaseStore } from '../../../../core/store/case.store';
 import { ExtractionStreamService } from '../../../../core/services/extraction-stream.service';
 import { createCaseStoreMock, CaseStoreMock } from '../../../../core/testing/case-store.mock';
+import { ExtractionEvent, ExtractionField } from '../../../../core/models/extraction.models';
 
 describe('ExtractionFormComponent', () => {
   let store: CaseStoreMock;
@@ -266,6 +268,116 @@ describe('ExtractionFormComponent', () => {
       // caseStatus='ANALYZED', isAnalyzing=false, editingField=null (component-local default)
       fixture.detectChanges();
       expect(el.querySelector('[aria-label="Edytuj wartość pola"]')).not.toBeNull();
+    });
+  });
+
+  // ─── Typewriter reveal (live SSE) ────────────────────────────────────────────
+
+  describe('typewriter reveal (live SSE)', () => {
+    let subject: Subject<ExtractionEvent>;
+
+    beforeEach(async () => {
+      vi.useFakeTimers();
+      TestBed.resetTestingModule();
+      subject = new Subject<ExtractionEvent>();
+      store = createCaseStoreMock();
+      store.appendField.mockImplementation((field: ExtractionField) =>
+        store.extractionFields.update(fields => [...fields, field])
+      );
+      vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: false } as MediaQueryList));
+
+      await TestBed.configureTestingModule({
+        imports: [ExtractionFormComponent],
+        providers: [
+          { provide: CaseStore, useValue: store },
+          { provide: ExtractionStreamService, useValue: { streamAnalysis: vi.fn().mockReturnValue(subject.asObservable()) } },
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(ExtractionFormComponent);
+      el = fixture.nativeElement;
+
+      store.caseId.set('case-1');
+      store.pdfBlob.set(new Blob([], { type: 'application/pdf' }));
+      fixture.detectChanges();
+
+      el.querySelector<HTMLButtonElement>('.run-btn')?.click();
+      fixture.detectChanges();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      vi.unstubAllGlobals();
+    });
+
+    it('shows a strict prefix (shorter than full value) with no citations immediately after FieldExtracted', () => {
+      subject.next({
+        type: 'FieldExtracted',
+        field: { fieldName: 'companyName', value: 'Northgate Holdings Limited', citations: [{ page: 1, quote: 'q' }] },
+      });
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      const shownText = valueText?.textContent?.replace(' ', '').trim() ?? '';
+      expect(shownText.length).toBeLessThan('Northgate Holdings Limited'.length);
+      expect('Northgate Holdings Limited'.startsWith(shownText)).toBe(true);
+      expect(el.querySelector('app-citation-badge')).toBeNull();
+      expect(el.querySelector('.citation')).toBeNull();
+    });
+
+    it('shows the full value with citations once the reveal duration elapses', () => {
+      subject.next({
+        type: 'FieldExtracted',
+        field: { fieldName: 'companyName', value: 'Northgate Holdings Limited', citations: [{ page: 1, quote: 'q' }] },
+      });
+      fixture.detectChanges();
+
+      vi.advanceTimersByTime(2000);
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('Northgate Holdings Limited');
+      expect(el.querySelector('app-citation-badge')).not.toBeNull();
+      expect(el.querySelector('.citation')).not.toBeNull();
+    });
+
+    it('renders fields set directly on the store (outside the live stream) fully formed with no partial reveal', () => {
+      store.extractionFields.set([
+        { fieldName: 'companyName', value: 'ACME Sp. z o.o.', citations: [{ page: 1, quote: 'q' }] },
+      ]);
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('ACME Sp. z o.o.');
+      expect(el.querySelector('.cursor')).toBeNull();
+    });
+
+    it('bypasses the reveal entirely when prefers-reduced-motion is set', () => {
+      vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: true } as MediaQueryList));
+
+      subject.next({
+        type: 'FieldExtracted',
+        field: { fieldName: 'companyName', value: 'Northgate Holdings Limited', citations: [{ page: 1, quote: 'q' }] },
+      });
+      fixture.detectChanges();
+
+      const valueText = el.querySelector('.extraction-form__value-text');
+      expect(valueText?.textContent?.trim()).toBe('Northgate Holdings Limited');
+      expect(el.querySelector('.cursor')).toBeNull();
+      expect(el.querySelector('app-citation-badge')).not.toBeNull();
+    });
+
+    it('stops the shared reveal interval when the component is destroyed mid-reveal', () => {
+      subject.next({
+        type: 'FieldExtracted',
+        field: { fieldName: 'companyName', value: 'Northgate Holdings Limited', citations: [] },
+      });
+      fixture.detectChanges();
+      expect(vi.getTimerCount()).toBeGreaterThan(0);
+
+      fixture.destroy();
+
+      expect(vi.getTimerCount()).toBe(0);
     });
   });
 });

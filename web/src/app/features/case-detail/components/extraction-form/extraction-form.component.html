@@ -117,14 +117,16 @@
                     @if (caseStore.fieldOverrides()[field.fieldName]) {
                       <span class="replaced">{{ caseStore.fieldOverrides()[field.fieldName]!.originalValue }}</span>
                     }
-                    {{ caseStore.fieldOverrides()[field.fieldName]?.newValue ?? field.value }}
+                    @if (typingFieldNames().has(field.fieldName)) {
+                      {{ displayedValues()[field.fieldName] }}<span class="cursor"></span>
+                    } @else {
+                      {{ caseStore.fieldOverrides()[field.fieldName]?.newValue ?? field.value }}
+                    }
                   </span>
-                  @for (citation of field.citations; track $index) {
-                    <app-citation-badge [citation]="citation" [index]="$index + 1" />
-                  }
-                  @if (caseStore.isAnalyzing()) {
-                    <span class="cursor"></span>
-                    <span class="state-tag stream-tag">Strumieniowanie</span>
+                  @if (!typingFieldNames().has(field.fieldName)) {
+                    @for (citation of field.citations; track $index) {
+                      <app-citation-badge [citation]="citation" [index]="$index + 1" />
+                    }
                   }
                   @if (caseStore.fieldOverrides()[field.fieldName]) {
                     <span class="state-tag override-tag">Nadpisano</span>
@@ -146,15 +148,17 @@
                   <span class="who">Analityk · nadpisano</span>
                 </div>
               }
-              @for (citation of field.citations; track $index) {
-                <button
-                  class="citation"
-                  type="button"
-                  (click)="navigateToCitation(citation)"
-                >
-                  <span class="cq">"{{ citation.quote }}"</span>
-                  <span class="src">str. {{ citation.page }}</span>
-                </button>
+              @if (!typingFieldNames().has(field.fieldName)) {
+                @for (citation of field.citations; track $index) {
+                  <button
+                    class="citation"
+                    type="button"
+                    (click)="navigateToCitation(citation)"
+                  >
+                    <span class="cq">"{{ citation.quote }}"</span>
+                    <span class="src">str. {{ citation.page }}</span>
+                  </button>
+                }
               }
             </div>
           }
