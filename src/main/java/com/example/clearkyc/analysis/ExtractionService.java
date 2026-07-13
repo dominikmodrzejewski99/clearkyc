@@ -4,6 +4,7 @@ import com.example.clearkyc.domain.CaseStatus;
 import com.example.clearkyc.domain.KybCase;
 import com.example.clearkyc.repository.KybCaseRepository;
 import com.example.clearkyc.web.dto.FieldRecord;
+import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,7 +137,7 @@ public class ExtractionService {
                     })
                     .mapNotNull(line -> {
                         try {
-                            if (line.contains("\"category\":")) {
+                            if (classifyLine(line, jsonMapper) == LineKind.RED_FLAG) {
                                 RedFlagItem flag = jsonMapper.readValue(line, RedFlagItem.class);
                                 accumulatedFlags.get().add(flag);
                                 return null;
@@ -191,6 +192,24 @@ public class ExtractionService {
                             .build()
             );
         });
+    }
+
+    enum LineKind { FIELD, RED_FLAG }
+
+    /**
+     * Discriminates a raw NDJSON line by its top-level key ("category" vs "fieldName"),
+     * not by substring search over the raw text — a field value that legally contains
+     * the literal text {@code "category":} must not be misrouted to red-flag parsing.
+     */
+    static LineKind classifyLine(String line, JsonMapper jsonMapper) {
+        JsonNode node = jsonMapper.readTree(line);
+        if (node.has("category")) {
+            return LineKind.RED_FLAG;
+        }
+        if (node.has("fieldName")) {
+            return LineKind.FIELD;
+        }
+        throw new IllegalArgumentException("Unrecognized NDJSON line shape: " + line);
     }
 
     static String wireType(ExtractionEvent event) {

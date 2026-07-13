@@ -1,12 +1,35 @@
 package com.example.clearkyc.analysis;
 
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ExtractionServiceTest {
+
+    private final JsonMapper jsonMapper = JsonMapper.builder().build();
+
+    @Test
+    void classifyLineRecognizesFieldLineWhoseValueContainsLiteralCategorySubstring() {
+        // Regression for the substring-search heuristic that misrouted this exact shape to
+        // RedFlagItem parsing and silently dropped the field (logged as "unparseable NDJSON line").
+        String line = "{\"fieldName\":\"companyName\",\"value\":\"See \\\"category\\\": Retail on p.3\",\"citations\":[]}";
+
+        ExtractionService.LineKind kind = ExtractionService.classifyLine(line, jsonMapper);
+
+        assertThat(kind).isEqualTo(ExtractionService.LineKind.FIELD);
+    }
+
+    @Test
+    void classifyLineRecognizesRedFlagLine() {
+        String line = "{\"category\":\"SANCTIONS_EXPOSURE\",\"description\":\"desc\",\"citations\":[]}";
+
+        ExtractionService.LineKind kind = ExtractionService.classifyLine(line, jsonMapper);
+
+        assertThat(kind).isEqualTo(ExtractionService.LineKind.RED_FLAG);
+    }
 
     @Test
     void wireTypePinsFieldExtractedName() {
