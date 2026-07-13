@@ -327,16 +327,16 @@ No data migration involved (frontend-only, no persisted state format changes).
 
 #### Automated
 
-- [x] 2.1 `npm ls @angular/core @angular/cli @angular/cdk` reports 22.0.6 / 22.0.6 / matching 22.x
-- [x] 2.2 `git diff web/package.json` shows only expected version bumps
-- [x] 2.3 `npm ls ngx-extended-pdf-viewer` reports 28.1.0 (added mid-phase — see Key Discoveries correction)
+- [x] 2.1 `npm ls @angular/core @angular/cli @angular/cdk` reports 22.0.6 / 22.0.6 / matching 22.x — d44b3fa
+- [x] 2.2 `git diff web/package.json` shows only expected version bumps — d44b3fa
+- [x] 2.3 `npm ls ngx-extended-pdf-viewer` reports 28.1.0 (added mid-phase — see Key Discoveries correction) — d44b3fa
 
 ### Phase 3: Toolchain Packages (TypeScript, ESLint tooling)
 
 #### Automated
 
-- [ ] 3.1 `npm install` completes with no `ERESOLVE` peer-dependency conflicts
-- [ ] 3.2 `npm ls typescript typescript-eslint angular-eslint` reports 6.0.3 / 8.63.0 / 22.1.0
+- [x] 3.1 `npm install` completes with no `ERESOLVE` peer-dependency conflicts
+- [x] 3.2 `npm ls typescript typescript-eslint angular-eslint` reports 6.0.3 / 8.63.0 / 22.1.0
 
 ### Phase 4: Fix Compilation & Lint Fallout
 
