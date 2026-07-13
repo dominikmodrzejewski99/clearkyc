@@ -10,7 +10,6 @@ import { createCaseStoreMock, CaseStoreMock } from '../../core/testing/case-stor
 describe('CaseNewComponent', () => {
   let store: CaseStoreMock;
   let fixture: ComponentFixture<CaseNewComponent>;
-  let el: HTMLElement;
   let originalFetch: typeof fetch;
 
   beforeEach(async () => {
@@ -30,7 +29,6 @@ describe('CaseNewComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(CaseNewComponent);
-    el = fixture.nativeElement;
     fixture.detectChanges();
   });
 

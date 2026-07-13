@@ -49,7 +49,7 @@ export function parseSSEMessage(raw: string): ExtractionEvent | null {
       case 'AnalysisError': return { type: 'AnalysisError', ...toAnalysisError(payload) };
       case 'RedFlagsFound': return { type: 'RedFlagsFound', flags: toRedFlagsFound(payload) };
       default: {
-        const _exhaustive: never = typedEventType;
+        typedEventType satisfies never;
         return null;
       }
     }

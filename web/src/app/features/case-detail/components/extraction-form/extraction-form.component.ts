@@ -27,6 +27,21 @@ export class ExtractionFormComponent {
   protected readonly expandedOverrideField = signal<string | null>(null);
   protected readonly calloutDismissed = signal<boolean>(false);
 
+  private static readonly CHARS_PER_SECOND = 25;
+  private static readonly MIN_DURATION_MS = 350;
+  private static readonly MAX_DURATION_MS = 1200;
+  private static readonly TICK_MS = 16;
+
+  protected readonly displayedValues = signal<Record<string, string>>({});
+  protected readonly typingFieldNames = signal<ReadonlySet<string>>(new Set());
+  private readonly revealQueue: { fieldName: string; fullValue: string }[] = [];
+  private activeReveal: { fieldName: string; fullValue: string; startedAt: number; durationMs: number } | null = null;
+  private revealIntervalId: ReturnType<typeof setInterval> | null = null;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => this.stopRevealInterval());
+  }
+
   protected dismissCallout(): void {
     this.calloutDismissed.set(true);
   }
@@ -102,6 +117,57 @@ export class ExtractionFormComponent {
     this.caseStore.activeQuote.set({ page: citation.page, quote: citation.quote });
   }
 
+  private registerFieldForReveal(field: ExtractionField): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    this.revealQueue.push({ fieldName: field.fieldName, fullValue: field.value });
+    this.startNextReveal();
+  }
+
+  private startNextReveal(): void {
+    if (this.activeReveal !== null) return;
+    const next = this.revealQueue.shift();
+    if (!next) return;
+
+    const durationMs = Math.min(
+      ExtractionFormComponent.MAX_DURATION_MS,
+      Math.max(ExtractionFormComponent.MIN_DURATION_MS, (next.fullValue.length / ExtractionFormComponent.CHARS_PER_SECOND) * 1000)
+    );
+    this.activeReveal = { fieldName: next.fieldName, fullValue: next.fullValue, startedAt: Date.now(), durationMs };
+    this.typingFieldNames.set(new Set([next.fieldName]));
+    this.displayedValues.update(values => ({ ...values, [next.fieldName]: '' }));
+
+    if (this.revealIntervalId === null) {
+      this.revealIntervalId = setInterval(() => this.tickReveal(), ExtractionFormComponent.TICK_MS);
+    }
+  }
+
+  private tickReveal(): void {
+    const state = this.activeReveal;
+    if (!state) {
+      this.stopRevealInterval();
+      return;
+    }
+
+    const progress = Math.min(1, (Date.now() - state.startedAt) / state.durationMs);
+    const revealedLength = Math.floor(state.fullValue.length * progress);
+    this.displayedValues.update(values => ({ ...values, [state.fieldName]: state.fullValue.slice(0, revealedLength) }));
+
+    if (progress >= 1) {
+      this.activeReveal = null;
+      this.typingFieldNames.set(new Set());
+      this.startNextReveal();
+      if (this.activeReveal === null) this.stopRevealInterval();
+    }
+  }
+
+  private stopRevealInterval(): void {
+    if (this.revealIntervalId !== null) {
+      clearInterval(this.revealIntervalId);
+      this.revealIntervalId = null;
+    }
+  }
+
   private startAnalysis(): void {
     const caseId = this.caseStore.caseId();
     const pdfBlob = this.caseStore.pdfBlob();
@@ -112,13 +178,21 @@ export class ExtractionFormComponent {
     this.caseStore.setRedFlags([]);
     this.caseStore.analysisError.set(null);
     this.caseStore.isAnalyzing.set(true);
+    this.stopRevealInterval();
+    this.revealQueue.length = 0;
+    this.activeReveal = null;
+    this.typingFieldNames.set(new Set());
+    this.displayedValues.set({});
 
     this.streamService.streamAnalysis(caseId, pdfBlob as File)
       .pipe(takeUntil(this.cancelStream$), takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: event => {
           switch (event.type) {
-            case 'FieldExtracted': this.caseStore.appendField(event.field); break;
+            case 'FieldExtracted':
+              this.caseStore.appendField(event.field);
+              this.registerFieldForReveal(event.field);
+              break;
             case 'RedFlagsFound': this.caseStore.setRedFlags(event.flags); break;
             case 'AnalysisComplete': this.caseStore.markAnalyzed(); break;
             case 'AnalysisError':
@@ -126,7 +200,7 @@ export class ExtractionFormComponent {
               this.caseStore.markAnalysisError(event.message);
               break;
             default: {
-              const _exhaustive: never = event;
+              event satisfies never;
             }
           }
         },

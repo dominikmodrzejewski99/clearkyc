@@ -21,7 +21,7 @@
   />
   <div class="dz-icon">⬆</div>
   <div class="dz-label">Przeciągnij i upuść dokument tutaj</div>
-  <div class="dz-hint">lub <b (click)="$event.stopPropagation(); fileInput.click()">przeglądaj pliki</b> aby wybrać</div>
+  <div class="dz-hint">lub <button type="button" class="dz-browse" (click)="$event.stopPropagation(); fileInput.click()">przeglądaj pliki</button> aby wybrać</div>
   <div class="dz-formats">PDF · max 50 MB</div>
   @if (error()) {
     <p class="dz-error" role="alert" aria-live="assertive" aria-atomic="true">{{ error() }}</p>

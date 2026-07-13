@@ -37,4 +37,10 @@ export class OnboardingOverlayComponent implements OnInit {
     localStorage.setItem('clearkyc_onboarding_v1', '1');
     this.visible.set(false);
   }
+
+  protected onBackdropClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.dismiss();
+    }
+  }
 }
