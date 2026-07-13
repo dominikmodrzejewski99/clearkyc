@@ -344,17 +344,17 @@ No data migration involved (frontend-only, no persisted state format changes).
 
 #### Automated
 
-- [x] 4.1 `ng build --configuration production` exits 0
-- [x] 4.2 `ng lint` exits 0
+- [x] 4.1 `ng build --configuration production` exits 0 — de3f05e
+- [x] 4.2 `ng lint` exits 0 — de3f05e
 
 ### Phase 5: Full Automated Test Suite
 
 #### Automated
 
-- [ ] 5.1 `ng test` (vitest) passes with no failures
-- [ ] 5.2 `ng lint` passes with no errors
-- [ ] 5.3 `ng build --configuration production` passes
-- [ ] 5.4 Playwright e2e suite passes
+- [x] 5.1 `ng test` (vitest) passes with no failures (91/91 passed)
+- [x] 5.2 `ng lint` passes with no errors
+- [x] 5.3 `ng build --configuration production` passes
+- [x] 5.4 Playwright e2e suite passes (1/1 passed)
 
 ### Phase 6: Manual Browser Smoke Test
 
