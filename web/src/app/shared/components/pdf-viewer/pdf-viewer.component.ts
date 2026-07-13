@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import {
   NgxExtendedPdfViewerModule,
   NgxExtendedPdfViewerService,
@@ -24,6 +24,7 @@ function normalizeQuery(raw: string): string {
   selector: 'app-pdf-viewer',
   imports: [NgxExtendedPdfViewerModule],
   templateUrl: './pdf-viewer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pdf-viewer.component.scss',
 })
 export class PdfViewerComponent {
@@ -88,9 +89,7 @@ export class PdfViewerComponent {
   }
 
   private isTextLayerRendered(pageNumber: number): boolean {
-    const layer = document.querySelector(
-      `.page[data-page-number="${pageNumber}"] .textLayer`,
-    );
+    const layer = document.querySelector(`.page[data-page-number="${pageNumber}"] .textLayer`);
     return !!layer && layer.childElementCount > 0;
   }
 

@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Output, signal, ChangeDetectionStrategy } from '@angular/core';
 
 const MAX_SIZE_BYTES = 50 * 1024 * 1024;
 
 @Component({
   selector: 'app-file-dropzone',
   templateUrl: './file-dropzone.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './file-dropzone.component.scss',
 })
- export class FileDropzoneComponent  {
+export class FileDropzoneComponent {
   @Output() fileSelected = new EventEmitter<File>();
 
   protected isDragOver = signal(false);

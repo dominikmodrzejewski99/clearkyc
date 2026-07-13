@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FileDropzoneComponent } from '../../shared/components/file-dropzone/file-dropzone.component';
@@ -18,6 +18,7 @@ interface SampleDocument {
   selector: 'app-case-new',
   imports: [FileDropzoneComponent, RouterLink],
   templateUrl: './case-new.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './case-new.component.scss',
 })
 export class CaseNewComponent {
@@ -77,13 +78,13 @@ export class CaseNewComponent {
     this.sampleErrorId.set(null);
 
     fetch(doc.path)
-      .then(response => {
+      .then((response) => {
         if (!response.ok || !response.headers.get('content-type')?.includes('pdf')) {
           throw new Error(`HTTP ${response.status}`);
         }
         return response.blob();
       })
-      .then(blob => {
+      .then((blob) => {
         const filename = doc.path.split('/').pop()!;
         const file = new File([blob], filename, { type: 'application/pdf' });
         this.onFileSelected(file);
@@ -104,10 +105,11 @@ export class CaseNewComponent {
     this.isUploading.set(true);
     this.uploadError.set(null);
 
-    this.caseService.createCase(file)
+    this.caseService
+      .createCase(file)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.caseStore.caseId.set(response.id);
           this.caseStore.pdfBlob.set(file);
           this.caseStore.refreshRecentCases();
@@ -127,7 +129,20 @@ export class CaseNewComponent {
 
   protected formatDate(isoString: string): string {
     const d = new Date(isoString);
-    const months = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
+    const months = [
+      'Sty',
+      'Lut',
+      'Mar',
+      'Kwi',
+      'Maj',
+      'Cze',
+      'Lip',
+      'Sie',
+      'Wrz',
+      'Paź',
+      'Lis',
+      'Gru',
+    ];
     return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
   }
 

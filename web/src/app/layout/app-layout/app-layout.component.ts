@@ -1,10 +1,18 @@
-import { Component, ElementRef, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 const MIN_PANE_PX = 360;
 
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app-layout.component.scss',
 })
 export class AppLayoutComponent {
@@ -19,10 +27,10 @@ export class AppLayoutComponent {
   protected onResizerKeyDown(event: KeyboardEvent): void {
     if (event.key === 'ArrowRight') {
       event.preventDefault();
-      this.leftWidth.update(w => Math.min(70, w + (event.shiftKey ? 5 : 1)));
+      this.leftWidth.update((w) => Math.min(70, w + (event.shiftKey ? 5 : 1)));
     } else if (event.key === 'ArrowLeft') {
       event.preventDefault();
-      this.leftWidth.update(w => Math.max(30, w - (event.shiftKey ? 5 : 1)));
+      this.leftWidth.update((w) => Math.max(30, w - (event.shiftKey ? 5 : 1)));
     }
   }
 

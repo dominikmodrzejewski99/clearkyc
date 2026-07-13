@@ -1,4 +1,13 @@
-import { Component, DestroyRef, EventEmitter, Output, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  Output,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaseStore } from '../../../core/store/case.store';
 import { DecisionService } from '../../../core/services/decision.service';
@@ -10,6 +19,7 @@ type Decision = 'APPROVE' | 'REJECT' | 'ESCALATE';
 @Component({
   selector: 'app-decision-bar',
   templateUrl: './decision-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './decision-bar.component.scss',
 })
 export class DecisionBarComponent {
@@ -24,11 +34,15 @@ export class DecisionBarComponent {
   protected lockedDecision = signal<string | null>(null);
   protected pendingDecision = signal<Decision | null>(null);
 
-  protected readonly missingFieldsCount = computed(() =>
-    this.caseStore.extractionFields().filter(f =>
-      (f.value === 'Not Disclosed / Inferred Missing' || !f.value) &&
-      !this.caseStore.fieldOverrides()[f.fieldName]
-    ).length
+  protected readonly missingFieldsCount = computed(
+    () =>
+      this.caseStore
+        .extractionFields()
+        .filter(
+          (f) =>
+            (f.value === 'Not Disclosed / Inferred Missing' || !f.value) &&
+            !this.caseStore.fieldOverrides()[f.fieldName],
+        ).length,
   );
 
   protected readonly lockedDecisionLabel = computed(() => {
@@ -57,17 +71,18 @@ export class DecisionBarComponent {
     this.submitError.set(null);
 
     const overrides = this.caseStore.fieldOverrides();
-    const fields: FieldRecord[] = this.caseStore.extractionFields().map(f => ({
+    const fields: FieldRecord[] = this.caseStore.extractionFields().map((f) => ({
       fieldName: f.fieldName,
       value: overrides[f.fieldName]?.newValue ?? f.value,
       citations: f.citations,
       override: overrides[f.fieldName] ?? null,
     }));
 
-    this.decisionService.finalize(caseId, { decision, fields, red_flags: this.caseStore.redFlags() })
+    this.decisionService
+      .finalize(caseId, { decision, fields, red_flags: this.caseStore.redFlags() })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.lockedDecision.set(response.decision);
           this.caseStore.markLocked();
           this.decided.emit(decision);

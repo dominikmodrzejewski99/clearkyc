@@ -1,4 +1,11 @@
-import { Component, DestroyRef, OnInit, computed, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnInit,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppLayoutComponent } from '../../layout/app-layout/app-layout.component';
@@ -13,8 +20,17 @@ import { CaseService } from '../../core/services/case.service';
 
 @Component({
   selector: 'app-case-detail',
-  imports: [AppLayoutComponent, PdfViewerComponent, ExtractionFormComponent, DecisionBarComponent, RedFlagListComponent, WorkstationTopbarComponent, OnboardingOverlayComponent],
+  imports: [
+    AppLayoutComponent,
+    PdfViewerComponent,
+    ExtractionFormComponent,
+    DecisionBarComponent,
+    RedFlagListComponent,
+    WorkstationTopbarComponent,
+    OnboardingOverlayComponent,
+  ],
   templateUrl: './case-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './case-detail.component.scss',
 })
 export class CaseDetailComponent implements OnInit {
@@ -27,7 +43,7 @@ export class CaseDetailComponent implements OnInit {
   protected readonly runState = computed(() => {
     if (this.caseStore.isAnalyzing()) return 'running' as const;
     const s = this.caseStore.caseStatus();
-    return (s === 'ANALYZED' || s === 'LOCKED') ? 'complete' as const : 'idle' as const;
+    return s === 'ANALYZED' || s === 'LOCKED' ? ('complete' as const) : ('idle' as const);
   });
 
   ngOnInit(): void {
@@ -38,10 +54,11 @@ export class CaseDetailComponent implements OnInit {
     } else {
       this.caseStore.isAnalyzing.set(false);
     }
-    this.caseService.getCase(id)
+    this.caseService
+      .getCase(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.caseStore.caseStatus.set(response.status);
           this.caseStore.entityName.set(response.entityName ?? null);
           // Wczytaj dane ekstrakcji jeśli są dostępne (dla LOCKED cases)
@@ -55,11 +72,14 @@ export class CaseDetailComponent implements OnInit {
       });
 
     if (!this.caseStore.pdfBlob()) {
-      this.caseService.getPdfDocument(id)
+      this.caseService
+        .getPdfDocument(id)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: blob => this.caseStore.pdfBlob.set(blob),
-          error: () => { /* 404 for cases created before PDF storage — re-upload banner shown */ },
+          next: (blob) => this.caseStore.pdfBlob.set(blob),
+          error: () => {
+            /* 404 for cases created before PDF storage — re-upload banner shown */
+          },
         });
     }
   }

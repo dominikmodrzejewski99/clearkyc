@@ -3,10 +3,10 @@ import {
   inject,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { authHttpInterceptorFn, AuthService, provideAuth0 } from '@auth0/auth0-angular';
 import { filter, take } from 'rxjs';
 
@@ -47,23 +47,24 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideHttpClient(
-      environment.skipAuth
-        ? withInterceptors([])
-        : withInterceptors([authHttpInterceptorFn])
+      withXhr(),
+      environment.skipAuth ? withInterceptors([]) : withInterceptors([authHttpInterceptorFn]),
     ),
-    ...(environment.skipAuth ? [] : [
-      provideAuth0({
-        domain: environment.auth0.domain,
-        clientId: environment.auth0.clientId,
-        authorizationParams: {
-          redirect_uri: window.location.origin,
-          audience: environment.auth0.audience,
-        },
-        httpInterceptor: {
-          allowedList: [{ uriMatcher: (uri: string) => uri.startsWith('/api/') }],
-        },
-      }),
-    ]),
+    ...(environment.skipAuth
+      ? []
+      : [
+          provideAuth0({
+            domain: environment.auth0.domain,
+            clientId: environment.auth0.clientId,
+            authorizationParams: {
+              redirect_uri: window.location.origin,
+              audience: environment.auth0.audience,
+            },
+            httpInterceptor: {
+              allowedList: [{ uriMatcher: (uri: string) => uri.startsWith('/api/') }],
+            },
+          }),
+        ]),
     provideAppInitializer(authInitializer),
     provideAppInitializer(recentCasesPrefetchInitializer),
   ],

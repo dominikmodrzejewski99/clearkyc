@@ -19,7 +19,7 @@ Codebase scan (`grep` across `web/src`) found **zero usages** of any Angular 22 
 - `web/src/app/app.config.ts:47` — `provideZonelessChangeDetection()` confirms zoneless bootstrap; zone.js is not a dependency at all, so the Angular 22 zone.js peer range (`~0.15.0 || ~0.16.0`) is irrelevant here.
 - `web/package.json` — `typescript-eslint@8.63.0` (latest) still declares `peerDependencies.typescript: ">=4.8.4 <6.1.0"`, so the safe TypeScript upgrade target is **6.0.3** (latest stable 6.x), not the newest available 7.0.2.
 - `angular-eslint@22.1.0` (latest) requires `peerDependencies['@angular/cli']: ">= 22.0.0 < 23.0.0"` — this means bumping `@angular/cli` to 22 without also bumping `angular-eslint` to 22.1.0 breaks `ng lint` immediately. Must land in the same change.
-- `ngx-extended-pdf-viewer@^27.0.0` (currently pinned) already satisfies its own peer range (`@angular/core: >=19.0.0 <23.0.0 || 22.0.0-rc`) against Angular 22 — no forced bump required, though 28.1.0 is available if wanted later.
+- **Correction discovered during Phase 2**: `ngx-extended-pdf-viewer@27.0.0`'s actual published peer range is `@angular/core: >=19.0.0 <22.0.0` — it does NOT support Angular 22 (the earlier research claim of `<23.0.0 || 22.0.0-rc` was wrong). `28.1.0` is the first version with real Angular 22 support (`>=19.0.0 <23.0.0 || 22.0.0-rc`), so it was bumped in Phase 2 alongside the core packages.
 - `@auth0/auth0-angular@^2.9.0` peer range (`@angular/core: >=13`) is untouched by this upgrade — no forced bump required.
 - `web/angular.json` build output is wired to `../src/main/resources/static` (Spring Boot static resources) — the production build path must keep working post-upgrade; this is a regression surface for the smoke test, not a config change.
 - Angular 22 CHANGELOG breaking changes relevant to a strict-mode, zoneless, standalone-only codebase like this one are narrow: compiler diagnostics for nullish-coalescing/optional-chaining non-nullable expressions, `data`-prefixed template attributes no longer binding inputs/outputs, and multiple-matching-selector compile errors. None of these were found in the codebase scan, but they can only be conclusively ruled out by actually running the compiler (Phase 4).
@@ -30,7 +30,7 @@ Codebase scan (`grep` across `web/src`) found **zero usages** of any Angular 22 
 
 ## What We're NOT Doing
 
-- Not bumping `ngx-extended-pdf-viewer` or `@auth0/auth0-angular` past their current pinned majors — both already satisfy Angular 22 peer ranges, and bumping them is a separate concern (new features/behavior of those libraries, not required by this upgrade).
+- Not bumping `@auth0/auth0-angular` past its current pinned major — it already satisfies its Angular 22 peer range, and bumping it is a separate concern (new features/behavior, not required by this upgrade). (`ngx-extended-pdf-viewer` *was* bumped to 28.1.0 in Phase 2 — see the Phase 2 correction in Key Discoveries — because its pinned 27.0.0 does not support Angular 22 at all.)
 - Not adopting TypeScript 7.x — blocked by `typescript-eslint`'s `<6.1.0` peer ceiling; revisit in a follow-up change once `typescript-eslint` supports TS 7.
 - Not touching backend (`com.example.clearkyc`) code — this is a frontend-only dependency upgrade.
 - Not restructuring components to add explicit `changeDetection: ChangeDetectionStrategy.Default` to opt out of the new OnPush-by-default behavior — the zoneless architecture already assumes OnPush-style semantics, so no defensive opt-out is needed unless Phase 4 testing proves otherwise.
@@ -81,13 +81,22 @@ Run the official schematic-driven update for all `@angular/*` packages plus `@an
 
 **Intent**: Bump `@angular/core`, `@angular/common`, `@angular/compiler`, `@angular/compiler-cli`, `@angular/forms`, `@angular/platform-browser`, `@angular/router`, `@angular/build`, `@angular/cli`, `@angular/cdk` from 21.2.x to 22.0.6, applying Angular's own migration schematics.
 
-**Contract**: Run `npx ng update @angular/core@22 @angular/cli@22 @angular/cdk@22` from `web/`. Since the codebase scan found no usage of any removed API, expect this to be a version-only bump with no schematic-driven file edits — but let the CLI run its own migrations rather than hand-editing versions, in case it detects something the static scan missed.
+**Contract**: Run `npx ng update @angular/core@22 @angular/cli@22 @angular/cdk@22 --force` from `web/` (the `--force` flag bypasses the expected `angular-eslint@21.4.0` peer warning, since that package's bump is deliberately deferred to Phase 3). The schematic ran migrations beyond a version-only bump: it added explicit `changeDetection: ChangeDetectionStrategy.Eager` to 13 components (preserving pre-v22 default change-detection behavior rather than relying on the new OnPush default), added `withXhr` to `provideHttpClient()` in `app.config.ts`, and disabled the new `nullishCoalescingNotNullable`/`optionalChainNotNullable` extended template diagnostics in `tsconfig.app.json`. These are expected, schematic-driven edits within Phase 2's scope.
+
+#### 2. ngx-extended-pdf-viewer (discovered during Phase 2, not in original plan)
+
+**File**: `web/package.json`, `web/package-lock.json`
+
+**Intent**: Bump `ngx-extended-pdf-viewer` from `^27.0.0` to `28.1.0`. Contrary to the plan's original assumption, `27.0.0`'s real peer range is `@angular/core: >=19.0.0 <22.0.0` — it does not support Angular 22 at all. `28.1.0` is the first version whose peer range (`>=19.0.0 <23.0.0 || 22.0.0-rc`) covers Angular 22.
+
+**Contract**: Run `npm install ngx-extended-pdf-viewer@28.1.0 --force` (same deferred angular-eslint peer warning as above).
 
 ### Success Criteria:
 
 #### Automated Verification:
 
 - `npm ls @angular/core @angular/cli @angular/cdk` (from `web/`) reports 22.0.6 / 22.0.6 / matching 22.x for all three
+- `npm ls ngx-extended-pdf-viewer` reports 28.1.0
 - `git diff web/package.json` shows only the expected version bumps (no unexpected dependency changes)
 
 #### Manual Verification:
@@ -312,14 +321,15 @@ No data migration involved (frontend-only, no persisted state format changes).
 
 #### Automated
 
-- [x] 1.1 `git status --porcelain web/` returns no output (adapted: pre-existing unrelated dependency-cruiser changes noted and left untouched, treated as out-of-scope baseline noise)
+- [x] 1.1 `git status --porcelain web/` returns no output (adapted: pre-existing unrelated dependency-cruiser changes noted and left untouched, treated as out-of-scope baseline noise) — ab2a634
 
 ### Phase 2: Core Angular Packages via `ng update`
 
 #### Automated
 
-- [ ] 2.1 `npm ls @angular/core @angular/cli @angular/cdk` reports 22.0.6 / 22.0.6 / matching 22.x
-- [ ] 2.2 `git diff web/package.json` shows only expected version bumps
+- [x] 2.1 `npm ls @angular/core @angular/cli @angular/cdk` reports 22.0.6 / 22.0.6 / matching 22.x
+- [x] 2.2 `git diff web/package.json` shows only expected version bumps
+- [x] 2.3 `npm ls ngx-extended-pdf-viewer` reports 28.1.0 (added mid-phase — see Key Discoveries correction)
 
 ### Phase 3: Toolchain Packages (TypeScript, ESLint tooling)
 

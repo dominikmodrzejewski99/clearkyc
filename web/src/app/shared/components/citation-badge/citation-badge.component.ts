@@ -1,10 +1,11 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { Citation } from '../../../core/models/extraction.models';
 import { CaseStore } from '../../../core/store/case.store';
 
 @Component({
   selector: 'app-citation-badge',
   templateUrl: './citation-badge.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './citation-badge.component.scss',
 })
 export class CitationBadgeComponent {

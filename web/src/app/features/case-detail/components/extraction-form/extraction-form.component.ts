@@ -1,4 +1,11 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,6 +19,7 @@ import { getFieldLabel } from '../../../../core/models/ui-labels';
   selector: 'app-extraction-form',
   imports: [CitationBadgeComponent],
   templateUrl: './extraction-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './extraction-form.component.scss',
 })
 export class ExtractionFormComponent {
@@ -35,7 +43,12 @@ export class ExtractionFormComponent {
   protected readonly displayedValues = signal<Record<string, string>>({});
   protected readonly typingFieldNames = signal<ReadonlySet<string>>(new Set());
   private readonly revealQueue: { fieldName: string; fullValue: string }[] = [];
-  private activeReveal: { fieldName: string; fullValue: string; startedAt: number; durationMs: number } | null = null;
+  private activeReveal: {
+    fieldName: string;
+    fullValue: string;
+    startedAt: number;
+    durationMs: number;
+  } | null = null;
   private revealIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
@@ -47,8 +60,9 @@ export class ExtractionFormComponent {
   }
 
   protected readonly totalFieldsCount = computed(() => this.caseStore.extractionFields().length);
-  protected readonly citedFieldsCount = computed(() =>
-    this.caseStore.extractionFields().filter(f => f.citations && f.citations.length > 0).length
+  protected readonly citedFieldsCount = computed(
+    () =>
+      this.caseStore.extractionFields().filter((f) => f.citations && f.citations.length > 0).length,
   );
 
   protected tryStartAnalysis(): void {
@@ -92,7 +106,7 @@ export class ExtractionFormComponent {
   }
 
   protected toggleOverrideDetail(fieldName: string): void {
-    this.expandedOverrideField.update(f => f === fieldName ? null : fieldName);
+    this.expandedOverrideField.update((f) => (f === fieldName ? null : fieldName));
   }
 
   protected updateEditDraft(event: Event): void {
@@ -109,7 +123,9 @@ export class ExtractionFormComponent {
 
   protected isMissing(field: ExtractionField): boolean {
     if (this.caseStore.fieldOverrides()[field.fieldName]) return false;
-    return field.value === 'Not Disclosed / Inferred Missing' || (field.citations?.length ?? 0) === 0;
+    return (
+      field.value === 'Not Disclosed / Inferred Missing' || (field.citations?.length ?? 0) === 0
+    );
   }
 
   protected navigateToCitation(citation: Citation): void {
@@ -131,11 +147,19 @@ export class ExtractionFormComponent {
 
     const durationMs = Math.min(
       ExtractionFormComponent.MAX_DURATION_MS,
-      Math.max(ExtractionFormComponent.MIN_DURATION_MS, (next.fullValue.length / ExtractionFormComponent.CHARS_PER_SECOND) * 1000)
+      Math.max(
+        ExtractionFormComponent.MIN_DURATION_MS,
+        (next.fullValue.length / ExtractionFormComponent.CHARS_PER_SECOND) * 1000,
+      ),
     );
-    this.activeReveal = { fieldName: next.fieldName, fullValue: next.fullValue, startedAt: Date.now(), durationMs };
+    this.activeReveal = {
+      fieldName: next.fieldName,
+      fullValue: next.fullValue,
+      startedAt: Date.now(),
+      durationMs,
+    };
     this.typingFieldNames.set(new Set([next.fieldName]));
-    this.displayedValues.update(values => ({ ...values, [next.fieldName]: '' }));
+    this.displayedValues.update((values) => ({ ...values, [next.fieldName]: '' }));
 
     if (this.revealIntervalId === null) {
       this.revealIntervalId = setInterval(() => this.tickReveal(), ExtractionFormComponent.TICK_MS);
@@ -151,7 +175,10 @@ export class ExtractionFormComponent {
 
     const progress = Math.min(1, (Date.now() - state.startedAt) / state.durationMs);
     const revealedLength = Math.floor(state.fullValue.length * progress);
-    this.displayedValues.update(values => ({ ...values, [state.fieldName]: state.fullValue.slice(0, revealedLength) }));
+    this.displayedValues.update((values) => ({
+      ...values,
+      [state.fieldName]: state.fullValue.slice(0, revealedLength),
+    }));
 
     if (progress >= 1) {
       this.activeReveal = null;
@@ -184,17 +211,22 @@ export class ExtractionFormComponent {
     this.typingFieldNames.set(new Set());
     this.displayedValues.set({});
 
-    this.streamService.streamAnalysis(caseId, pdfBlob as File)
+    this.streamService
+      .streamAnalysis(caseId, pdfBlob as File)
       .pipe(takeUntil(this.cancelStream$), takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: event => {
+        next: (event) => {
           switch (event.type) {
             case 'FieldExtracted':
               this.caseStore.appendField(event.field);
               this.registerFieldForReveal(event.field);
               break;
-            case 'RedFlagsFound': this.caseStore.setRedFlags(event.flags); break;
-            case 'AnalysisComplete': this.caseStore.markAnalyzed(); break;
+            case 'RedFlagsFound':
+              this.caseStore.setRedFlags(event.flags);
+              break;
+            case 'AnalysisComplete':
+              this.caseStore.markAnalyzed();
+              break;
             case 'AnalysisError':
               console.error('[extraction]', event.errorCode, event.message);
               this.caseStore.markAnalysisError(event.message);

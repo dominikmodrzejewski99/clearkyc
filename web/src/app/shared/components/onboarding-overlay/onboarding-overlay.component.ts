@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
@@ -6,6 +6,7 @@ import { A11yModule } from '@angular/cdk/a11y';
   standalone: true,
   imports: [A11yModule],
   templateUrl: './onboarding-overlay.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './onboarding-overlay.component.scss',
 })
 export class OnboardingOverlayComponent implements OnInit {
@@ -21,7 +22,7 @@ export class OnboardingOverlayComponent implements OnInit {
 
   protected next(): void {
     if (this.step() < this.TOTAL_STEPS) {
-      this.step.update(s => s + 1);
+      this.step.update((s) => s + 1);
     } else {
       this.dismiss();
     }
@@ -29,7 +30,7 @@ export class OnboardingOverlayComponent implements OnInit {
 
   protected prev(): void {
     if (this.step() > 1) {
-      this.step.update(s => s - 1);
+      this.step.update((s) => s - 1);
     }
   }
 
