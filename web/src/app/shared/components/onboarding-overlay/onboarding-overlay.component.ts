@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
@@ -6,7 +6,6 @@ import { A11yModule } from '@angular/cdk/a11y';
   standalone: true,
   imports: [A11yModule],
   templateUrl: './onboarding-overlay.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './onboarding-overlay.component.scss',
 })
 export class OnboardingOverlayComponent implements OnInit {

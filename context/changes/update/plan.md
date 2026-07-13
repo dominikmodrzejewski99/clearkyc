@@ -166,6 +166,8 @@ Run the compiler and linter against the new toolchain and resolve anything the s
 
 **Contract**: `ng build --configuration production` and `ng lint` both exit 0 with no errors.
 
+**Discovery**: `ng lint` under `angular-eslint@22.1.0` flagged all 13 components where the Phase 2 schematic had added `changeDetection: ChangeDetectionStrategy.Eager` — the new `@angular-eslint/prefer-on-push-component-change-detection` rule forbids opting out of the v22 default OnPush strategy. Removed `changeDetection: ChangeDetectionStrategy.Eager` (and the now-unused `ChangeDetectionStrategy` import) from all 13 files, letting them fall back to the new default OnPush behavior — consistent with the plan's "What We're NOT Doing" decision not to add a defensive opt-out, since the app is already zoneless. `ng build --configuration production` continued to pass after the removal (one pre-existing, unrelated CSS budget warning on `landing.component.scss`, not a new regression).
+
 ### Success Criteria:
 
 #### Automated Verification:
@@ -335,15 +337,15 @@ No data migration involved (frontend-only, no persisted state format changes).
 
 #### Automated
 
-- [x] 3.1 `npm install` completes with no `ERESOLVE` peer-dependency conflicts
-- [x] 3.2 `npm ls typescript typescript-eslint angular-eslint` reports 6.0.3 / 8.63.0 / 22.1.0
+- [x] 3.1 `npm install` completes with no `ERESOLVE` peer-dependency conflicts — a018aa5
+- [x] 3.2 `npm ls typescript typescript-eslint angular-eslint` reports 6.0.3 / 8.63.0 / 22.1.0 — a018aa5
 
 ### Phase 4: Fix Compilation & Lint Fallout
 
 #### Automated
 
-- [ ] 4.1 `ng build --configuration production` exits 0
-- [ ] 4.2 `ng lint` exits 0
+- [x] 4.1 `ng build --configuration production` exits 0
+- [x] 4.2 `ng lint` exits 0
 
 ### Phase 5: Full Automated Test Suite
 

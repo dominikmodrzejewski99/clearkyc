@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CaseStore } from '../../../../core/store/case.store';
 import { CitationBadgeComponent } from '../../../../shared/components/citation-badge/citation-badge.component';
 
@@ -6,7 +6,6 @@ import { CitationBadgeComponent } from '../../../../shared/components/citation-b
   selector: 'app-red-flag-list',
   imports: [CitationBadgeComponent],
   templateUrl: './red-flag-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './red-flag-list.component.scss',
 })
 export class RedFlagListComponent {

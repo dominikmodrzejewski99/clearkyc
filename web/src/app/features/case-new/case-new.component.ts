@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FileDropzoneComponent } from '../../shared/components/file-dropzone/file-dropzone.component';
@@ -18,7 +18,6 @@ interface SampleDocument {
   selector: 'app-case-new',
   imports: [FileDropzoneComponent, RouterLink],
   templateUrl: './case-new.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './case-new.component.scss',
 })
 export class CaseNewComponent {

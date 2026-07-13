@@ -4,7 +4,6 @@ import {
   OnInit,
   computed,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,7 +29,6 @@ import { CaseService } from '../../core/services/case.service';
     OnboardingOverlayComponent,
   ],
   templateUrl: './case-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './case-detail.component.scss',
 })
 export class CaseDetailComponent implements OnInit {

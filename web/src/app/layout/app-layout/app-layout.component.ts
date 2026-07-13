@@ -4,7 +4,6 @@ import {
   computed,
   inject,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 
 const MIN_PANE_PX = 360;
@@ -12,7 +11,6 @@ const MIN_PANE_PX = 360;
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app-layout.component.scss',
 })
 export class AppLayoutComponent {

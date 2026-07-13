@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import {
   NgxExtendedPdfViewerModule,
   NgxExtendedPdfViewerService,
@@ -24,7 +24,6 @@ function normalizeQuery(raw: string): string {
   selector: 'app-pdf-viewer',
   imports: [NgxExtendedPdfViewerModule],
   templateUrl: './pdf-viewer.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pdf-viewer.component.scss',
 })
 export class PdfViewerComponent {

@@ -6,7 +6,6 @@ import {
   computed,
   inject,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CaseStore } from '../../../core/store/case.store';
@@ -19,7 +18,6 @@ type Decision = 'APPROVE' | 'REJECT' | 'ESCALATE';
 @Component({
   selector: 'app-decision-bar',
   templateUrl: './decision-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './decision-bar.component.scss',
 })
 export class DecisionBarComponent {

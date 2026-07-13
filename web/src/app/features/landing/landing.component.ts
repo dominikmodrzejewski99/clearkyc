@@ -3,7 +3,6 @@ import {
   ElementRef,
   AfterViewInit,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -12,7 +11,6 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './landing.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './landing.component.scss',
 })
 export class LandingComponent implements AfterViewInit {

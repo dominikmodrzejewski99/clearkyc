@@ -4,7 +4,6 @@ import {
   DestroyRef,
   inject,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subject } from 'rxjs';
@@ -19,7 +18,6 @@ import { getFieldLabel } from '../../../../core/models/ui-labels';
   selector: 'app-extraction-form',
   imports: [CitationBadgeComponent],
   templateUrl: './extraction-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './extraction-form.component.scss',
 })
 export class ExtractionFormComponent {
