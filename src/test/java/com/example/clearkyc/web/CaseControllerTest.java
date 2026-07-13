@@ -24,6 +24,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -186,5 +187,12 @@ class CaseControllerTest {
     void deleteCase_withoutJwt_returns401() throws Exception {
         mockMvc.perform(delete("/api/cases/{id}", UUID.randomUUID()))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void listCases_withJwtMissingSubClaim_returns500() throws Exception {
+        mockMvc.perform(get("/api/cases")
+                        .with(jwt().jwt(j -> j.claims(c -> c.remove("sub")))))
+                .andExpect(status().is(INTERNAL_SERVER_ERROR.value()));
     }
 }

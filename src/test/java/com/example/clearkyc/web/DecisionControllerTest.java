@@ -20,6 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
@@ -136,5 +137,14 @@ class DecisionControllerTest {
                         .content(VALID_JSON)
                         .with(jwt()))
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void finalizeCase_withJwtMissingSubClaim_returns500() throws Exception {
+        mockMvc.perform(post("/api/cases/{id}/finalize", UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(VALID_JSON)
+                        .with(jwt().jwt(j -> j.claims(c -> c.remove("sub")))))
+                .andExpect(status().is(INTERNAL_SERVER_ERROR.value()));
     }
 }

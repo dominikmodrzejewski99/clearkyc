@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
@@ -154,5 +155,13 @@ class ExtractionControllerTest {
         int completeIdx = body.indexOf("AnalysisComplete");
         assertThat(fieldIdx, lessThan(flagsIdx));
         assertThat(flagsIdx, lessThan(completeIdx));
+    }
+
+    @Test
+    void triggerAnalysis_withJwtMissingSubClaim_returns500() throws Exception {
+        mockMvc.perform(multipart("/api/cases/{id}/analysis", UUID.randomUUID())
+                        .file(PDF_FILE)
+                        .with(jwt().jwt(j -> j.claims(c -> c.remove("sub")))))
+                .andExpect(status().is(INTERNAL_SERVER_ERROR.value()));
     }
 }
