@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
+import com.example.clearkyc.web.AnalystIdentityResolver;
+
 import java.util.UUID;
 
 @RestController
@@ -31,7 +33,6 @@ public class ExtractionController {
             @PathVariable UUID caseId,
             @RequestPart("file") MultipartFile pdfFile,
             @AuthenticationPrincipal Jwt jwt) {
-        String analystId = jwt != null ? jwt.getSubject() : "dev-user";
-        return extractionService.streamAnalysis(caseId, pdfFile, analystId);
+        return extractionService.streamAnalysis(caseId, pdfFile, AnalystIdentityResolver.resolve(jwt));
     }
 }

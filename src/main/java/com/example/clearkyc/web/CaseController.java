@@ -28,13 +28,9 @@ public class CaseController {
         this.caseService = caseService;
     }
 
-    private static String analystIdentity(Jwt jwt) {
-        return jwt != null ? jwt.getSubject() : "dev-user";
-    }
-
     @GetMapping
     public List<CaseSummaryResponse> listCases(@AuthenticationPrincipal Jwt jwt) {
-        return caseService.listCases(analystIdentity(jwt));
+        return caseService.listCases(AnalystIdentityResolver.resolve(jwt));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -50,7 +46,7 @@ public class CaseController {
                 ? originalName.replaceAll("(?i)\\.pdf$", "")
                 : null;
         try {
-            return caseService.createCase(entityName, file.getBytes(), analystIdentity(jwt));
+            return caseService.createCase(entityName, file.getBytes(), AnalystIdentityResolver.resolve(jwt));
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to read PDF");
         }
@@ -60,7 +56,7 @@ public class CaseController {
     public ResponseEntity<byte[]> getDocument(
             @PathVariable UUID caseId,
             @AuthenticationPrincipal Jwt jwt) {
-        byte[] pdf = caseService.getPdfData(caseId, analystIdentity(jwt));
+        byte[] pdf = caseService.getPdfData(caseId, AnalystIdentityResolver.resolve(jwt));
         if (pdf == null) {
             return ResponseEntity.notFound().build();
         }
@@ -73,7 +69,7 @@ public class CaseController {
     public CaseDetailResponse getCase(
             @PathVariable UUID caseId,
             @AuthenticationPrincipal Jwt jwt) {
-        return caseService.getCase(caseId, analystIdentity(jwt));
+        return caseService.getCase(caseId, AnalystIdentityResolver.resolve(jwt));
     }
 
     @PatchMapping(value = "/{caseId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -81,7 +77,7 @@ public class CaseController {
             @PathVariable UUID caseId,
             @RequestBody UpdateCaseRequest request,
             @AuthenticationPrincipal Jwt jwt) {
-        return caseService.updateCase(caseId, request, analystIdentity(jwt));
+        return caseService.updateCase(caseId, request, AnalystIdentityResolver.resolve(jwt));
     }
 
     @DeleteMapping("/{caseId}")
@@ -89,6 +85,6 @@ public class CaseController {
     public void deleteCase(
             @PathVariable UUID caseId,
             @AuthenticationPrincipal Jwt jwt) {
-        caseService.deleteCase(caseId, analystIdentity(jwt));
+        caseService.deleteCase(caseId, AnalystIdentityResolver.resolve(jwt));
     }
 }
