@@ -139,7 +139,7 @@
 						<phase>generate-resources</phase>
 						<goals><goal>install-node-and-npm</goal></goals>
 						<configuration>
-							<nodeVersion>v24.0.0</nodeVersion>
+							<nodeVersion>v24.15.0</nodeVersion>
 						</configuration>
 					</execution>
 					<execution>
