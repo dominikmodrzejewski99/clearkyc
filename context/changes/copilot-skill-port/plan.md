@@ -258,27 +258,27 @@ Not applicable — this is a net-new capability (`.github/prompts/` did not exis
 
 #### Automated
 
-- [x] 1.1 `.github/prompts/` directory exists
-- [x] 1.2 `.github/prompts/README.md` exists and is non-empty
+- [x] 1.1 `.github/prompts/` directory exists — 18ed548
+- [x] 1.2 `.github/prompts/README.md` exists and is non-empty — 18ed548
 
 #### Manual
 
-- [x] 1.3 Conventions doc reads clearly as a standalone reference
-- [x] 1.4 Frontmatter template is unambiguous for Phase 2
+- [x] 1.3 Conventions doc reads clearly as a standalone reference — 18ed548
+- [x] 1.4 Frontmatter template is unambiguous for Phase 2 — 18ed548
 
 ### Phase 2: Port Core Loop (ai-new, ai-plan, ai-implement)
 
 #### Automated
 
-- [ ] 2.1 Three core-loop files exist
-- [ ] 2.2 Each file has valid frontmatter matching the Phase 1 template
+- [x] 2.1 Three core-loop files exist
+- [x] 2.2 Each file has valid frontmatter matching the Phase 1 template
 
 #### Manual
 
-- [ ] 2.3 `/ai-new test-copilot-port` produces correctly-shaped `change.md`
-- [ ] 2.4 `/ai-plan test-copilot-port` substitutes questioning cleanly, produces `plan.md` + `plan-brief.md`
-- [ ] 2.5 `/ai-implement test-copilot-port phase 1` reads and updates `## Progress` correctly
-- [ ] 2.6 Scratch change folder deleted after verification
+- [x] 2.3 `/ai-new test-copilot-port` produces correctly-shaped `change.md`
+- [x] 2.4 `/ai-plan test-copilot-port` substitutes questioning cleanly, produces `plan.md` + `plan-brief.md`
+- [x] 2.5 `/ai-implement test-copilot-port phase 1` reads and updates `## Progress` correctly
+- [x] 2.6 Scratch change folder deleted after verification
 
 ### Phase 3: Port Supporting Skills
 
