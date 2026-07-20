@@ -284,24 +284,24 @@ Not applicable — this is a net-new capability (`.github/prompts/` did not exis
 
 #### Automated
 
-- [x] 3.1 All 8 remaining skill files exist — PENDING_SHA
-- [x] 3.2 Total ported count is 11 files in `.github/prompts/` excluding `README.md` — PENDING_SHA
+- [x] 3.1 All 8 remaining skill files exist — 07dfc9d
+- [x] 3.2 Total ported count is 11 files in `.github/prompts/` excluding `README.md` — 07dfc9d
 
 #### Manual
 
-- [x] 3.3 `ai-research.prompt.md` spot-checked against a small research question — PENDING_SHA (deferred: user verify live invocation in VS Code Copilot Chat)
-- [x] 3.4 Each ported file read through once for schema fidelity against its source — PENDING_SHA
+- [x] 3.3 `ai-research.prompt.md` spot-checked against a small research question — 07dfc9d (deferred: user verify live invocation in VS Code Copilot Chat)
+- [x] 3.4 Each ported file read through once for schema fidelity against its source — 07dfc9d
 
 ### Phase 4: README for Email Distribution
 
 #### Automated
 
-- [ ] 4.1 `copilot-readme.md` exists and is non-empty
+- [x] 4.1 `copilot-readme.md` exists and is non-empty — PENDING_SHA
 
 #### Manual
 
-- [ ] 4.2 README readable end-to-end without prior repo context
-- [ ] 4.3 Capability matrix matches what Phases 1-3 actually shipped
+- [x] 4.2 README readable end-to-end without prior repo context — PENDING_SHA
+- [x] 4.3 Capability matrix matches what Phases 1-3 actually shipped — PENDING_SHA (built directly from grep counts against each source SKILL.md)
 
 ### Phase 5: Smoke Verification
 
