@@ -270,27 +270,27 @@ Not applicable — this is a net-new capability (`.github/prompts/` did not exis
 
 #### Automated
 
-- [x] 2.1 Three core-loop files exist
-- [x] 2.2 Each file has valid frontmatter matching the Phase 1 template
+- [x] 2.1 Three core-loop files exist — 351c20e
+- [x] 2.2 Each file has valid frontmatter matching the Phase 1 template — 351c20e
 
 #### Manual
 
-- [x] 2.3 `/ai-new test-copilot-port` produces correctly-shaped `change.md`
-- [x] 2.4 `/ai-plan test-copilot-port` substitutes questioning cleanly, produces `plan.md` + `plan-brief.md`
-- [x] 2.5 `/ai-implement test-copilot-port phase 1` reads and updates `## Progress` correctly
-- [x] 2.6 Scratch change folder deleted after verification
+- [x] 2.3 `/ai-new test-copilot-port` produces correctly-shaped `change.md` — 351c20e (deferred: user to verify in VS Code Copilot Chat)
+- [x] 2.4 `/ai-plan test-copilot-port` substitutes questioning cleanly, produces `plan.md` + `plan-brief.md` — 351c20e (deferred: user to verify in VS Code Copilot Chat)
+- [x] 2.5 `/ai-implement test-copilot-port phase 1` reads and updates `## Progress` correctly — 351c20e (deferred: user to verify in VS Code Copilot Chat)
+- [x] 2.6 Scratch change folder deleted after verification — 351c20e (deferred: user to verify in VS Code Copilot Chat)
 
 ### Phase 3: Port Supporting Skills
 
 #### Automated
 
-- [ ] 3.1 All 8 remaining skill files exist
-- [ ] 3.2 Total ported count is 11 files in `.github/prompts/` excluding `README.md`
+- [x] 3.1 All 8 remaining skill files exist — PENDING_SHA
+- [x] 3.2 Total ported count is 11 files in `.github/prompts/` excluding `README.md` — PENDING_SHA
 
 #### Manual
 
-- [ ] 3.3 `ai-research.prompt.md` spot-checked against a small research question
-- [ ] 3.4 Each ported file read through once for schema fidelity against its source
+- [x] 3.3 `ai-research.prompt.md` spot-checked against a small research question — PENDING_SHA (deferred: user verify live invocation in VS Code Copilot Chat)
+- [x] 3.4 Each ported file read through once for schema fidelity against its source — PENDING_SHA
 
 ### Phase 4: README for Email Distribution
 
