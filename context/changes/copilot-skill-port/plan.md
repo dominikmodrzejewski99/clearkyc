@@ -296,12 +296,12 @@ Not applicable — this is a net-new capability (`.github/prompts/` did not exis
 
 #### Automated
 
-- [x] 4.1 `copilot-readme.md` exists and is non-empty — PENDING_SHA
+- [x] 4.1 `copilot-readme.md` exists and is non-empty — adb8185
 
 #### Manual
 
-- [x] 4.2 README readable end-to-end without prior repo context — PENDING_SHA
-- [x] 4.3 Capability matrix matches what Phases 1-3 actually shipped — PENDING_SHA (built directly from grep counts against each source SKILL.md)
+- [x] 4.2 README readable end-to-end without prior repo context — adb8185
+- [x] 4.3 Capability matrix matches what Phases 1-3 actually shipped — adb8185 (built directly from grep counts against each source SKILL.md)
 
 ### Phase 5: Smoke Verification
 
