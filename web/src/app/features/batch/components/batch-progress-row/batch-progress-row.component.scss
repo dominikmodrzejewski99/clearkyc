@@ -1,0 +1,120 @@
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.progress-row__badge {
+  flex-shrink: 0;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  min-width: 80px;
+  text-align: center;
+}
+
+.badge--neutral {
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.badge--waiting {
+  background: var(--escalate-subtle, #fef3c7);
+  color: var(--escalate-text, #92400e);
+}
+
+.badge--active {
+  background: var(--state-streaming-bg, #dbeafe);
+  color: var(--state-streaming, #1d4ed8);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.badge--success {
+  background: var(--approve-subtle, #d1fae5);
+  color: var(--approve-text, #065f46);
+}
+
+.badge--error {
+  background: var(--reject-subtle, #fee2e2);
+  color: var(--reject-text, #991b1b);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.progress-row__info {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  overflow: hidden;
+}
+
+.progress-row__name {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-row__fields {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.progress-row__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.progress-row__error {
+  font-size: var(--text-xs);
+  color: var(--reject-text);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-btn {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.row-btn--open {
+  background: var(--accent);
+  color: white;
+  &:hover { background: var(--accent-hover); }
+}
+
+.row-btn--retry {
+  background: none;
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  &:hover { background: var(--surface-raised); }
+}
+
+.row-btn--cancel {
+  background: none;
+  border-color: var(--border-default);
+  color: var(--text-tertiary);
+  &:hover { color: var(--reject-text); border-color: var(--reject-text); }
+}

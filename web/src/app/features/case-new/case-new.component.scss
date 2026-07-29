@@ -406,3 +406,16 @@
   .upload-screen { grid-template-columns: 1fr; }
   .upload-sidebar { display: none; }
 }
+
+.batch-link {
+  display: inline-block;
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--accent-text);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

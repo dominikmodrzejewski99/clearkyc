@@ -1,0 +1,30 @@
+<div class="progress-row" [attr.aria-label]="item().fileName + ' — ' + statusLabel()">
+  <span class="progress-row__badge" [class]="badgeClass()">{{ statusLabel() }}</span>
+
+  <div class="progress-row__info">
+    <span class="progress-row__name">{{ item().entityName ?? item().fileName }}</span>
+    @if (item().fieldsCount > 0) {
+      <span class="progress-row__fields">{{ item().fieldsCount }} pól</span>
+    }
+  </div>
+
+  <div class="progress-row__actions">
+    @switch (item().status) {
+      @case ('done') {
+        <button type="button" class="row-btn row-btn--open" (click)="onOpen()">Otwórz case</button>
+      }
+      @case ('error') {
+        <button type="button" class="row-btn row-btn--retry" (click)="onRetry()">Ponów</button>
+        @if (item().error) {
+          <span class="progress-row__error" [title]="item().error!">{{ item().error }}</span>
+        }
+      }
+      @case ('queued') {
+        <button type="button" class="row-btn row-btn--cancel" (click)="onCancel()">Anuluj</button>
+      }
+      @case ('analyzing') {
+        <button type="button" class="row-btn row-btn--cancel" (click)="onCancel()">Anuluj</button>
+      }
+    }
+  </div>
+</div>

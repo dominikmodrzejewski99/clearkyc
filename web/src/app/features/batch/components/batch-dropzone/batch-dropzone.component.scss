@@ -1,0 +1,83 @@
+.drop-zone {
+  width: 100%;
+  max-width: 560px;
+  min-height: 240px;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover,
+  &.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-subtle);
+
+    .dz-icon { color: var(--accent); }
+  }
+}
+
+.dz-input {
+  display: none;
+}
+
+.dz-icon {
+  font-size: 40px;
+  color: var(--gray-400);
+  line-height: 1;
+}
+
+.dz-label {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+}
+
+.dz-hint {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+
+  .dz-browse {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: var(--accent-text);
+    cursor: pointer;
+    font-weight: var(--weight-medium);
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.dz-formats {
+  font-size: var(--text-2xs);
+  color: var(--text-tertiary);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  margin-top: var(--space-1);
+}
+
+.dz-error {
+  margin: 0;
+  color: var(--reject-text);
+  font-size: var(--text-sm);
+}
+
+.dz-errors {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.dz-error-item {
+  margin: 0;
+  color: var(--reject-text);
+  font-size: var(--text-xs);
+}

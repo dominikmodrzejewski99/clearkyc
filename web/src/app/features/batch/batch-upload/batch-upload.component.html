@@ -1,0 +1,52 @@
+<div class="batch-upload">
+  <header class="batch-upload__header">
+    <h1 class="batch-upload__title">Przetwarzanie masowe</h1>
+    <p class="batch-upload__subtitle">Wybierz do 20 dokumentów PDF do jednoczesnej analizy KYB</p>
+  </header>
+
+  <app-batch-dropzone
+    [maxFiles]="20 - selectedFiles().length"
+    (filesSelected)="onFilesSelected($event)"
+  />
+
+  @if (selectedFiles().length > 0) {
+    <section class="file-list" aria-label="Wybrane pliki">
+      <div class="file-list__header">
+        <span class="file-list__count">{{ selectedFiles().length }} {{ selectedFiles().length === 1 ? 'plik' : selectedFiles().length < 5 ? 'pliki' : 'plików' }}</span>
+        <button type="button" class="file-list__clear" (click)="clearAll()">Wyczyść wszystkie</button>
+      </div>
+
+      <ul class="file-list__items">
+        @for (file of selectedFiles(); track file.name + file.size; let i = $index) {
+          <li class="file-list__item">
+            <span class="file-list__icon">📄</span>
+            <span class="file-list__name">{{ file.name }}</span>
+            <span class="file-list__size">{{ formatSize(file.size) }}</span>
+            <button
+              type="button"
+              class="file-list__remove"
+              [attr.aria-label]="'Usuń ' + file.name"
+              (click)="removeFile(i)"
+            >✕</button>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  <div class="batch-upload__actions">
+    <button
+      type="button"
+      class="btn btn--primary"
+      [disabled]="selectedFiles().length === 0 || isStarting()"
+      (click)="onStart()"
+    >
+      @if (isStarting()) {
+        Rozpoczynanie...
+      } @else {
+        Przetwórz wszystkie ({{ selectedFiles().length }})
+      }
+    </button>
+    <a routerLink="/cases/new" class="btn btn--ghost">← Pojedyncza sprawa</a>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="batch-dashboard">
+  <header class="dashboard__header">
+    <h1 class="dashboard__title">Przetwarzanie masowe</h1>
+    <div class="dashboard__summary" aria-live="polite">
+      {{ batchStore.summary().done }}/{{ batchStore.summary().total }} gotowych
+      @if (batchStore.summary().error > 0) {
+        <span class="summary__errors">, {{ batchStore.summary().error }} {{ batchStore.summary().error === 1 ? 'błąd' : 'błędów' }}</span>
+      }
+      @if (batchStore.summary().analyzing > 0) {
+        <span class="summary__active">, {{ batchStore.summary().analyzing }} w trakcie</span>
+      }
+      @if (batchStore.summary().queued > 0) {
+        <span class="summary__queued">, {{ batchStore.summary().queued }} w kolejce</span>
+      }
+    </div>
+  </header>
+
+  <div class="dashboard__progress-bar" role="progressbar" [attr.aria-valuenow]="progressPercent()" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar__fill" [style.width.%]="progressPercent()"></div>
+  </div>
+
+  <section class="dashboard__items" aria-label="Lista dokumentów">
+    @for (item of batchStore.items(); track item.caseId ?? $index; let i = $index) {
+      <app-batch-progress-row
+        [item]="item"
+        [index]="i"
+        (retry)="onRetry($event)"
+        (cancelItem)="onCancel($event)"
+        (openCase)="onOpen($event)"
+      />
+    }
+  </section>
+
+  <footer class="dashboard__actions">
+    @if (hasErrors()) {
+      <button type="button" class="btn btn--outline" (click)="onRetryAll()">Ponów wszystkie błędne</button>
+    }
+    @if (hasActive()) {
+      <button type="button" class="btn btn--danger-outline" (click)="onCancelAll()">Anuluj pozostałe</button>
+    }
+    @if (batchStore.batchStatus() === 'completed') {
+      <a routerLink="/batch/new" class="btn btn--primary">Nowy batch</a>
+    }
+    <a routerLink="/cases/new" class="btn btn--ghost">Lista spraw</a>
+  </footer>
+</div>

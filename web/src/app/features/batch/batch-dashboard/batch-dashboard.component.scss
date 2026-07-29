@@ -1,0 +1,110 @@
+.batch-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-6);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.dashboard__title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.dashboard__summary {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.summary__errors {
+  color: var(--reject-text);
+}
+
+.summary__active {
+  color: var(--state-streaming);
+}
+
+.summary__queued {
+  color: var(--text-tertiary);
+}
+
+.dashboard__progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.dashboard__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.dashboard__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-default);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: white;
+  &:hover { background: var(--accent-hover); }
+}
+
+.btn--outline {
+  background: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  &:hover { background: var(--surface-raised); }
+}
+
+.btn--danger-outline {
+  background: none;
+  border: 1px solid var(--reject-text);
+  color: var(--reject-text);
+  &:hover { background: var(--reject-subtle); }
+}
+
+.btn--ghost {
+  background: none;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+  &:hover { color: var(--text-primary); }
+}

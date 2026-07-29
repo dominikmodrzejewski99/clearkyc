@@ -17,5 +17,9 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent),
   },
+  {
+    path: 'batch',
+    loadChildren: () => import('./features/batch/batch.routes').then(m => m.batchRoutes),
+  },
   { path: '**', redirectTo: '' },
 ];

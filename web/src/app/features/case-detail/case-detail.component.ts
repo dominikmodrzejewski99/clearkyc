@@ -38,6 +38,11 @@ export class CaseDetailComponent implements OnInit {
   private readonly caseService = inject(CaseService);
   private readonly destroyRef = inject(DestroyRef);
 
+  protected readonly returnRoute = computed<string[]>(() => {
+    const batchId = this.route.snapshot.queryParamMap.get('batchId')?.trim();
+    return batchId ? ['/batch', batchId] : ['/cases/new'];
+  });
+
   protected readonly runState = computed(() => {
     if (this.caseStore.isAnalyzing()) return 'running' as const;
     const s = this.caseStore.caseStatus();
@@ -83,7 +88,7 @@ export class CaseDetailComponent implements OnInit {
   }
 
   protected onDecided(): void {
-    setTimeout(() => this.router.navigate(['/cases/new']), 1500);
+    setTimeout(() => this.router.navigate(this.returnRoute()), 1500);
   }
 
   protected onReUpload(event: Event): void {

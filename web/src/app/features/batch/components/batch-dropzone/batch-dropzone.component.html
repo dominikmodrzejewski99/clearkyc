@@ -1,0 +1,39 @@
+<div
+  class="drop-zone"
+  [class.drag-over]="isDragOver()"
+  role="button"
+  tabindex="0"
+  aria-label="Wgraj pliki PDF — kliknij lub przeciągnij pliki"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave()"
+  (drop)="onDrop($event)"
+  (click)="fileInput.click()"
+  (keyup.enter)="fileInput.click()"
+  (keyup.space)="fileInput.click()"
+>
+  <input
+    #fileInput
+    type="file"
+    accept=".pdf"
+    multiple
+    class="dz-input"
+    aria-label="Wybierz pliki PDF (maks. 20 plików, 50 MB każdy)"
+    (change)="onFileChange($event)"
+  />
+  <div class="dz-icon">⬆</div>
+  <div class="dz-label">Przeciągnij i upuść dokumenty PDF</div>
+  <div class="dz-hint">lub <button type="button" class="dz-browse" (click)="$event.stopPropagation(); fileInput.click()">przeglądaj pliki</button> aby wybrać</div>
+  <div class="dz-formats">PDF · max 20 plików · max 50 MB każdy</div>
+
+  @if (batchError()) {
+    <p class="dz-error" role="alert" aria-live="assertive" aria-atomic="true">{{ batchError() }}</p>
+  }
+
+  @if (errors().length > 0) {
+    <div class="dz-errors" role="alert" aria-live="polite">
+      @for (err of errors(); track err.fileName) {
+        <p class="dz-error-item">{{ err.fileName }}: {{ err.reason }}</p>
+      }
+    </div>
+  }
+</div>
