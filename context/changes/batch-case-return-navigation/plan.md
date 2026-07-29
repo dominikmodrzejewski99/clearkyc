@@ -130,11 +130,11 @@ Brak migracji. Stare linki bez `batchId` używają fallbacku.
 
 #### Automated
 
-- [x] 1.1 `npm test -- --watch=false` passes
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npm run build` passes
+- [x] 1.1 `npm test -- --watch=false` passes — 9a080e7
+- [x] 1.2 `npm run lint` passes — 9a080e7
+- [x] 1.3 `npm run build` passes — 9a080e7
 
 #### Manual
 
-- [x] 1.4 Batch case returns to source dashboard through “Sprawy” and after decision
-- [x] 1.5 Regular case keeps list fallback
+- [x] 1.4 Batch case returns to source dashboard through “Sprawy” and after decision — 9a080e7
+- [x] 1.5 Regular case keeps list fallback — 9a080e7

@@ -612,23 +612,23 @@ Brak migracji danych. Nowy moduł dodawany obok istniejącego flow. Istniejące 
 
 #### Automated
 
-- [x] 1.1 `ng build` compiles with new models and store
-- [x] 1.2 `ng test` — batch.store.spec.ts passes (23 tests)
+- [x] 1.1 `ng build` compiles with new models and store — 9a080e7
+- [x] 1.2 `ng test` — batch.store.spec.ts passes (23 tests) — 9a080e7
 
 ### Phase 2: Batch Orchestration Service
 
 #### Automated
 
-- [x] 2.1 `ng build` compiles with orchestration service
-- [x] 2.2 `ng test` — batch-orchestration.service.spec.ts passes (19 tests)
+- [x] 2.1 `ng build` compiles with orchestration service — 9a080e7
+- [x] 2.2 `ng test` — batch-orchestration.service.spec.ts passes (19 tests) — 9a080e7
 
 ### Phase 3: UI — Batch Upload
 
 #### Automated
 
-- [x] 3.1 `ng build` compiles with batch-upload and batch-dropzone components
-- [x] 3.2 Route `/batch/new` resolves (lazy-loaded)
-- [x] 3.3 `ng test` — batch-dropzone.component.spec.ts passes (9 tests)
+- [x] 3.1 `ng build` compiles with batch-upload and batch-dropzone components — 9a080e7
+- [x] 3.2 Route `/batch/new` resolves (lazy-loaded) — 9a080e7
+- [x] 3.3 `ng test` — batch-dropzone.component.spec.ts passes (9 tests) — 9a080e7
 
 #### Manual
 
@@ -639,8 +639,8 @@ Brak migracji danych. Nowy moduł dodawany obok istniejącego flow. Istniejące 
 
 #### Automated
 
-- [x] 4.1 `ng build` compiles with batch-dashboard and progress-row components
-- [x] 4.2 `ng test` — dashboard renders items, summary updates
+- [x] 4.1 `ng build` compiles with batch-dashboard and progress-row components — 9a080e7
+- [x] 4.2 `ng test` — dashboard renders items, summary updates — 9a080e7
 
 #### Manual
 
@@ -652,8 +652,8 @@ Brak migracji danych. Nowy moduł dodawany obok istniejącego flow. Istniejące 
 
 #### Automated
 
-- [x] 5.1 `ng build` — full integration compiles
-- [x] 5.2 `ng test` — restore logic, canDeactivate guard tests pass
+- [x] 5.1 `ng build` — full integration compiles — 9a080e7
+- [x] 5.2 `ng test` — restore logic, canDeactivate guard tests pass — 9a080e7
 
 #### Manual
 
@@ -666,5 +666,5 @@ Brak migracji danych. Nowy moduł dodawany obok istniejącego flow. Istniejące 
 
 #### Automated
 
-- [x] 6.1 `ng test` — all batch-related specs pass (store 23, service 19, dropzone 9 = 51 tests)
-- [x] 6.2 Playwright e2e `batch-upload.spec.ts` passes (if backend available)
+- [x] 6.1 `ng test` — all batch-related specs pass (store 23, service 19, dropzone 9 = 51 tests) — 9a080e7
+- [x] 6.2 Playwright e2e `batch-upload.spec.ts` passes (if backend available) — 9a080e7

@@ -1,7 +1,7 @@
 ---
 change_id: batch-case-return-navigation
 title: Powrót z zatwierdzonej sprawy do źródłowego batchu
-status: implementing
+status: implemented
 created: 2026-07-29
 updated: 2026-07-29
 archived_at: null
