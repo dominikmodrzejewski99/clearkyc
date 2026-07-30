@@ -3,6 +3,7 @@ import {
   DestroyRef,
   OnInit,
   computed,
+  declareExperimentalWebMcpTool,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -48,6 +49,57 @@ export class CaseDetailComponent implements OnInit {
     const s = this.caseStore.caseStatus();
     return s === 'ANALYZED' || s === 'LOCKED' ? ('complete' as const) : ('idle' as const);
   });
+
+  constructor() {
+    // Read-only tools only: the KYB terminal decision (Approve/Reject/Escalate)
+    // must stay a human analyst action, never an agent-executable tool.
+    void declareExperimentalWebMcpTool({
+      name: 'getCaseStatus',
+      description: 'Reads the current KYB case status, entity name, and analysis progress.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: () => ({
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify({
+              caseId: this.caseStore.caseId(),
+              status: this.caseStore.caseStatus(),
+              entityName: this.caseStore.entityName(),
+              isAnalyzing: this.caseStore.isAnalyzing(),
+              analysisError: this.caseStore.analysisError(),
+            }),
+          },
+        ],
+      }),
+    });
+
+    void declareExperimentalWebMcpTool({
+      name: 'getExtractionFields',
+      description:
+        'Reads the extracted KYB fields for the current case, including verbatim source ' +
+        'citations and any analyst overrides. Read-only.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: () => {
+        const overrides = this.caseStore.fieldOverrides();
+        const fields = this.caseStore.extractionFields().map((f) => ({
+          fieldName: f.fieldName,
+          value: overrides[f.fieldName]?.newValue ?? f.value,
+          citations: f.citations,
+          override: overrides[f.fieldName] ?? null,
+        }));
+        return { content: [{ type: 'text', text: JSON.stringify(fields) }] };
+      },
+    });
+
+    void declareExperimentalWebMcpTool({
+      name: 'getRedFlags',
+      description: 'Reads the red flags detected for the current KYB case. Read-only.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: () => ({
+        content: [{ type: 'text', text: JSON.stringify(this.caseStore.redFlags()) }],
+      }),
+    });
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;

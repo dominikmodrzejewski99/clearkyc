@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  declareExperimentalWebMcpTool,
   DestroyRef,
   inject,
   signal,
@@ -51,6 +52,20 @@ export class ExtractionFormComponent {
 
   constructor() {
     this.destroyRef.onDestroy(() => this.stopRevealInterval());
+
+    void declareExperimentalWebMcpTool({
+      name: 'startExtractionAnalysis',
+      description:
+        'Starts (or restarts) LLM extraction analysis for the currently loaded case PDF. ' +
+        'If the analyst has already entered manual field overrides, this only raises the ' +
+        're-analyze confirmation prompt for the analyst to accept or dismiss — it never ' +
+        'discards overrides or submits the case decision itself.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: () => {
+        this.tryStartAnalysis();
+        return { content: [{ type: 'text', text: 'Extraction analysis start requested.' }] };
+      },
+    });
   }
 
   protected dismissCallout(): void {
