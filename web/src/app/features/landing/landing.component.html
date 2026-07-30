@@ -8,6 +8,7 @@
     <div class="nav-links">
       <a class="nav-link" href="#problem">Problem</a>
       <a class="nav-link" href="#how">Jak to działa</a>
+      <a class="nav-link" href="#batch">Wiele spraw</a>
       <a class="nav-link" href="#features">Możliwości</a>
       <button class="btn btn-outline" (click)="login()">Zaloguj się</button>
     </div>
@@ -161,6 +162,82 @@
             <span class="viz-btn es">▲ Eskaluj</span>
           </div>
           <div class="viz-audit"><span class="mono">🔒</span> Zapisano do rejestru audytu</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BATCH PROCESSING -->
+<section class="section batch-section" id="batch">
+  <div class="wrap">
+    <div class="batch-grid">
+      <div class="batch-copy reveal">
+        <div class="eyebrow">Przetwarzanie masowe</div>
+        <h2 class="h2">Kolejka dokumentów zamiast kolejki ręcznej pracy</h2>
+        <p class="lead">Prześlij do 20 dokumentów PDF w jednym batchu. ClearKYC analizuje maksymalnie 3 sprawy równolegle, a pozostałe bezpiecznie czekają w kolejce.</p>
+
+        <dl class="batch-facts" aria-label="Możliwości przetwarzania masowego">
+          <div class="batch-fact">
+            <dt>20 PDF</dt>
+            <dd>w jednym batchu</dd>
+          </div>
+          <div class="batch-fact">
+            <dt>3 analizy</dt>
+            <dd>maksymalnie równolegle</dd>
+          </div>
+          <div class="batch-fact">
+            <dt>Każda sprawa</dt>
+            <dd>z osobnym postępem i decyzją</dd>
+          </div>
+        </dl>
+
+        <button type="button" class="btn btn-primary btn-lg" (click)="startBatch()">
+          Rozpocznij przetwarzanie masowe
+        </button>
+      </div>
+
+      <div
+        class="batch-preview reveal"
+        style="--rd:.12s"
+        role="img"
+        aria-label="Podgląd dashboardu przetwarzania masowego: 12 z 20 spraw gotowych, 3 analizowane i 5 oczekujących"
+      >
+        <div class="batch-preview__top">
+          <div>
+            <span class="batch-preview__label">Aktywny batch</span>
+            <strong>12 z 20 gotowych</strong>
+          </div>
+          <span class="batch-preview__counter mono">60%</span>
+        </div>
+
+        <div class="batch-preview__progress" aria-hidden="true">
+          <span></span>
+        </div>
+
+        <div class="batch-preview__queue">
+          <div class="batch-preview__row">
+            <span class="batch-preview__file"><span class="batch-preview__pdf">PDF</span> Northgate_Holdings.pdf</span>
+            <span class="batch-status batch-status--done"><span>✓</span> Gotowe</span>
+          </div>
+          <div class="batch-preview__row">
+            <span class="batch-preview__file"><span class="batch-preview__pdf">PDF</span> Meridian_Trading.pdf</span>
+            <span class="batch-status batch-status--active"><span>●</span> Analiza 8 pól</span>
+          </div>
+          <div class="batch-preview__row">
+            <span class="batch-preview__file"><span class="batch-preview__pdf">PDF</span> Atlas_Ventures.pdf</span>
+            <span class="batch-status batch-status--active"><span>●</span> Analiza 3 pól</span>
+          </div>
+          <div class="batch-preview__row">
+            <span class="batch-preview__file"><span class="batch-preview__pdf">PDF</span> Harbour_Group.pdf</span>
+            <span class="batch-status batch-status--queued"><span>○</span> W kolejce</span>
+          </div>
+        </div>
+
+        <div class="batch-preview__footer">
+          <span><strong>3</strong> w trakcie</span>
+          <span><strong>5</strong> w kolejce</span>
+          <span>Decyzje podejmujesz osobno</span>
         </div>
       </div>
     </div>

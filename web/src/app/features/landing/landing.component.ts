@@ -43,4 +43,8 @@ export class LandingComponent implements AfterViewInit {
   login(): void {
     this.router.navigate(['cases/new']);
   }
+
+  startBatch(): void {
+    this.router.navigate(['/batch/new']);
+  }
 }
